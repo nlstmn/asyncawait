@@ -1,3 +1,67 @@
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Courier New', monospace; background: #0d0d0d; color: #e0e0e0; }
-a { color: #7ec8e3; text-decoration: none; }
+/* ── Garlic Butter (self-hosted) ───────────────────────────────────────────
+   Drop your font file at: frontend/public/fonts/GarlicButter.woff2
+   ───────────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Garlic Butter';
+  src: url('/fonts/GarlicButter.woff2') format('woff2'),
+       url('/fonts/GarlicButter.ttf')   format('truetype');
+  font-display: swap;
+}
+
+:root {
+  /* Brand colors */
+  --brand-blue:  #004ECC;
+  --brand-green: #97CC04;
+  --brand-steel: #88A0A8;
+
+  /* Fonts */
+  --font-display: 'Slow Play', serif;
+  --font-heading: 'Garlic Butter', 'Slow Play', serif;
+  --font-body:    'Poppins', sans-serif;
+  --font-mono:    'Courier New', monospace;
+
+  /* Dark theme (default) */
+  --bg:           #0d0d0d;
+  --surface:      #141414;
+  --surface-hover:#1a1a1a;
+  --border:       #2a2a2a;
+  --border-hover: var(--brand-blue);
+  --text:         #e0e0e0;
+  --text-muted:   #666;
+  --accent:       var(--brand-blue);
+  --accent-green: var(--brand-green);
+  --error:        #e07070;
+  --nav-height:   60px;
+}
+
+[data-theme="light"] {
+  --bg:           #f4f4f4;
+  --surface:      #ffffff;
+  --surface-hover:#f0f4ff;
+  --border:       #ddd;
+  --border-hover: var(--brand-blue);
+  --text:         #1a1a1a;
+  --text-muted:   #888;
+  --accent:       var(--brand-blue);
+  --accent-green: #6a9002;
+  --error:        #cc4444;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
+  padding-top: var(--nav-height);
+}
+
+a { color: var(--accent); text-decoration: none; }
+button { font-family: inherit; }
