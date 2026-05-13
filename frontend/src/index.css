@@ -1,6 +1,6 @@
-/* ── Garlic Butter (self-hosted) ───────────────────────────────────────────
+/* ── Garlic Butter (self-hosted) ─────────────────────────────────────────────
    Drop your font file at: frontend/public/fonts/GarlicButter.woff2
-   ───────────────────────────────────────────────────────────────────────── */
+   ─────────────────────────────────────────────────────────────────────────── */
 @font-face {
   font-family: 'Garlic Butter';
   src: url('/fonts/GarlicButter.woff2') format('woff2'),
@@ -19,6 +19,13 @@
   --font-heading: 'Garlic Butter', 'Slow Play', serif;
   --font-body:    'Poppins', sans-serif;
   --font-mono:    'Courier New', monospace;
+
+  /* Animation tokens */
+  --ease-standard: ease;
+  --ease-spring:   cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 0.2s;
+  --dur-med:  0.4s;
+  --dur-slow: 0.6s;
 
   /* Dark theme (default) */
   --bg:           #0d0d0d;
@@ -47,6 +54,28 @@
   --error:        #cc4444;
 }
 
+/* ── Shared keyframes ─────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+@keyframes bounce {
+  0%   { transform: scale(0.5) rotate(-10deg); opacity: 0; }
+  60%  { transform: scale(1.2) rotate(5deg); }
+  100% { transform: scale(1)   rotate(0deg); opacity: 1; }
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ── Reset & base ─────────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -59,9 +88,10 @@ body {
   font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition: background var(--dur-med) var(--ease-standard),
+              color var(--dur-med) var(--ease-standard);
   padding-top: var(--nav-height);
 }
 
-a { color: var(--accent); text-decoration: none; }
+a      { color: var(--accent); text-decoration: none; }
 button { font-family: inherit; }

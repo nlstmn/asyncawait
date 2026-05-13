@@ -1,8 +1,13 @@
+import os
 from contextlib import asynccontextmanager
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+load_dotenv()
+
+import models  # noqa: E402 — must come after load_dotenv so env vars are set
 from database import Base, SessionLocal, engine
 from routes import orders, products, waitlist
 
@@ -77,12 +82,7 @@ SEED_PRODUCTS = [
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Create tables
     Base.metadata.create_all(bind=engine)
-
-    # Seed data if products table is empty
-    import models
-
     db = SessionLocal()
     try:
         existing_names = {p.name for p in db.query(models.Product.name).all()}
@@ -92,25 +92,24 @@ async def lifespan(app: FastAPI):
         db.commit()
     finally:
         db.close()
-
     yield
 
 
-app = FastAPI(title="asyncdrip API", lifespan=lifespan)
+app = FastAPI(title="async/await drip API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[os.getenv("FRONTEND_URL", "http://localhost:5173")],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
-app.include_router(products.router)
-app.include_router(orders.router)
-app.include_router(waitlist.router)
+app.include_router(products.router, tags=["products"])
+app.include_router(orders.router,   tags=["orders"])
+app.include_router(waitlist.router, tags=["waitlist"])
 
 
-@app.get("/")
+@app.get("/", tags=["health"])
 def root():
-    return {"message": "asyncdrip API is running"}
+    return {"message": "async/await drip API is running"}

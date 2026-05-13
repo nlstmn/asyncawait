@@ -3,7 +3,8 @@
   border-top: 1px solid var(--border);
   padding: 2.5rem 2rem;
   background: var(--surface);
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition: background var(--dur-med) var(--ease-standard),
+              border-color var(--dur-med) var(--ease-standard);
 }
 
 .footer__inner {
@@ -28,14 +29,9 @@
   gap: 0.5rem;
 }
 
-.footer__logo {
-  height: 32px;
-  width: auto;
-}
+.footer__logo { height: 32px; width: auto; }
 
-[data-theme="dark"] .footer__logo {
-  filter: brightness(0) invert(1);
-}
+[data-theme="dark"] .footer__logo { filter: brightness(0) invert(1); }
 
 .footer__tagline {
   font-size: 0.72rem;
@@ -54,10 +50,7 @@
   align-self: flex-end;
 }
 
-.footer__divider {
-  border: none;
-  border-top: 1px solid var(--border);
-}
+.footer__divider { border: none; border-top: 1px solid var(--border); }
 
 .footer__bottom {
   font-size: 0.7rem;

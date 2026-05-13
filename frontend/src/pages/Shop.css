@@ -10,7 +10,7 @@
   margin-bottom: 2.5rem;
   border-bottom: 1px solid var(--border);
   padding-bottom: 1.5rem;
-  transition: border-color 0.3s;
+  transition: border-color var(--dur-med) var(--ease-standard);
 }
 
 .shop__title {
@@ -18,7 +18,7 @@
   font-size: 2.4rem;
   color: var(--text);
   letter-spacing: -0.02em;
-  animation: fadeUp 0.5s ease both;
+  animation: fadeUp var(--dur-med) var(--ease-standard) both;
 }
 
 .shop__category-title {
@@ -28,18 +28,12 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  animation: fadeUp 0.5s ease both;
+  animation: fadeUp var(--dur-med) var(--ease-standard) both;
 }
 
 .shop__emoji {
   display: inline-block;
-  animation: bounce 0.6s ease both 0.15s;
-}
-
-@keyframes bounce {
-  0%   { transform: scale(0.5) rotate(-10deg); opacity: 0; }
-  60%  { transform: scale(1.2) rotate(5deg); }
-  100% { transform: scale(1)   rotate(0deg); opacity: 1; }
+  animation: bounce var(--dur-slow) var(--ease-standard) both 0.15s;
 }
 
 .shop__subtitle {
@@ -47,13 +41,11 @@
   font-size: 0.82rem;
   color: var(--text-muted);
   font-family: var(--font-mono);
-  animation: fadeUp 0.5s ease both 0.1s;
+  animation: fadeUp var(--dur-med) var(--ease-standard) both 0.1s;
 }
 
-/* ── Sections (home view) ── */
-.shop__section {
-  margin-bottom: 3.5rem;
-}
+/* ── Sections ── */
+.shop__section { margin-bottom: 3.5rem; }
 
 .shop__section-title {
   font-family: var(--font-heading);
@@ -73,25 +65,40 @@
 /* ── States ── */
 .shop__status,
 .shop__error {
-  padding: 3rem 0;
   font-size: 0.9rem;
   font-family: var(--font-mono);
+}
+
+.shop__status { color: var(--text-muted); padding: 3rem 0; text-align: center; }
+
+.shop__error-block {
+  padding: 3rem 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
-.shop__status { color: var(--text-muted); }
-.shop__error  { color: var(--error); }
+.shop__error { color: var(--error); }
 
-/* blinking cursor on loading */
-.blink {
-  animation: blink 1s step-start infinite;
-}
-@keyframes blink {
-  50% { opacity: 0; }
+.shop__retry {
+  background: transparent;
+  border: 1px solid var(--error);
+  color: var(--error);
+  padding: 0.5rem 1.25rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: background var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard);
 }
 
-/* ── Shared fade-up ── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+.shop__retry:hover {
+  background: var(--error);
+  color: var(--bg);
 }
+
+.blink { animation: blink 1s step-start infinite; }

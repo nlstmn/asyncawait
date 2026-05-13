@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router-dom'
 import logoSvg from '../assets/async-await-logo.svg'
 import './Navbar.css'
 
 const LINKS = [
-  { label: 'home',    to: '/' },
-  { label: 'mugs ☕', to: '/shop?category=mug' },
+  { label: 'home',     to: '/' },
+  { label: 'mugs ☕',  to: '/shop?category=mug' },
   { label: 'socks 🧦', to: '/shop?category=socks' },
-  { label: 'contact', to: '/contact' },
+  { label: 'contact',  to: '/contact' },
 ]
 
 export default function Navbar({ theme, onToggleTheme }) {
@@ -27,11 +27,7 @@ export default function Navbar({ theme, onToggleTheme }) {
     <>
       <nav className="navbar">
         <Link to="/" className="navbar__brand">
-          <img
-            src={logoSvg}
-            alt="async/await drip"
-            className="navbar__logo"
-          />
+          <img src={logoSvg} alt="async/await drip" className="navbar__logo" />
         </Link>
 
         <ul className="navbar__links">
@@ -45,7 +41,11 @@ export default function Navbar({ theme, onToggleTheme }) {
         </ul>
 
         <div className="navbar__right">
-          <button className="navbar__theme-btn" onClick={onToggleTheme}>
+          <button
+            className="navbar__theme-btn"
+            onClick={onToggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          >
             {theme === 'dark' ? '☀️' : '🌙'}
           </button>
           <button

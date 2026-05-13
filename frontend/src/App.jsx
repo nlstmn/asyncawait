@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -20,11 +20,13 @@ export default function App() {
   return (
     <>
       <Navbar theme={theme} onToggleTheme={toggleTheme} />
-      <Routes>
-        <Route path="/" element={<Shop />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Shop />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </main>
       <Footer />
     </>
   )

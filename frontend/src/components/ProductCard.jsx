@@ -1,4 +1,3 @@
-import React from 'react'
 import './ProductCard.css'
 
 export default function ProductCard({ product, index = 0 }) {
@@ -8,7 +7,7 @@ export default function ProductCard({ product, index = 0 }) {
       <p className="card__description">{product.description}</p>
       <div className="card__price">${product.price.toFixed(2)}</div>
       <button className="card__button" disabled>
-        // add to cart — coming soon
+        add to cart — coming soon
       </button>
     </div>
   )

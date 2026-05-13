@@ -1,4 +1,3 @@
-import React from 'react'
 import logoSvg from '../assets/async-await-logo.svg'
 import './Footer.css'
 

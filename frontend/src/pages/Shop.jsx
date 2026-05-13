@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import { getProducts } from '../api/products'
@@ -22,10 +22,12 @@ export default function Shop() {
       .catch(err  => { setError(err.message); setLoading(false) })
   }, [])
 
-  const filtered = category
-    ? products.filter(p => p.category === category)
-    : products
+  const { mugs, socks } = useMemo(() => ({
+    mugs:  products.filter(p => p.category === 'mug'),
+    socks: products.filter(p => p.category === 'socks'),
+  }), [products])
 
+  const filtered = category ? products.filter(p => p.category === category) : products
   const meta = category ? CATEGORY_META[category] : null
 
   return (
@@ -47,15 +49,25 @@ export default function Shop() {
         )}
       </header>
 
-      {loading && <p className="shop__status">// fetching products<span className="blink">_</span></p>}
-      {error   && <p className="shop__error">// error: {error}</p>}
+      {loading && (
+        <p className="shop__status">// fetching products<span className="blink">_</span></p>
+      )}
+
+      {error && (
+        <div className="shop__error-block">
+          <p className="shop__error">// oops — couldn't load products.</p>
+          <button className="shop__retry" onClick={() => window.location.reload()}>
+            try again ↺
+          </button>
+        </div>
+      )}
 
       {!loading && !error && (
         <>
           {!category && (
             <>
-              <Section emoji="☕" label="Mugs" products={filtered.filter(p => p.category === 'mug')} />
-              <Section emoji="🧦" label="Socks" products={filtered.filter(p => p.category === 'socks')} offset={filtered.filter(p => p.category === 'mug').length} />
+              <Section emoji="☕" label="Mugs"  products={mugs} />
+              <Section emoji="🧦" label="Socks" products={socks} offset={mugs.length} />
             </>
           )}
           {category && (
