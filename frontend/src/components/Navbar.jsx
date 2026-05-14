@@ -4,10 +4,10 @@ import logoSvg from '../assets/async-await-logo.svg'
 import './Navbar.css'
 
 const LINKS = [
-  { label: 'home',     to: '/' },
-  { label: 'mugs ☕',  to: '/shop?category=mug' },
-  { label: 'socks 🧦', to: '/shop?category=socks' },
-  { label: 'contact',  to: '/contact' },
+  { label: 'home', to: '/' },
+  { label: 'mugs', to: '/shop?category=mug' },
+  { label: 'socks', to: '/shop?category=socks' },
+  { label: 'contact', to: '/contact' },
 ]
 
 export default function Navbar({ theme, onToggleTheme }) {
@@ -18,7 +18,7 @@ export default function Navbar({ theme, onToggleTheme }) {
 
   const isActive = (to) => {
     if (to === '/') return location.pathname === '/' && !currentCategory
-    if (to.includes('category=mug'))   return currentCategory === 'mug'
+    if (to.includes('category=mug')) return currentCategory === 'mug'
     if (to.includes('category=socks')) return currentCategory === 'socks'
     return location.pathname === to
   }

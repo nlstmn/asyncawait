@@ -1,9 +1,22 @@
-/* ── Garlic Butter (self-hosted) ─────────────────────────────────────────────
-   Drop your font file at: frontend/public/fonts/GarlicButter.woff2
+/* ── Self-hosted brand fonts ─────────────────────────────────────────────────
+   Slow Play and Garlic Butter are commercial fonts (Pangram Pangram) and are
+   NOT on Google Fonts. Drop the font files here:
+     frontend/public/fonts/SlowPlay.woff2
+     frontend/public/fonts/GarlicButter.woff2
+   Until then, both fall back to serif.
    ─────────────────────────────────────────────────────────────────────────── */
 @font-face {
+  font-family: 'Slow Play';
+  src: url('/fonts/SlowPlay.otf')   format('opentype'),
+       url('/fonts/SlowPlay.woff2') format('woff2'),
+       url('/fonts/SlowPlay.ttf')   format('truetype');
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Garlic Butter';
-  src: url('/fonts/GarlicButter.woff2') format('woff2'),
+  src: url('/fonts/GarlicButter.otf')   format('opentype'),
+       url('/fonts/GarlicButter.woff2') format('woff2'),
        url('/fonts/GarlicButter.ttf')   format('truetype');
   font-display: swap;
 }

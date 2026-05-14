@@ -26,7 +26,7 @@ export default function Contact() {
     <div className="contact">
       <header className="contact__header">
         <h1 className="contact__title">contact</h1>
-        <p className="contact__subtitle">// we're async — but we do respond</p>
+        <p className="contact__subtitle">we're async — but we do respond</p>
       </header>
 
       <div className="contact__cards">

@@ -1,6 +1,8 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
+import Marquee from '../components/Marquee'
+import FeaturedProduct from '../components/FeaturedProduct'
 import { getProducts } from '../api/products'
 import './Shop.css'
 
@@ -8,6 +10,9 @@ const CATEGORY_META = {
   mug:   { label: 'Mugs',  emoji: '☕', tagline: 'start your morning. async-safe.' },
   socks: { label: 'Socks', emoji: '🧦', tagline: 'warm feet. warm deploys.' },
 }
+
+const MARQUEE_TOP    = ['✦ async/await drip', '✦ tech merch', '✦ made by coder, for coders', '✦ dev society', '✦ ships asynchronously']
+const MARQUEE_MIDDLE = ['☕ caffeine driven development', '✦ stack overflow approved', '🧦 warm feet warm deploys', '✦ git push your style']
 
 export default function Shop() {
   const [products, setProducts] = useState([])
@@ -27,6 +32,7 @@ export default function Shop() {
     socks: products.filter(p => p.category === 'socks'),
   }), [products])
 
+  const featured = useMemo(() => mugs[0] || socks[0] || null, [mugs, socks])
   const filtered = category ? products.filter(p => p.category === category) : products
   const meta = category ? CATEGORY_META[category] : null
 
@@ -39,12 +45,12 @@ export default function Shop() {
               <span className="shop__emoji">{meta.emoji}</span>
               {meta.label}
             </h1>
-            <p className="shop__subtitle">// {meta.tagline}</p>
+            <p className="shop__subtitle">{meta.tagline}</p>
           </>
         ) : (
           <>
             <h1 className="shop__title">async/await drip 🚀</h1>
-            <p className="shop__subtitle">// developer merch. ships asynchronously.</p>
+            <p className="shop__subtitle">made by coder, for coders</p>
           </>
         )}
       </header>
@@ -64,13 +70,16 @@ export default function Shop() {
 
       {!loading && !error && (
         <>
-          {!category && (
+          {!category && featured && <FeaturedProduct product={featured} />}
+          {!category && <Marquee items={MARQUEE_TOP} variant="blue" speed={28} />}
+
+          {!category ? (
             <>
               <Section emoji="☕" label="Mugs"  products={mugs} />
+              <Marquee items={MARQUEE_MIDDLE} variant="green" speed={36} />
               <Section emoji="🧦" label="Socks" products={socks} offset={mugs.length} />
             </>
-          )}
-          {category && (
+          ) : (
             <div className="shop__grid">
               {filtered.map((product, i) => (
                 <ProductCard key={product.id} product={product} index={i} />

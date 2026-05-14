@@ -9,14 +9,14 @@ export default function Footer() {
           <div className="footer__brand">
             <img src={logoSvg} alt="async/await drip" className="footer__logo" />
             <span className="footer__tagline">
-              made by coder, for coders 🖥️ · <span>tech merch · dev society</span>
+              tech merch · dev society
             </span>
           </div>
           <span className="footer__copy">© 2026 async/await</span>
         </div>
         <hr className="footer__divider" />
         <p className="footer__bottom">
-          ✦ ships asynchronously · always in stock, eventually ✦
+          ships asynchronously · always in stock, eventually
         </p>
       </div>
     </footer>
