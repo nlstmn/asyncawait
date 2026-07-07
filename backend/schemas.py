@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 
 
 class ProductBase(BaseModel):
@@ -31,3 +31,34 @@ class Product(ProductBase):
     created_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
+
+
+# ---- Orders ----
+
+class OrderItemIn(BaseModel):
+    product_id: int = Field(..., gt=0)
+    quantity:   int = Field(..., gt=0, le=100)
+
+
+class OrderCreate(BaseModel):
+    name:    str               = Field(..., min_length=1, max_length=200)
+    email:   EmailStr
+    address: str               = Field(..., min_length=1, max_length=500)
+    items:   List[OrderItemIn] = Field(..., min_length=1)
+
+
+class OrderItem(BaseModel):
+    product_id: int
+    name:       str
+    price:      float
+    quantity:   int
+
+
+class Order(BaseModel):
+    id:         int
+    name:       str
+    email:      EmailStr
+    address:    str
+    items:      List[OrderItem]
+    total:      float
+    created_at: Optional[datetime] = None

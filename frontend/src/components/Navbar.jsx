@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation, useSearchParams } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
 import logoSvg from '../assets/async-await-logo.svg'
 import './Navbar.css'
 
@@ -15,6 +16,7 @@ export default function Navbar({ theme, onToggleTheme }) {
   const location = useLocation()
   const [searchParams] = useSearchParams()
   const currentCategory = searchParams.get('category')
+  const { count } = useCart()
 
   const isActive = (to) => {
     if (to === '/') return location.pathname === '/' && !currentCategory
@@ -41,6 +43,14 @@ export default function Navbar({ theme, onToggleTheme }) {
         </ul>
 
         <div className="navbar__right">
+          <Link
+            to="/cart"
+            className={`navbar__cart ${location.pathname === '/cart' ? 'active' : ''}`}
+            aria-label={`Cart, ${count} item${count === 1 ? '' : 's'}`}
+          >
+            🛒
+            {count > 0 && <span className="navbar__cart-count">{count}</span>}
+          </Link>
           <button
             className="navbar__theme-btn"
             onClick={onToggleTheme}

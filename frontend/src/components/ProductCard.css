@@ -92,12 +92,28 @@
 
 .card__button {
   background: transparent;
-  color: var(--text-muted);
+  color: var(--accent-green);
   border: none;
   font-size: 0.78rem;
   font-family: var(--font-mono);
-  cursor: not-allowed;
+  cursor: pointer;
   letter-spacing: 0.05em;
   text-transform: lowercase;
-  transition: color var(--dur-fast) var(--ease-standard);
+  padding: 0;
+  transition: color var(--dur-fast) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard);
+}
+
+.card__button:hover:not(:disabled) {
+  color: var(--text);
+  transform: translateX(2px);
+}
+
+.card__button--added {
+  color: var(--accent-green);
+}
+
+.card__button:disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
 }
