@@ -1,36 +1,35 @@
 import { useState } from 'react'
-import { Link, useLocation, useSearchParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import logoSvg from '../assets/async-await-logo.svg'
 import './Navbar.css'
 
 const LINKS = [
   { label: 'home', to: '/' },
-  { label: 'mugs', to: '/shop?category=mug' },
-  { label: 'socks', to: '/shop?category=socks' },
+  { label: 'shop', to: '/shop' },
   { label: 'contact', to: '/contact' },
 ]
 
 export default function Navbar({ theme, onToggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
-  const [searchParams] = useSearchParams()
-  const currentCategory = searchParams.get('category')
   const { count } = useCart()
 
-  const isActive = (to) => {
-    if (to === '/') return location.pathname === '/' && !currentCategory
-    if (to.includes('category=mug')) return currentCategory === 'mug'
-    if (to.includes('category=socks')) return currentCategory === 'socks'
-    return location.pathname === to
-  }
+  const isActive = (to) =>
+    to === '/' ? location.pathname === '/' : location.pathname === to
+
+  const isHome = location.pathname === '/'
 
   return (
     <>
-      <nav className="navbar">
-        <Link to="/" className="navbar__brand">
-          <img src={logoSvg} alt="async/await drip" className="navbar__logo" />
-        </Link>
+      <nav className={`navbar ${isHome ? 'navbar--home' : ''}`}>
+        {isHome ? (
+          <div className="navbar__brand" aria-hidden="true" />
+        ) : (
+          <Link to="/" className="navbar__brand">
+            <img src={logoSvg} alt="async/await drip" className="navbar__logo" />
+          </Link>
+        )}
 
         <ul className="navbar__links">
           {LINKS.map(l => (

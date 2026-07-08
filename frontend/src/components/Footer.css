@@ -49,6 +49,33 @@
   align-self: flex-end;
 }
 
+/* ── Links row ── */
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer__links a,
+.footer__faq-btn {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.footer__faq-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.footer__links a:hover,
+.footer__faq-btn:hover { color: var(--brand-blue); }
+
 .footer__divider { border: none; border-top: 1px solid var(--border); }
 
 .footer__bottom {

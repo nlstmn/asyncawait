@@ -88,6 +88,11 @@
   50% { opacity: 0; }
 }
 
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ── Reset & base ─────────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -106,5 +111,27 @@ body {
   padding-top: var(--nav-height);
 }
 
+/* ── Global grainy texture (all pages) ──
+   Keeps the current bg color, overlays fixed noise. pointer-events:none so it
+   never blocks clicks. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-theme="dark"]  body::before { opacity: 0.18; mix-blend-mode: screen; }
+[data-theme="light"] body::before { opacity: 0.26; mix-blend-mode: multiply; }
+
 a      { color: var(--accent); text-decoration: none; }
 button { font-family: inherit; }
+
+/* route-change transition — <main> is keyed by pathname in App.jsx */
+.page { animation: pageFade 0.45s var(--ease-spring) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .page { animation: none; }
+}

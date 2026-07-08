@@ -3,16 +3,17 @@
   top: 0; left: 0; right: 0;
   height: var(--nav-height);
   background: var(--surface);
-  border-bottom: 1px solid var(--border);
   z-index: 100;
   display: flex;
   align-items: center;
   padding: 0 2rem;
   justify-content: space-between;
   animation: slideDown var(--dur-med) var(--ease-spring);
-  transition: background var(--dur-med) var(--ease-standard),
-              border-color var(--dur-med) var(--ease-standard);
+  transition: background var(--dur-med) var(--ease-standard);
 }
+
+/* ── Home: same nav, just transparent and without the logo ── */
+.navbar--home { background: transparent; }
 
 /* ── Logo ── */
 .navbar__brand { display: flex; align-items: center; }
@@ -37,7 +38,7 @@
 }
 
 .navbar__links a {
-  font-size: 0.78rem;
+  font-size: 0.95rem;
   font-family: var(--font-mono);
   color: var(--text-muted);
   letter-spacing: 0.06em;
@@ -57,6 +58,9 @@
   transition: transform var(--dur-fast) var(--ease-standard);
   border-radius: 2px;
 }
+
+.navbar__links a:focus,
+.navbar__links a:focus-visible { outline: none; }
 
 .navbar__links a:hover,
 .navbar__links a.active { color: var(--brand-blue); }

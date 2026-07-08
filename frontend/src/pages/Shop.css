@@ -6,34 +6,13 @@
 }
 
 /* ── Header ── */
-.shop__header {
-  margin-bottom: 2.5rem;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 1.5rem;
-  transition: border-color var(--dur-med) var(--ease-standard);
-}
-
-.shop__title {
-  font-family: var(--font-display);
-  font-size: 2.4rem;
-  color: var(--text);
-  letter-spacing: -0.02em;
-  animation: fadeUp var(--dur-med) var(--ease-standard) both;
-}
+.shop__header { margin-bottom: 2.5rem; }
 
 .shop__category-title {
   font-family: var(--font-heading);
   font-size: 2.4rem;
   color: var(--brand-blue);
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
   animation: fadeUp var(--dur-med) var(--ease-standard) both;
-}
-
-.shop__emoji {
-  display: inline-block;
-  animation: bounce var(--dur-slow) var(--ease-standard) both 0.15s;
 }
 
 .shop__subtitle {
@@ -44,22 +23,11 @@
   animation: fadeUp var(--dur-med) var(--ease-standard) both 0.1s;
 }
 
-/* ── Sections ── */
-.shop__section { margin-bottom: 3.5rem; }
-
-.shop__section-title {
-  font-family: var(--font-heading);
-  font-size: 1.4rem;
-  color: var(--brand-steel);
-  margin-bottom: 1.25rem;
-  letter-spacing: 0.02em;
-}
-
-/* ── Grid ── */
+/* ── Grid (minimal editorial: roomy gaps, 3-up on desktop) ── */
 .shop__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 3rem 2rem;
 }
 
 /* ── States ── */
