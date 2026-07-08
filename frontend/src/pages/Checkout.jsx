@@ -122,7 +122,8 @@ export default function Checkout() {
             {items.map(item => (
               <li key={item.id} className="checkout__item">
                 <span className="checkout__item-name">
-                  {item.name} <span className="checkout__item-qty">×{item.quantity}</span>
+                  {item.name}
+                  <span className="checkout__item-qty">×{item.quantity}</span>
                 </span>
                 <span className="checkout__item-price">
                   ${(item.price * item.quantity).toFixed(2)}
