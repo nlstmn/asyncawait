@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useCart } from '../context/CartContext'
 import './ProductCard.css'
 
-const CHIPS = ['ceramic', '325 ml', 'dishwasher-safe']
+const CHIPS = ['ceramic', '325 ml', 'dishwasher-safe', 'handmade', 'unique style for each']
 
 export default function ProductCard({ product, index = 0 }) {
   const { addItem } = useCart()
@@ -11,7 +11,7 @@ export default function ProductCard({ product, index = 0 }) {
   const handleAdd = () => {
     addItem(product)
     setAdded(true)
-    setTimeout(() => setAdded(false), 1200)
+    setTimeout(() => setAdded(false), 2200)
   }
 
   return (

@@ -28,10 +28,12 @@
 }
 
 .contact__card {
+  position: relative;
   display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  padding: 1.25rem 1.5rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  padding: 1.4rem 1.5rem 1.25rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -64,12 +66,28 @@
   color: var(--text);
 }
 
+/* icon pinned onto the card's top-left corner, half outside, slightly turned */
 .contact__icon {
-  font-size: 1.5rem;
-  width: 2.5rem;
-  text-align: center;
-  flex-shrink: 0;
+  position: absolute;
+  top: -14px;
+  left: -12px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--brand-blue);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: rotate(-12deg);
+  transition: transform var(--dur-fast) var(--ease-spring);
 }
+
+.contact__icon svg { width: 20px; height: 20px; display: block; }
+
+.contact__card:hover .contact__icon { transform: rotate(5deg) scale(1.08); }
 
 .contact__info {
   display: flex;

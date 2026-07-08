@@ -1,10 +1,9 @@
-/* Fixed bottom bar mirroring the navbar: links pinned to the true center,
-   © on the right. */
+/* Bottom bar mirroring the navbar: in normal flow (pushed to the page bottom
+   by the sticky-footer layout), links pinned to the true center, © right. */
 .footer {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
+  position: relative;
+  margin-top: 4rem;
   height: var(--footer-height);
-  z-index: 100;
   background: var(--surface);
   display: flex;
   align-items: center;

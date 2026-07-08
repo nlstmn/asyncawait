@@ -10,7 +10,7 @@ const LINKS = [
   { label: 'contact', to: '/contact' },
 ]
 
-export default function Navbar({ theme, onToggleTheme }) {
+export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
   const { count } = useCart()
@@ -50,13 +50,6 @@ export default function Navbar({ theme, onToggleTheme }) {
             🛒
             {count > 0 && <span className="navbar__cart-count">{count}</span>}
           </Link>
-          <button
-            className="navbar__theme-btn"
-            onClick={onToggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </button>
           <button
             className={`navbar__burger ${menuOpen ? 'open' : ''}`}
             onClick={() => setMenuOpen(o => !o)}

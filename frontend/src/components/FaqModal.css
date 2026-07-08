@@ -12,9 +12,10 @@
 }
 
 .faq__dialog {
+  position: relative;
   width: min(560px, 100%);
   max-height: 80vh;
-  overflow-y: auto;
+  overflow-y: visible;
   background: var(--surface);
   border-radius: 22px;
   padding: 1.75rem 2rem 2rem;
@@ -22,41 +23,51 @@
   animation: fadeUp var(--dur-med) var(--ease-spring) both;
 }
 
-.faq__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-}
-
 .faq__title {
   font-family: var(--font-heading);
   font-size: 1.6rem;
   color: var(--brand-blue);
+  margin-bottom: 1.25rem;
 }
 
+/* close button pinned onto the dialog's top-right corner, half outside —
+   same pin style as the contact-card icons */
 .faq__close {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
+  position: absolute;
+  top: -14px;
+  right: -12px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--brand-blue);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
   font-size: 1rem;
+  line-height: 1;
   cursor: pointer;
-  padding: 0.25rem 0.4rem;
-  border-radius: 8px;
-  transition: color var(--dur-fast) var(--ease-standard),
-              background var(--dur-fast) var(--ease-standard);
+  transform: rotate(12deg);
+  transition: transform var(--dur-fast) var(--ease-spring);
 }
 
-.faq__close:hover {
-  color: var(--text);
-  background: var(--surface-hover);
-}
+.faq__close:hover { transform: rotate(-5deg) scale(1.08); }
 
 .faq__list {
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
+  /* the dialog keeps overflow visible for the floating ✕ — scroll the list instead */
+  max-height: calc(80vh - 8rem);
+  overflow-y: auto;
+  /* scrollable but with no visible scrollbar */
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* old Edge/IE */
 }
+
+.faq__list::-webkit-scrollbar { display: none; }  /* Chrome/Safari */
 
 .faq__q {
   font-family: var(--font-mono);

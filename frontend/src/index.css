@@ -40,22 +40,7 @@
   --dur-med:  0.4s;
   --dur-slow: 0.6s;
 
-  /* Dark theme (default) */
-  --bg:           #0d0d0d;
-  --surface:      #141414;
-  --surface-hover:#1a1a1a;
-  --border:       #2a2a2a;
-  --border-hover: var(--brand-blue);
-  --text:         #e0e0e0;
-  --text-muted:   #666;
-  --accent:       var(--brand-blue);
-  --accent-green: var(--brand-green);
-  --error:        #e07070;
-  --nav-height:   60px;
-  --footer-height: 52px;
-}
-
-[data-theme="light"] {
+  /* Colors */
   --bg:           #f4f4f4;
   --surface:      #ffffff;
   --surface-hover:#f0f4ff;
@@ -66,6 +51,8 @@
   --accent:       var(--brand-blue);
   --accent-green: #6a9002;
   --error:        #cc4444;
+  --nav-height:   60px;
+  --footer-height: 52px;
 }
 
 /* ── Shared keyframes ─────────────────────────────────────────────────────── */
@@ -110,8 +97,16 @@ body {
   transition: background var(--dur-med) var(--ease-standard),
               color var(--dur-med) var(--ease-standard);
   padding-top: var(--nav-height);
-  padding-bottom: var(--footer-height); /* clear the fixed footer */
 }
+
+/* sticky-footer layout: short pages still push the footer to the bottom */
+#root {
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  flex-direction: column;
+}
+
+#root > main { flex: 1; }
 
 /* ── Global grainy texture (all pages) ──
    Keeps the current bg color, overlays fixed noise. pointer-events:none so it
@@ -125,8 +120,7 @@ body::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-[data-theme="dark"]  body::before { opacity: 0.18; mix-blend-mode: screen; }
-[data-theme="light"] body::before { opacity: 0.26; mix-blend-mode: multiply; }
+body::before { opacity: 0.26; mix-blend-mode: multiply; }
 
 a      { color: var(--accent); text-decoration: none; }
 button { font-family: inherit; }

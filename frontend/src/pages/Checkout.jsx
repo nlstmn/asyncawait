@@ -40,7 +40,7 @@ export default function Checkout() {
           <p className="checkout__success-sub">
             total <strong>${order.total.toFixed(2)}</strong> · confirmation sent to {order.email}
           </p>
-          <Link to="/shop" className="checkout__back">← back to the shop</Link>
+          <Link to="/shop" className="checkout__back">&lt; back to the shop</Link>
         </div>
       </div>
     )
@@ -51,7 +51,7 @@ export default function Checkout() {
       <div className="checkout checkout--empty">
         <h1 className="checkout__title">checkout</h1>
         <p className="checkout__empty-msg">// nothing to check out<span className="blink">_</span></p>
-        <Link to="/shop" className="checkout__back">browse the shop →</Link>
+        <Link to="/shop" className="checkout__back">browse the shop &gt;</Link>
       </div>
     )
   }
@@ -60,7 +60,7 @@ export default function Checkout() {
     <div className="checkout">
       <header className="checkout__header">
         <h1 className="checkout__title">checkout</h1>
-        <p className="checkout__subtitle">last step before deploy 🚀</p>
+        <p className="checkout__subtitle">last step before deploy</p>
       </header>
 
       <div className="checkout__grid">

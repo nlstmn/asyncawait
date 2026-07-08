@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Typewriter from '../components/Typewriter'
 import logoSvg from '../assets/async-await-logo.svg'
 import './Home.css'
 
@@ -44,7 +45,9 @@ export default function Home() {
           <img src={logoSvg} alt="async/await drip" className="home__logo" draggable="false" />
         </div>
 
-        <p className="home__tagline">made by coder, for coders</p>
+        <p className="home__tagline">
+          <Typewriter text="made by coder, for coders" />
+        </p>
         <Link to="/shop" className="home__cta">&gt; enter shop</Link>
       </div>
     </section>

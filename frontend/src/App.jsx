@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
@@ -11,20 +10,10 @@ import Checkout from './pages/Checkout'
 
 export default function App() {
   const location = useLocation()
-  const [theme, setTheme] = useState(
-    () => localStorage.getItem('theme') || 'dark'
-  )
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme)
-    localStorage.setItem('theme', theme)
-  }, [theme])
-
-  const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
 
   return (
     <CartProvider>
-      <Navbar theme={theme} onToggleTheme={toggleTheme} />
+      <Navbar />
       {/* keyed by pathname so every route change replays the page fade */}
       <main key={location.pathname} className="page">
         <Routes>
@@ -35,7 +24,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
-      <Footer />
+      {location.pathname !== '/' && <Footer />}
     </CartProvider>
   )
 }

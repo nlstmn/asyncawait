@@ -128,7 +128,13 @@
 }
 
 .checkout__item-name { color: var(--text); font-family: var(--font-body); }
-.checkout__item-qty  { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem; }
+
+.checkout__item-qty {
+  color: var(--brand-blue);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: bold;
+}
 .checkout__item-price { font-family: var(--font-mono); color: var(--text); white-space: nowrap; }
 
 .checkout__summary-total {

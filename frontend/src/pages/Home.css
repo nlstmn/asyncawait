@@ -1,9 +1,9 @@
 .home {
   position: relative;
-  /* pull up behind the fixed transparent navbar so the glow runs edge to edge;
-     leave room for the fixed footer so the landing fits in one viewport */
+  /* pull up behind the fixed transparent navbar so the glow runs edge to edge
+     (no footer on home — the landing owns the full viewport) */
   margin-top: calc(-1 * var(--nav-height));
-  min-height: calc(100vh - var(--footer-height));
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,10 +55,6 @@
   height: auto;
   user-select: none;
   filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45));
-}
-
-[data-theme="dark"] .home__logo {
-  filter: brightness(0) invert(1) drop-shadow(0 18px 40px rgba(0, 0, 0, 0.6));
 }
 
 .home__tagline {

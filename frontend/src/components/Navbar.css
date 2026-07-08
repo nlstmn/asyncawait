@@ -27,8 +27,6 @@
 
 .navbar__logo:hover { opacity: 0.8; transform: scale(1.03); }
 
-[data-theme="dark"] .navbar__logo { filter: brightness(0) invert(1); }
-
 /* ── Nav links — pinned to the true center of the bar,
       independent of the logo / cart / theme widths ── */
 .navbar__links {
@@ -98,23 +96,6 @@
   animation: bounce var(--dur-med) var(--ease-spring);
 }
 
-.navbar__theme-btn {
-  background: none;
-  border: 1px solid var(--border);
-  padding: 0.25rem 0.6rem;
-  border-radius: 20px;
-  font-size: 1rem;
-  cursor: pointer;
-  line-height: 1.6;
-  transition: border-color var(--dur-fast) var(--ease-standard),
-              transform var(--dur-fast) var(--ease-standard);
-}
-
-.navbar__theme-btn:hover {
-  border-color: var(--brand-blue);
-  transform: rotate(15deg) scale(1.1);
-}
-
 /* ── Burger ── */
 .navbar__burger {
   display: none;
@@ -125,6 +106,9 @@
   cursor: pointer;
   padding: 4px;
 }
+
+.navbar__burger:focus,
+.navbar__burger:focus-visible { outline: none; }
 
 .navbar__burger span {
   display: block;
@@ -143,6 +127,9 @@
 .navbar__mobile-menu { display: none; }
 
 @media (max-width: 640px) {
+  /* match the 1.5rem page gutter so the burger lines up with the cards' edge */
+  .navbar { padding: 0 1.5rem; }
+
   .navbar__links  { display: none; }
   .navbar__burger { display: flex; }
 
@@ -169,20 +156,19 @@
 
   .navbar__mobile-menu a {
     display: block;
-    padding: 0.85rem 2rem;
+    padding: 0.85rem 1.5rem;
     font-size: 0.85rem;
     font-family: var(--font-mono);
     color: var(--text-muted);
     letter-spacing: 0.05em;
+    /* no padding shift — tapping must not nudge the item */
     transition: color var(--dur-fast) var(--ease-standard),
-                background var(--dur-fast) var(--ease-standard),
-                padding-left var(--dur-fast) var(--ease-standard);
+                background var(--dur-fast) var(--ease-standard);
   }
 
   .navbar__mobile-menu a:hover,
   .navbar__mobile-menu a.active {
     color: var(--brand-blue);
     background: var(--surface-hover);
-    padding-left: 2.5rem;
   }
 }

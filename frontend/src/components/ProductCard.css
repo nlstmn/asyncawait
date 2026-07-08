@@ -1,22 +1,29 @@
 /* Rounded product card: image tile with price tag + info strip,
    name row with inline CTA, spec chips below. System colors only. */
+
+/* Opacity-only entrance so the transform stays owned by the transition —
+   hover tilts and un-hover tilts back smoothly, with no entrance replay. */
+@keyframes cardIn { from { opacity: 0; } to { opacity: 1; } }
+
 .card {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  cursor: pointer;
   padding: 0.8rem 0.8rem 1.1rem;
   background: var(--surface);
   border-radius: 26px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   will-change: transform;
-  transition: transform var(--dur-fast) var(--ease-standard),
-              box-shadow var(--dur-fast) var(--ease-standard),
+  transition: transform var(--dur-med) var(--ease-spring),
+              box-shadow var(--dur-med) var(--ease-standard),
               background var(--dur-med) var(--ease-standard);
-  animation: fadeUp var(--dur-med) var(--ease-standard) both;
+  animation: cardIn var(--dur-med) var(--ease-standard) both;
 }
 
+/* lift + a small clockwise turn; transition carries it both ways */
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) rotate(1.5deg);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 

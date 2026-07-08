@@ -10,9 +10,9 @@ export default function Cart() {
     return (
       <div className="cart cart--empty">
         <h1 className="cart__title">your cart</h1>
-        <p className="cart__empty-msg">// cart is empty<span className="blink">_</span></p>
+        <p className="cart__empty-emoji" aria-hidden="true">🛒</p>
         <p className="cart__empty-sub">no items staged for commit yet.</p>
-        <Link to="/shop" className="cart__cta">browse the shop →</Link>
+        <Link to="/shop" className="cart__empty-btn">browse the shop &gt;</Link>
       </div>
     )
   }
