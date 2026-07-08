@@ -45,38 +45,6 @@ SEED_PRODUCTS = [
         "category": "mug",
         "in_stock": True,
     },
-    {
-        "name": "Hello World Socks",
-        "description": "print('warm feet'). The first pair every dev needs.",
-        "price": 9.99,
-        "image_url": "https://loremflickr.com/600/600/socks,striped?lock=21",
-        "category": "socks",
-        "in_stock": True,
-    },
-    {
-        "name": "Git Push Socks",
-        "description": "Force push your comfort levels. No --no-verify needed.",
-        "price": 10.99,
-        "image_url": "https://loremflickr.com/600/600/socks,colorful?lock=22",
-        "category": "socks",
-        "in_stock": True,
-    },
-    {
-        "name": "Stack Overflow Socks",
-        "description": "Copy-pasted from the best. Fits perfectly.",
-        "price": 9.99,
-        "image_url": "https://loremflickr.com/600/600/wool,socks?lock=23",
-        "category": "socks",
-        "in_stock": True,
-    },
-    {
-        "name": "404 Socks",
-        "description": "Sock not found. And yet, here we are.",
-        "price": 8.99,
-        "image_url": "https://loremflickr.com/600/600/socks,pattern?lock=24",
-        "category": "socks",
-        "in_stock": False,
-    },
 ]
 
 
@@ -86,12 +54,17 @@ async def lifespan(app: FastAPI):
     db = SessionLocal()
     try:
         existing = {p.name: p for p in db.query(models.Product).all()}
+        seed_names = {data["name"] for data in SEED_PRODUCTS}
         for data in SEED_PRODUCTS:
             if data["name"] not in existing:
                 db.add(models.Product(**data))
             else:
                 # keep image_url in sync with the seed so we can refresh artwork without wiping the DB
                 existing[data["name"]].image_url = data["image_url"]
+        # prune products no longer in the seed (e.g. discontinued socks)
+        for name, product in existing.items():
+            if name not in seed_names:
+                db.delete(product)
         db.commit()
     finally:
         db.close()
