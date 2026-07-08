@@ -14,7 +14,7 @@ from routes import orders, products, waitlist
 
 SEED_PRODUCTS = [
     {
-        "name": "Async Mug",
+        "name": "async",
         "description": "Start your morning with async/await. Dark roast, async-safe.",
         "price": 14.99,
         "image_url": "https://loremflickr.com/600/600/ceramic,mug,coffee?lock=11",
@@ -22,7 +22,7 @@ SEED_PRODUCTS = [
         "in_stock": True,
     },
     {
-        "name": "Promise Mug",
+        "name": "promise",
         "description": "Always resolves. Eventually.",
         "price": 12.99,
         "image_url": "https://loremflickr.com/600/600/coffee,cup,handmade?lock=12",
@@ -30,7 +30,7 @@ SEED_PRODUCTS = [
         "in_stock": True,
     },
     {
-        "name": "Deadlock Mug",
+        "name": "deadlock",
         "description": "Two threads enter. Neither leaves.",
         "price": 13.99,
         "image_url": "https://loremflickr.com/600/600/espresso,mug?lock=13",
@@ -38,7 +38,7 @@ SEED_PRODUCTS = [
         "in_stock": True,
     },
     {
-        "name": "NullPointer Mug",
+        "name": "nullpointer",
         "description": "A classic. A tragedy.",
         "price": 11.99,
         "image_url": "https://loremflickr.com/600/600/latte,mug,ceramic?lock=14",

@@ -29,8 +29,12 @@
 
 [data-theme="dark"] .navbar__logo { filter: brightness(0) invert(1); }
 
-/* ── Nav links ── */
+/* ── Nav links — pinned to the true center of the bar,
+      independent of the logo / cart / theme widths ── */
 .navbar__links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 1.75rem;
@@ -43,20 +47,8 @@
   color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  position: relative;
-  transition: color var(--dur-fast) var(--ease-standard);
-}
-
-.navbar__links a::after {
-  content: '';
-  position: absolute;
-  bottom: -3px; left: 0; right: 0;
-  height: 2px;
-  background: var(--brand-blue);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--dur-fast) var(--ease-standard);
-  border-radius: 2px;
+  /* smooth color swap when the active tab changes */
+  transition: color var(--dur-med) var(--ease-standard);
 }
 
 .navbar__links a:focus,
@@ -64,9 +56,6 @@
 
 .navbar__links a:hover,
 .navbar__links a.active { color: var(--brand-blue); }
-
-.navbar__links a.active::after,
-.navbar__links a:hover::after { transform: scaleX(1); }
 
 /* ── Right side ── */
 .navbar__right {

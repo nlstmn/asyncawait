@@ -64,11 +64,10 @@ export default function Cart() {
           <span>subtotal</span>
           <span className="cart__summary-total">${subtotal.toFixed(2)}</span>
         </div>
-        <p className="cart__note">// no real payments in v1 — checkout just logs your order</p>
         <button className="cart__checkout" onClick={() => navigate('/checkout')}>
-          checkout →
+          checkout &gt;
         </button>
-        <Link to="/shop" className="cart__continue">← keep shopping</Link>
+        <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
       </div>
     </div>
   )

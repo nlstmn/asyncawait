@@ -52,6 +52,7 @@
   --accent-green: var(--brand-green);
   --error:        #e07070;
   --nav-height:   60px;
+  --footer-height: 52px;
 }
 
 [data-theme="light"] {
@@ -109,6 +110,7 @@ body {
   transition: background var(--dur-med) var(--ease-standard),
               color var(--dur-med) var(--ease-standard);
   padding-top: var(--nav-height);
+  padding-bottom: var(--footer-height); /* clear the fixed footer */
 }
 
 /* ── Global grainy texture (all pages) ──

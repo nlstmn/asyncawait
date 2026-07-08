@@ -1,15 +1,11 @@
 .contact {
   min-height: 80vh;
-  padding: 3rem 2rem;
-  max-width: 680px;
+  padding: 3rem 1.5rem 5rem;
+  max-width: 780px;   /* same width as the cart page */
   margin: 0 auto;
 }
 
-.contact__header {
-  margin-bottom: 3rem;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 1.5rem;
-}
+.contact__header { margin-bottom: 2.5rem; }
 
 .contact__title {
   font-family: var(--font-display);
@@ -50,6 +46,16 @@
 .contact__card:nth-child(1) { animation-delay: 0.05s; }
 .contact__card:nth-child(2) { animation-delay: 0.12s; }
 .contact__card:nth-child(3) { animation-delay: 0.19s; }
+.contact__card:nth-child(4) { animation-delay: 0.26s; }
+
+/* faq card is a <button>; match the anchors */
+.contact__card--btn {
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+}
 
 .contact__card:hover {
   border-color: var(--brand-blue);

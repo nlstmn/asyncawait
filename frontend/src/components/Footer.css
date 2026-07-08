@@ -1,69 +1,36 @@
+/* Fixed bottom bar mirroring the navbar: links pinned to the true center,
+   © on the right. */
 .footer {
-  margin-top: 5rem;
-  border-top: 1px solid var(--border);
-  padding: 2.5rem 2rem;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--footer-height);
+  z-index: 100;
   background: var(--surface);
-  transition: background var(--dur-med) var(--ease-standard),
-              border-color var(--dur-med) var(--ease-standard);
-}
-
-.footer__inner {
-  max-width: 1100px;
-  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 2rem;
+  transition: background var(--dur-med) var(--ease-standard);
 }
 
-.footer__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.footer__brand {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.footer__logo { height: 32px; width: auto; }
-
-[data-theme="dark"] .footer__logo { filter: brightness(0) invert(1); }
-
-.footer__tagline {
-  font-size: 0.72rem;
-  color: var(--brand-steel);
-  letter-spacing: 0.08em;
-  font-family: var(--font-mono);
-}
-
-.footer__tagline span { color: var(--brand-green); }
-
-.footer__copy {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  align-self: flex-end;
-}
-
-/* ── Links row ── */
 .footer__links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 1.75rem;
+  white-space: nowrap;
 }
 
 .footer__links a,
 .footer__faq-btn {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  transition: color var(--dur-fast) var(--ease-standard);
+  transition: color var(--dur-med) var(--ease-standard);
 }
 
 .footer__faq-btn {
@@ -76,16 +43,14 @@
 .footer__links a:hover,
 .footer__faq-btn:hover { color: var(--brand-blue); }
 
-.footer__divider { border: none; border-top: 1px solid var(--border); }
-
-.footer__bottom {
-  font-size: 0.7rem;
+.footer__copy {
+  font-size: 0.72rem;
   color: var(--text-muted);
-  text-align: center;
-  letter-spacing: 0.1em;
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
+  white-space: nowrap;
 }
 
-@media (max-width: 640px) {
-  .footer__copy { align-self: flex-start; }
+@media (max-width: 720px) {
+  .footer__copy { display: none; } /* keep the centered links unobstructed */
+  .footer__links { gap: 1.1rem; }
 }

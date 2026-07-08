@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import FaqModal from '../components/FaqModal'
 import './Contact.css'
 
 const CONTACTS = [
@@ -8,20 +10,22 @@ const CONTACTS = [
     href: 'https://instagram.com/asyncdrip',
   },
   {
-    icon: '✉️',
-    label: 'email',
-    value: 'nlstmn@gmail.com',
-    href: 'mailto:nlstmn@gmail.com',
-  },
-  {
     icon: '💬',
     label: 'whatsapp',
     value: '+34 652 21 22 71',
     href: 'https://wa.me/34652212271',
   },
+  {
+    icon: '✉️',
+    label: 'email',
+    value: 'nlstmn@gmail.com',
+    href: 'mailto:nlstmn@gmail.com',
+  },
 ]
 
 export default function Contact() {
+  const [faqOpen, setFaqOpen] = useState(false)
+
   return (
     <div className="contact">
       <header className="contact__header">
@@ -45,7 +49,17 @@ export default function Contact() {
             </div>
           </a>
         ))}
+
+        <button className="contact__card contact__card--btn" onClick={() => setFaqOpen(true)}>
+          <span className="contact__icon">❓</span>
+          <div className="contact__info">
+            <span className="contact__label">faq</span>
+            <span className="contact__value">frequently asked questions</span>
+          </div>
+        </button>
       </div>
+
+      {faqOpen && <FaqModal onClose={() => setFaqOpen(false)} />}
     </div>
   )
 }

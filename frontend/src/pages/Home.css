@@ -1,8 +1,9 @@
 .home {
   position: relative;
-  /* pull up behind the fixed transparent navbar so the glow runs edge to edge */
+  /* pull up behind the fixed transparent navbar so the glow runs edge to edge;
+     leave room for the fixed footer so the landing fits in one viewport */
   margin-top: calc(-1 * var(--nav-height));
-  min-height: 100vh;
+  min-height: calc(100vh - var(--footer-height));
   display: flex;
   align-items: center;
   justify-content: center;

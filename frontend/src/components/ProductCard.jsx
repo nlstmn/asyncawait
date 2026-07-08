@@ -20,7 +20,6 @@ export default function ProductCard({ product, index = 0 }) {
         <img src={product.image_url} alt={product.name} loading="lazy" />
         <span className="card__price-tag">${product.price.toFixed(2)}</span>
         {!product.in_stock && <span className="card__badge">sold out</span>}
-        <div className="card__strip">free shipping · ships async</div>
       </div>
 
       <div className="card__row">

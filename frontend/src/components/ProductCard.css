@@ -54,19 +54,6 @@
   border-radius: 14px;
 }
 
-/* info strip pinned to the bottom of the image */
-.card__strip {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  background: var(--brand-blue);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.06em;
-  text-align: center;
-  padding: 0.4rem 0.5rem;
-}
-
 .card__badge {
   position: absolute;
   top: 0.6rem; left: 0.6rem;
@@ -98,34 +85,31 @@
 }
 
 .card__button {
-  background: transparent;
-  color: var(--text);
+  background: var(--brand-blue);
+  color: #fff;
   border: none;
-  border-bottom: 1px solid var(--text);
-  font-size: 0.75rem;
+  border-radius: 14px;
+  font-size: 0.72rem;
   font-family: var(--font-mono);
   cursor: pointer;
   letter-spacing: 0.05em;
   text-transform: lowercase;
-  padding: 0 0 0.15rem;
+  padding: 0.5rem 0.95rem;
   white-space: nowrap;
-  transition: color var(--dur-fast) var(--ease-standard),
-              border-color var(--dur-fast) var(--ease-standard);
+  transition: background var(--dur-fast) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard);
 }
 
 .card__button:hover:not(:disabled) {
-  color: var(--brand-blue);
-  border-color: var(--brand-blue);
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--brand-blue) 85%, black);
 }
 
-.card__button--added {
-  color: var(--accent-green);
-  border-color: var(--accent-green);
-}
+.card__button--added { background: var(--accent-green); }
 
 .card__button:disabled {
+  background: var(--surface-hover);
   color: var(--text-muted);
-  border-color: var(--text-muted);
   cursor: not-allowed;
 }
 
