@@ -27,6 +27,15 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
+/* mobile / touch: no hover turn (tap would otherwise stick the transform) */
+@media (max-width: 640px) {
+  .card:hover {
+    transform: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+  .card:hover .card__media img { transform: none; }
+}
+
 /* ── Image tile ── */
 .card__media {
   display: block;

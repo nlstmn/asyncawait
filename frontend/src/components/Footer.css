@@ -24,6 +24,8 @@
 
 .footer__links a,
 .footer__faq-btn {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-mono);
   font-size: 0.82rem;
   color: var(--text-muted);
@@ -42,6 +44,10 @@
 .footer__links a:hover,
 .footer__faq-btn:hover { color: var(--brand-blue); }
 
+/* desktop shows words; icons hidden */
+.footer__icon { display: none; }
+.footer__icon svg { width: 20px; height: 20px; display: block; }
+
 .footer__copy {
   font-size: 0.72rem;
   color: var(--text-muted);
@@ -52,4 +58,11 @@
 @media (max-width: 720px) {
   .footer__copy { display: none; } /* keep the centered links unobstructed */
   .footer__links { gap: 1.1rem; }
+}
+
+/* mobile: show icons instead of words */
+@media (max-width: 640px) {
+  .footer__links { gap: 1.6rem; }
+  .footer__label { display: none; }
+  .footer__icon  { display: inline-flex; }
 }

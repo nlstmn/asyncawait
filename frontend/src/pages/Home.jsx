@@ -29,6 +29,11 @@ export default function Home() {
 
   return (
     <section className="home" onMouseMove={handleMove} onMouseLeave={() => setT(REST)}>
+      {/* mobile-only: floating blurred colour blobs + extra grain */}
+      <div className="home__blob home__blob--a" aria-hidden="true" />
+      <div className="home__blob home__blob--b" aria-hidden="true" />
+      <div className="home__grain" aria-hidden="true" />
+
       <div
         className="home__glow"
         aria-hidden="true"

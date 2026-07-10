@@ -21,7 +21,7 @@ export default function Typewriter({ text, speed = 45, startDelay = 350 }) {
   const done = count >= text.length
 
   return (
-    <span aria-label={text}>
+    <span className="typewriter" aria-label={text}>
       {text.slice(0, count)}
       {!done && <span className="blink" aria-hidden="true">_</span>}
     </span>

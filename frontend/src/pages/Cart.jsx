@@ -10,7 +10,13 @@ export default function Cart() {
     return (
       <div className="cart cart--empty">
         <h1 className="cart__title">your cart</h1>
-        <p className="cart__empty-emoji" aria-hidden="true">🛒</p>
+        <span className="cart__empty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+          </svg>
+        </span>
         <p className="cart__empty-sub">no items staged for commit yet.</p>
         <Link to="/shop" className="cart__empty-btn">browse the shop &gt;</Link>
       </div>

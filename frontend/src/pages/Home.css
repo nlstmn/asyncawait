@@ -88,6 +88,76 @@
   .home__logo { width: 68vw; }
 }
 
+/* ── Mobile: no cursor-reactive motion (touch has no cursor); the landing gets
+   an animated grainy gradient instead (grain comes from the global overlay) ── */
+/* blobs + extra grain are mobile-only */
+.home__blob, .home__grain { display: none; }
+
+@media (max-width: 640px) {
+  .home { background: var(--bg); }
+
+  /* floating blurred colour circles over the plain base */
+  .home__blob {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(48px);
+    opacity: 0.6;
+    will-change: transform;
+  }
+  .home__blob--a {
+    width: 62vw; height: 62vw;
+    top: -8%; left: -18%;
+    background: var(--brand-blue);
+    animation: blobFloatA 20s var(--ease-standard) infinite;
+  }
+  .home__blob--b {
+    width: 56vw; height: 56vw;
+    bottom: -10%; right: -16%;
+    background: var(--brand-green);
+    animation: blobFloatB 24s var(--ease-standard) infinite;
+  }
+
+  /* extra grain on top of the blobs (global overlay + this = grainier) */
+  .home__grain {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+  }
+
+  /* glow + logo tilt are driven by inline styles from JS — override them */
+  .home__glow { display: none; }
+  .home__logo-wrap { transform: none !important; transition: none; }
+
+  /* enter shop: blue border, no hover motion */
+  .home__cta { border-color: var(--brand-blue); }
+  .home__cta:hover {
+    transform: none;
+    background: transparent;
+    border-color: var(--brand-blue);
+  }
+}
+
+@keyframes blobFloatA {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(22vw, 16vh) scale(1.15); }
+  66%      { transform: translate(-8vw, 30vh) scale(0.92); }
+}
+
+@keyframes blobFloatB {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-20vw, -14vh) scale(1.1); }
+  66%      { transform: translate(14vw, -26vh) scale(0.9); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home__logo-wrap { transition: none; }
+  .home, .home__blob { animation: none; }
 }

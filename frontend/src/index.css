@@ -125,8 +125,18 @@ body::before { opacity: 0.26; mix-blend-mode: multiply; }
 a      { color: var(--accent); text-decoration: none; }
 button { font-family: inherit; }
 
+/* iOS Safari zooms into any focused form control with font-size < 16px and
+   never zooms back out — force 16px on small screens to disable that zoom */
+@media (max-width: 640px) {
+  input, textarea, select { font-size: 16px; }
+}
+
 /* route-change transition — <main> is keyed by pathname in App.jsx */
 .page { animation: pageFade 0.45s var(--ease-spring) both; }
+
+/* typewriter taglines use the mono font — bump the weight so the low-contrast
+   monospace text reads more easily */
+.typewriter { font-weight: 700; }
 
 @media (prefers-reduced-motion: reduce) {
   .page { animation: none; }
