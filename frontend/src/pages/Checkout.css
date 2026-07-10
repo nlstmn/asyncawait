@@ -127,20 +127,13 @@
   font-size: 0.85rem;
 }
 
-.checkout__item-name {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--text);
-  font-family: var(--font-body);
-}
+.checkout__item-name { color: var(--text); font-family: var(--font-body); }
 
 .checkout__item-qty {
   color: var(--brand-blue);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: bold;
-  line-height: 1;
 }
 .checkout__item-price { font-family: var(--font-mono); color: var(--text); white-space: nowrap; }
 

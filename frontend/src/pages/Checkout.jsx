@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import { createOrder } from '../api/orders'
 import './Checkout.css'
 
 export default function Checkout() {
@@ -13,19 +12,21 @@ export default function Checkout() {
 
   const update = (e) => setForm(f => ({ ...f, [e.target.name]: e.target.value }))
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     setStatus('submitting')
     setError(null)
-    try {
-      const result = await createOrder({ ...form, items })
-      setOrder(result)
+    // static site: no backend — simulate an async "commit" and confirm locally
+    setTimeout(() => {
+      setOrder({
+        id: Math.floor(1000 + Math.random() * 9000),
+        name: form.name,
+        email: form.email,
+        total: subtotal,
+      })
       setStatus('done')
       clear()
-    } catch (err) {
-      setError(err.message)
-      setStatus('error')
-    }
+    }, 700)
   }
 
   if (status === 'done' && order) {
@@ -122,8 +123,7 @@ export default function Checkout() {
             {items.map(item => (
               <li key={item.id} className="checkout__item">
                 <span className="checkout__item-name">
-                  {item.name}
-                  <span className="checkout__item-qty">×{item.quantity}</span>
+                  {item.name} <span className="checkout__item-qty">×{item.quantity}</span>
                 </span>
                 <span className="checkout__item-price">
                   ${(item.price * item.quantity).toFixed(2)}

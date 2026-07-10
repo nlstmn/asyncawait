@@ -51,16 +51,18 @@ export default function FaqModal({ onClose }) {
           ✕
         </button>
 
-        <h2 className="faq__title">faq</h2>
+        <div className="faq__scroll">
+          <h2 className="faq__title">faq</h2>
 
-        <dl className="faq__list">
-          {FAQ.map(({ q, a }) => (
-            <div key={q} className="faq__item">
-              <dt className="faq__q">// {q}</dt>
-              <dd className="faq__a">{a}</dd>
-            </div>
-          ))}
-        </dl>
+          <dl className="faq__list">
+            {FAQ.map(({ q, a }) => (
+              <div key={q} className="faq__item">
+                <dt className="faq__q">// {q}</dt>
+                <dd className="faq__a">{a}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
     </div>,
     document.body

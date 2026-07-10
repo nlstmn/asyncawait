@@ -23,6 +23,18 @@
   animation: fadeUp var(--dur-med) var(--ease-spring) both;
 }
 
+/* the title lives inside the scroll area so it scrolls away with the list
+   instead of staying pinned at the top */
+.faq__scroll {
+  max-height: calc(80vh - 4rem);
+  overflow-y: auto;
+  /* scrollable but with no visible scrollbar */
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* old Edge/IE */
+}
+
+.faq__scroll::-webkit-scrollbar { display: none; }  /* Chrome/Safari */
+
 .faq__title {
   font-family: var(--font-heading);
   font-size: 1.6rem;
@@ -59,15 +71,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
-  /* the dialog keeps overflow visible for the floating ✕ — scroll the list instead */
-  max-height: calc(80vh - 8rem);
-  overflow-y: auto;
-  /* scrollable but with no visible scrollbar */
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* old Edge/IE */
 }
-
-.faq__list::-webkit-scrollbar { display: none; }  /* Chrome/Safari */
 
 .faq__q {
   font-family: var(--font-mono);

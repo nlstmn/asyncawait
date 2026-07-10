@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import './ProductCard.css'
 
@@ -16,14 +17,16 @@ export default function ProductCard({ product, index = 0 }) {
 
   return (
     <article className="card" style={{ animationDelay: `${index * 0.07}s` }}>
-      <div className="card__media">
+      <Link to={`/product/${product.id}`} className="card__media" aria-label={product.name}>
         <img src={product.image_url} alt={product.name} loading="lazy" />
         <span className="card__price-tag">${product.price.toFixed(2)}</span>
         {!product.in_stock && <span className="card__badge">sold out</span>}
-      </div>
+      </Link>
 
       <div className="card__row">
-        <h3 className="card__name">{product.name}</h3>
+        <h3 className="card__name">
+          <Link to={`/product/${product.id}`}>{product.name}</Link>
+        </h3>
         <button
           className={`card__button ${added ? 'card__button--added' : ''}`}
           onClick={handleAdd}
