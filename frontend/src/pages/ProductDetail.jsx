@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import { getProductById } from '../data/products'
+import { getProductById, CHIPS } from '../data/products'
 import './ProductDetail.css'
-
-const CHIPS = ['ceramic', '325 ml', 'dishwasher-safe', 'handmade', 'unique style for each']
 
 // a few extra shots per mug — random ceramic/coffee photos, seeded by id so
 // each product keeps a stable little gallery across reloads

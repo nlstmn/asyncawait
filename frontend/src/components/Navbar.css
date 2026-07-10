@@ -40,19 +40,21 @@
 }
 
 .navbar__links a {
+  display: inline-block;
   font-size: 0.95rem;
   font-family: var(--font-mono);
   color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  /* smooth color swap when the active tab changes */
-  transition: color var(--dur-med) var(--ease-standard);
+  /* smooth color swap when the active tab changes + lift/zoom on hover */
+  transition: color var(--dur-med) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard);
 }
 
 .navbar__links a:focus,
 .navbar__links a:focus-visible { outline: none; }
 
-.navbar__links a:hover,
+.navbar__links a:hover { color: var(--brand-blue); transform: translateY(-2px) scale(1.05); }
 .navbar__links a.active { color: var(--brand-blue); }
 
 /* ── Right side ── */

@@ -41,3 +41,6 @@ export const PRODUCTS = [
 
 export const getProductById = (id) =>
   PRODUCTS.find(p => String(p.id) === String(id))
+
+// spec chips shown on cards and the product detail page
+export const CHIPS = ['ceramic', '325 ml', 'dishwasher-safe', 'handmade', 'unique style for each']

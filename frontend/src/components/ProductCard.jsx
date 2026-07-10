@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { CHIPS } from '../data/products'
 import './ProductCard.css'
-
-const CHIPS = ['ceramic', '325 ml', 'dishwasher-safe', 'handmade', 'unique style for each']
 
 export default function ProductCard({ product, index = 0 }) {
   const { addItem } = useCart()

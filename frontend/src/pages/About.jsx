@@ -7,20 +7,22 @@ export default function About() {
       <header className="about__header">
         <h1 className="about__title">about</h1>
         <p className="about__subtitle">
-          <Typewriter text="based in barcelona, spain." />
+          <Typewriter text="tech merch · dev society" />
         </p>
       </header>
 
       <div className="about__body">
         <p>
-          async/await drip is a tiny ceramics studio for people who talk to
-          machines all day. we make handmade mugs — each one a little different,
-          same as the code you ship.
+          async/await drip is a one-person thing — just me, a developer, who
+          decided to make merch specifically for coders.
         </p>
         <p>
-          everything is thrown, glazed and packed by hand in{' '}
-          <strong>barcelona, spain</strong>, then sent asynchronously to wherever
-          a promise can reach.
+          right now that means mugs. every one is handcrafted and unique — no two
+          are the same, nothing mass-produced, no repeating stuff.
+        </p>
+        <p>
+          designed and made in <strong>Barcelona, Spain</strong>, then shipped
+          asynchronously wherever a promise can reach.
         </p>
         <p className="about__note">// no two mugs resolve the same way.</p>
       </div>

@@ -111,13 +111,13 @@
     width: 62vw; height: 62vw;
     top: -8%; left: -18%;
     background: var(--brand-blue);
-    animation: blobFloatA 20s var(--ease-standard) infinite;
+    animation: blobFloatA 9s var(--ease-standard) infinite;
   }
   .home__blob--b {
     width: 56vw; height: 56vw;
     bottom: -10%; right: -16%;
     background: var(--brand-green);
-    animation: blobFloatB 24s var(--ease-standard) infinite;
+    animation: blobFloatB 11s var(--ease-standard) infinite;
   }
 
   /* extra grain on top of the blobs (global overlay + this = grainier) */
