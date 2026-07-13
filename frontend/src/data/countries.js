@@ -1,0 +1,53 @@
+// European countries (we ship within Europe): flag emoji, dialing code, and
+// major cities for the city dropdown. Used by the checkout form.
+export const COUNTRIES = [
+  { name: 'Albania', flag: '🇦🇱', dial: '+355', cities: ['Tirana', 'Durrës', 'Vlorë', 'Shkodër', 'Elbasan'] },
+  { name: 'Andorra', flag: '🇦🇩', dial: '+376', cities: ['Andorra la Vella', 'Escaldes-Engordany', 'Encamp'] },
+  { name: 'Austria', flag: '🇦🇹', dial: '+43', cities: ['Vienna', 'Graz', 'Linz', 'Salzburg', 'Innsbruck'] },
+  { name: 'Belarus', flag: '🇧🇾', dial: '+375', cities: ['Minsk', 'Gomel', 'Mogilev', 'Vitebsk', 'Brest'] },
+  { name: 'Belgium', flag: '🇧🇪', dial: '+32', cities: ['Brussels', 'Antwerp', 'Ghent', 'Bruges', 'Liège'] },
+  { name: 'Bosnia and Herzegovina', flag: '🇧🇦', dial: '+387', cities: ['Sarajevo', 'Banja Luka', 'Tuzla', 'Mostar', 'Zenica'] },
+  { name: 'Bulgaria', flag: '🇧🇬', dial: '+359', cities: ['Sofia', 'Plovdiv', 'Varna', 'Burgas', 'Ruse'] },
+  { name: 'Croatia', flag: '🇭🇷', dial: '+385', cities: ['Zagreb', 'Split', 'Rijeka', 'Osijek', 'Zadar'] },
+  { name: 'Cyprus', flag: '🇨🇾', dial: '+357', cities: ['Nicosia', 'Limassol', 'Larnaca', 'Paphos'] },
+  { name: 'Czechia', flag: '🇨🇿', dial: '+420', cities: ['Prague', 'Brno', 'Ostrava', 'Plzeň', 'Liberec'] },
+  { name: 'Denmark', flag: '🇩🇰', dial: '+45', cities: ['Copenhagen', 'Aarhus', 'Odense', 'Aalborg', 'Esbjerg'] },
+  { name: 'Estonia', flag: '🇪🇪', dial: '+372', cities: ['Tallinn', 'Tartu', 'Narva', 'Pärnu'] },
+  { name: 'Finland', flag: '🇫🇮', dial: '+358', cities: ['Helsinki', 'Espoo', 'Tampere', 'Turku', 'Oulu'] },
+  { name: 'France', flag: '🇫🇷', dial: '+33', cities: ['Paris', 'Lyon', 'Marseille', 'Toulouse', 'Nice', 'Bordeaux'] },
+  { name: 'Germany', flag: '🇩🇪', dial: '+49', cities: ['Berlin', 'Munich', 'Hamburg', 'Cologne', 'Frankfurt', 'Stuttgart'] },
+  { name: 'Greece', flag: '🇬🇷', dial: '+30', cities: ['Athens', 'Thessaloniki', 'Patras', 'Heraklion', 'Larissa'] },
+  { name: 'Hungary', flag: '🇭🇺', dial: '+36', cities: ['Budapest', 'Debrecen', 'Szeged', 'Miskolc', 'Pécs'] },
+  { name: 'Iceland', flag: '🇮🇸', dial: '+354', cities: ['Reykjavík', 'Kópavogur', 'Hafnarfjörður', 'Akureyri'] },
+  { name: 'Ireland', flag: '🇮🇪', dial: '+353', cities: ['Dublin', 'Cork', 'Galway', 'Limerick', 'Waterford'] },
+  { name: 'Italy', flag: '🇮🇹', dial: '+39', cities: ['Rome', 'Milan', 'Naples', 'Turin', 'Florence', 'Bologna'] },
+  { name: 'Latvia', flag: '🇱🇻', dial: '+371', cities: ['Riga', 'Daugavpils', 'Liepāja', 'Jelgava'] },
+  { name: 'Liechtenstein', flag: '🇱🇮', dial: '+423', cities: ['Vaduz', 'Schaan', 'Triesen'] },
+  { name: 'Lithuania', flag: '🇱🇹', dial: '+370', cities: ['Vilnius', 'Kaunas', 'Klaipėda', 'Šiauliai'] },
+  { name: 'Luxembourg', flag: '🇱🇺', dial: '+352', cities: ['Luxembourg City', 'Esch-sur-Alzette', 'Differdange'] },
+  { name: 'Malta', flag: '🇲🇹', dial: '+356', cities: ['Valletta', 'Birkirkara', 'Sliema', 'Mosta'] },
+  { name: 'Moldova', flag: '🇲🇩', dial: '+373', cities: ['Chișinău', 'Tiraspol', 'Bălți', 'Bender'] },
+  { name: 'Monaco', flag: '🇲🇨', dial: '+377', cities: ['Monaco', 'Monte Carlo', 'La Condamine'] },
+  { name: 'Montenegro', flag: '🇲🇪', dial: '+382', cities: ['Podgorica', 'Nikšić', 'Herceg Novi', 'Bar'] },
+  { name: 'Netherlands', flag: '🇳🇱', dial: '+31', cities: ['Amsterdam', 'Rotterdam', 'The Hague', 'Utrecht', 'Eindhoven'] },
+  { name: 'North Macedonia', flag: '🇲🇰', dial: '+389', cities: ['Skopje', 'Bitola', 'Kumanovo', 'Ohrid'] },
+  { name: 'Norway', flag: '🇳🇴', dial: '+47', cities: ['Oslo', 'Bergen', 'Trondheim', 'Stavanger', 'Tromsø'] },
+  { name: 'Poland', flag: '🇵🇱', dial: '+48', cities: ['Warsaw', 'Kraków', 'Łódź', 'Wrocław', 'Poznań', 'Gdańsk'] },
+  { name: 'Portugal', flag: '🇵🇹', dial: '+351', cities: ['Lisbon', 'Porto', 'Braga', 'Coimbra', 'Faro'] },
+  { name: 'Romania', flag: '🇷🇴', dial: '+40', cities: ['Bucharest', 'Cluj-Napoca', 'Timișoara', 'Iași', 'Brașov'] },
+  { name: 'San Marino', flag: '🇸🇲', dial: '+378', cities: ['San Marino', 'Serravalle', 'Borgo Maggiore'] },
+  { name: 'Serbia', flag: '🇷🇸', dial: '+381', cities: ['Belgrade', 'Novi Sad', 'Niš', 'Kragujevac', 'Subotica'] },
+  { name: 'Slovakia', flag: '🇸🇰', dial: '+421', cities: ['Bratislava', 'Košice', 'Prešov', 'Žilina', 'Nitra'] },
+  { name: 'Slovenia', flag: '🇸🇮', dial: '+386', cities: ['Ljubljana', 'Maribor', 'Celje', 'Kranj', 'Koper'] },
+  { name: 'Spain', flag: '🇪🇸', dial: '+34', cities: ['Barcelona', 'Madrid', 'Valencia', 'Seville', 'Bilbao', 'Málaga'] },
+  { name: 'Sweden', flag: '🇸🇪', dial: '+46', cities: ['Stockholm', 'Gothenburg', 'Malmö', 'Uppsala', 'Lund'] },
+  { name: 'Switzerland', flag: '🇨🇭', dial: '+41', cities: ['Zurich', 'Geneva', 'Basel', 'Bern', 'Lausanne'] },
+  { name: 'Ukraine', flag: '🇺🇦', dial: '+380', cities: ['Kyiv', 'Kharkiv', 'Odesa', 'Dnipro', 'Lviv'] },
+  { name: 'United Kingdom', flag: '🇬🇧', dial: '+44', cities: ['London', 'Manchester', 'Birmingham', 'Edinburgh', 'Glasgow', 'Bristol'] },
+  { name: 'Vatican City', flag: '🇻🇦', dial: '+379', cities: ['Vatican City'] },
+]
+
+// dialing codes for the phone prefix dropdown (unique, sorted numerically)
+export const DIAL_CODES = COUNTRIES
+  .map(c => ({ name: c.name, flag: c.flag, dial: c.dial }))
+  .sort((a, b) => a.name.localeCompare(b.name))

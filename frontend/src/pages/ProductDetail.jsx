@@ -18,7 +18,7 @@ function galleryFor(product) {
 
 // every mug is handmade to the same brief — shared spec sheet
 const SPECS = [
-  ['capacity', '325 ml · 11 oz'],
+  ['capacity', '325 ml'],
   ['height', '9.5 cm'],
   ['diameter', '8 cm'],
   ['material', 'stoneware ceramic'],

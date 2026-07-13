@@ -122,6 +122,11 @@ body::before {
 
 body::before { opacity: 0.26; mix-blend-mode: multiply; }
 
+/* a touch more grain on desktop */
+@media (min-width: 641px) {
+  body::before { opacity: 0.4; }
+}
+
 a      { color: var(--accent); text-decoration: none; }
 button { font-family: inherit; }
 

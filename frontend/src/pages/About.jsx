@@ -22,7 +22,7 @@ export default function About() {
         </p>
         <p>
           designed and made in <strong>Barcelona, Spain</strong>, then shipped
-          asynchronously wherever a promise can reach.
+          asynchronously anywhere in Europe.
         </p>
         <p className="about__note">// no two mugs resolve the same way.</p>
       </div>

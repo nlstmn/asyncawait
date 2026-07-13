@@ -43,6 +43,20 @@
   gap: 0.4rem;
 }
 
+/* two fields side by side (email+phone, city+postal) */
+.checkout__row {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.checkout__row .checkout__field { flex: 1; }
+.checkout__field--postal { flex: 0 0 40%; }
+
+@media (max-width: 520px) {
+  .checkout__row { flex-direction: column; gap: 1.25rem; }
+  .checkout__field--postal { flex: 1; }
+}
+
 .checkout__field span {
   font-family: var(--font-mono);
   font-size: 0.78rem;
@@ -51,8 +65,9 @@
 }
 
 .checkout__field input,
-.checkout__field textarea {
-  background: var(--surface);
+.checkout__field textarea,
+.checkout__field select {
+  background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.7rem 0.85rem;
@@ -61,20 +76,46 @@
   font-size: 0.9rem;
   resize: vertical;
   transition: border-color var(--dur-fast) var(--ease-standard),
-              background var(--dur-fast) var(--ease-standard);
+              background-color var(--dur-fast) var(--ease-standard);
 }
 
+/* custom chevron so the arrow isn't cramped against the edge */
+.checkout__field select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  background-size: 14px;
+  padding-right: 2.4rem;
+}
+
+.checkout__field select:disabled { opacity: 0.5; cursor: not-allowed; }
+
 .checkout__field input:focus,
-.checkout__field textarea:focus {
+.checkout__field textarea:focus,
+.checkout__field select:focus {
   outline: none;
   border-color: var(--brand-blue);
-  background: var(--surface-hover);
+  background-color: var(--surface-hover);
 }
+
+/* phone: dial-code dropdown + number */
+.checkout__phone { display: flex; gap: 0.5rem; }
+.checkout__phone input { flex: 1; min-width: 0; }
+.checkout__dial { flex: 0 0 auto; width: 7.25rem; }
 
 .checkout__field input::placeholder,
 .checkout__field textarea::placeholder {
   color: var(--text-muted);
   opacity: 0.6;
+}
+
+.checkout__err {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--error);
 }
 
 .checkout__error {
@@ -182,7 +223,20 @@
   font-family: var(--font-mono);
   font-size: 0.82rem;
   color: var(--text-muted);
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.checkout__pay-note {
+  max-width: 440px;
+  margin: 0 auto 1.75rem;
+  padding: 0.9rem 1.1rem;
+  background: color-mix(in srgb, var(--brand-blue) 8%, var(--surface));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--text);
 }
 
 .checkout__empty-msg {
