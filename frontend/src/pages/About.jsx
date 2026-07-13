@@ -11,11 +11,19 @@ export default function About() {
         </p>
       </header>
 
-      <div className="about__body">
-        <p>
-          async/await drip is a one-person thing — just me, a developer, who
-          decided to make merch specifically for coders.
-        </p>
+      <div className="about__content">
+        <img
+          className="about__photo"
+          src="https://loremflickr.com/480/600/woman,portrait?lock=7"
+          alt="the maker"
+          loading="lazy"
+        />
+
+        <div className="about__body">
+          <p>
+            async/await drip is a one-person thing — just me, a developer, who
+            decided to make merch specifically for coders.
+          </p>
         <p>
           right now that means mugs. every one is handcrafted and unique — no two
           are the same, nothing mass-produced, no repeating stuff.
@@ -24,7 +32,8 @@ export default function About() {
           designed and made in <strong>Barcelona / Spain</strong>, then shipped
           asynchronously anywhere in Europe.
         </p>
-        <p className="about__note">// real merch for people who code</p>
+          <p className="about__note">// real merch for people who code</p>
+        </div>
       </div>
     </div>
   )

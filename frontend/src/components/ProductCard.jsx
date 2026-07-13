@@ -5,7 +5,7 @@ import './ProductCard.css'
 
 export default function ProductCard({ product, index = 0 }) {
   const navigate = useNavigate()
-  const openDetail = () => navigate(`/product/${product.id}`)
+  const openDetail = () => navigate(`/mug/${product.id}`)
 
   return (
     <article

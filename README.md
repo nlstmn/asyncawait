@@ -60,8 +60,8 @@ text (`#0d0d0d`) for contrast, never white.
 - `--font-mono` (Courier New): taglines, prices, chips, nav/footer, buttons, specs.
 - Typewriter taglines/subtitles use the `Typewriter` component and render bold
   via `.typewriter { font-weight: 700 }`. Every page **subtitle** is `0.85rem`.
-- Page **titles** ("your cart", "checkout"/"order committed!", shop "socks…")
-  are `2.4rem`, `--font-display`.
+- All page **titles** (contact, about, cart, checkout, shop tabs) are `2.2rem`,
+  `--font-display`.
 
 ### Shape & spacing
 

@@ -9,7 +9,7 @@
 
 .checkout__title {
   font-family: var(--font-display);
-  font-size: 2.4rem;
+  font-size: 2.2rem;
   font-weight: normal;
   color: var(--text);
   letter-spacing: -0.02em;
@@ -25,12 +25,18 @@
 /* ── Layout ── */
 .checkout__grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  /* minmax(0,…) lets tracks shrink below content min-width so the grid never
+     overflows the 780px container (otherwise checkout reads wider than cart) */
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: 1.75rem;
   align-items: start;
 }
 
 /* ── Form ── */
+/* min-width:0 so these grid items can shrink instead of forcing the grid wider */
+.checkout__form,
+.checkout__summary { min-width: 0; }
+
 .checkout__form {
   display: flex;
   flex-direction: column;
@@ -49,7 +55,7 @@
   gap: 1.25rem;
 }
 
-.checkout__row .checkout__field { flex: 1; }
+.checkout__row .checkout__field { flex: 1; min-width: 0; }
 .checkout__field--postal { flex: 0 0 40%; }
 
 @media (max-width: 520px) {
