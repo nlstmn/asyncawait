@@ -16,6 +16,17 @@ function galleryFor(product) {
   return shots
 }
 
+// every mug is handmade to the same brief — shared spec sheet
+const SPECS = [
+  ['capacity', '325 ml · 11 oz'],
+  ['height', '9.5 cm'],
+  ['diameter', '8 cm'],
+  ['material', 'stoneware ceramic'],
+  ['finish', 'hand-glazed, food-safe'],
+  ['care', 'dishwasher & microwave safe'],
+  ['made in', 'Barcelona, Spain'],
+]
+
 export default function ProductDetail() {
   const { id } = useParams()
   const { addItem } = useCart()
@@ -96,6 +107,15 @@ export default function ProductDetail() {
               <span key={chip} className="pd__chip">{chip}</span>
             ))}
           </div>
+
+          <dl className="pd__specs">
+            {SPECS.map(([label, value]) => (
+              <div key={label} className="pd__spec">
+                <dt className="pd__spec-label">{label}</dt>
+                <dd className="pd__spec-value">{value}</dd>
+              </div>
+            ))}
+          </dl>
 
           <button
             className={`pd__add ${added ? 'pd__add--added' : ''}`}

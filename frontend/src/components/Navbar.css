@@ -43,10 +43,11 @@
   display: inline-block;
   font-size: 0.95rem;
   font-family: var(--font-mono);
+  font-weight: 700;
   color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  /* smooth color swap when the active tab changes + lift/zoom on hover */
+  /* smooth color swap when the active tab changes + center zoom on hover */
   transition: color var(--dur-med) var(--ease-standard),
               transform var(--dur-fast) var(--ease-standard);
 }
@@ -54,7 +55,7 @@
 .navbar__links a:focus,
 .navbar__links a:focus-visible { outline: none; }
 
-.navbar__links a:hover { color: var(--brand-blue); transform: translateY(-2px) scale(1.05); }
+.navbar__links a:hover { color: var(--brand-blue); transform: scale(1.15); }
 .navbar__links a.active { color: var(--brand-blue); }
 
 /* ── Right side ── */
@@ -78,7 +79,7 @@
 
 .navbar__cart svg { width: 22px; height: 22px; display: block; }
 
-.navbar__cart:hover { transform: translateY(-2px) scale(1.05); color: var(--brand-blue); }
+.navbar__cart:hover { transform: scale(1.15); color: var(--brand-blue); }
 .navbar__cart.active { color: var(--brand-blue); }
 
 .navbar__cart-count {

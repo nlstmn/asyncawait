@@ -126,9 +126,10 @@ a      { color: var(--accent); text-decoration: none; }
 button { font-family: inherit; }
 
 /* iOS Safari zooms into any focused form control with font-size < 16px and
-   never zooms back out — force 16px on small screens to disable that zoom */
+   never zooms back out — force 16px on small screens to disable that zoom.
+   !important so page-level rules (e.g. .checkout__field input) can't lower it. */
 @media (max-width: 640px) {
-  input, textarea, select { font-size: 16px; }
+  input, textarea, select { font-size: 16px !important; }
 }
 
 /* route-change transition — <main> is keyed by pathname in App.jsx */

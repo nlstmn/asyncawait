@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import logoSvg from '../assets/async-await-logo.svg'
@@ -16,6 +16,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const location = useLocation()
   const { count } = useCart()
+
+  // close the mobile menu whenever navigation happens (e.g. tapping a product card)
+  useEffect(() => { setMenuOpen(false) }, [location.pathname])
 
   const isActive = (to) =>
     to === '/' ? location.pathname === '/' : location.pathname === to

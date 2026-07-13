@@ -1,31 +1,41 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { CHIPS } from '../data/products'
 import './ProductCard.css'
 
 export default function ProductCard({ product, index = 0 }) {
   const { addItem } = useCart()
+  const navigate = useNavigate()
   const [added, setAdded] = useState(false)
 
-  const handleAdd = () => {
+  const openDetail = () => navigate(`/product/${product.id}`)
+
+  const handleAdd = (e) => {
+    e.stopPropagation() // don't open the detail page when adding to cart
     addItem(product)
     setAdded(true)
     setTimeout(() => setAdded(false), 2200)
   }
 
   return (
-    <article className="card" style={{ animationDelay: `${index * 0.07}s` }}>
-      <Link to={`/product/${product.id}`} className="card__media" aria-label={product.name}>
+    <article
+      className="card"
+      style={{ animationDelay: `${index * 0.07}s` }}
+      onClick={openDetail}
+      onKeyDown={(e) => { if (e.key === 'Enter') openDetail() }}
+      role="link"
+      tabIndex={0}
+      aria-label={product.name}
+    >
+      <div className="card__media">
         <img src={product.image_url} alt={product.name} loading="lazy" />
         <span className="card__price-tag">${product.price.toFixed(2)}</span>
         {!product.in_stock && <span className="card__badge">sold out</span>}
-      </Link>
+      </div>
 
       <div className="card__row">
-        <h3 className="card__name">
-          <Link to={`/product/${product.id}`}>{product.name}</Link>
-        </h3>
+        <h3 className="card__name">{product.name}</h3>
         <button
           className={`card__button ${added ? 'card__button--added' : ''}`}
           onClick={handleAdd}

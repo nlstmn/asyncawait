@@ -26,6 +26,7 @@ export default function Checkout() {
       })
       setStatus('done')
       clear()
+      window.scrollTo(0, 0) // success screen starts at the top (esp. mobile)
     }, 700)
   }
 
@@ -51,7 +52,7 @@ export default function Checkout() {
     return (
       <div className="checkout checkout--empty">
         <h1 className="checkout__title">checkout</h1>
-        <p className="checkout__empty-msg">// nothing to check out<span className="blink">_</span></p>
+        <p className="checkout__empty-msg">// nothing to check out</p>
         <Link to="/shop" className="checkout__back">browse the shop &gt;</Link>
       </div>
     )

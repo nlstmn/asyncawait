@@ -4,7 +4,7 @@ import { ICONS } from '../components/icons'
 import './Cart.css'
 
 export default function Cart() {
-  const { items, setQty, removeItem, subtotal } = useCart()
+  const { items, setQty, removeItem, clear, subtotal } = useCart()
   const navigate = useNavigate()
 
   if (items.length === 0) {
@@ -60,15 +60,19 @@ export default function Cart() {
         ))}
       </ul>
 
-      <div className="cart__summary">
-        <div className="cart__summary-row">
-          <span>subtotal</span>
-          <span className="cart__summary-total">${subtotal.toFixed(2)}</span>
+      <div className="cart__footer">
+        <button className="cart__clear" onClick={clear}>empty cart</button>
+
+        <div className="cart__summary">
+          <div className="cart__summary-row">
+            <span>subtotal</span>
+            <span className="cart__summary-total">${subtotal.toFixed(2)}</span>
+          </div>
+          <button className="cart__checkout" onClick={() => navigate('/checkout')}>
+            checkout &gt;
+          </button>
+          <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
         </div>
-        <button className="cart__checkout" onClick={() => navigate('/checkout')}>
-          checkout &gt;
-        </button>
-        <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
       </div>
     </div>
   )

@@ -28,10 +28,12 @@
   align-items: center;
   font-family: var(--font-mono);
   font-size: 0.82rem;
+  font-weight: 700;
   color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  transition: color var(--dur-med) var(--ease-standard);
+  transition: color var(--dur-med) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard);
 }
 
 .footer__faq-btn {
@@ -42,7 +44,7 @@
 }
 
 .footer__links a:hover,
-.footer__faq-btn:hover { color: var(--brand-blue); }
+.footer__faq-btn:hover { color: var(--brand-blue); transform: scale(1.15); }
 
 /* desktop shows words; icons hidden */
 .footer__icon { display: none; }
