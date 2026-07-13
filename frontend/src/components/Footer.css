@@ -26,9 +26,9 @@
 .footer__faq-btn {
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
   font-family: var(--font-mono);
   font-size: 0.82rem;
-  font-weight: 700;
   color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: lowercase;
@@ -44,11 +44,11 @@
 }
 
 .footer__links a:hover,
-.footer__faq-btn:hover { color: var(--brand-blue); transform: scale(1.15); }
+.footer__faq-btn:hover { color: var(--brand-blue); transform: scale(1.08); }
 
-/* desktop shows words; icons hidden */
-.footer__icon { display: none; }
-.footer__icon svg { width: 20px; height: 20px; display: block; }
+/* desktop shows icon + word */
+.footer__icon { display: inline-flex; }
+.footer__icon svg { width: 16px; height: 16px; display: block; }
 
 .footer__copy {
   font-size: 0.72rem;
@@ -62,9 +62,10 @@
   .footer__links { gap: 1.1rem; }
 }
 
-/* mobile: show icons instead of words */
+/* mobile: icons only */
 @media (max-width: 640px) {
   .footer__links { gap: 1.6rem; }
   .footer__label { display: none; }
   .footer__icon  { display: inline-flex; }
+  .footer__icon svg { width: 20px; height: 20px; }
 }

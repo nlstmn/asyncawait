@@ -1,22 +1,11 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useCart } from '../context/CartContext'
 import { CHIPS } from '../data/products'
+import AddToCart from './AddToCart'
 import './ProductCard.css'
 
 export default function ProductCard({ product, index = 0 }) {
-  const { addItem } = useCart()
   const navigate = useNavigate()
-  const [added, setAdded] = useState(false)
-
   const openDetail = () => navigate(`/product/${product.id}`)
-
-  const handleAdd = (e) => {
-    e.stopPropagation() // don't open the detail page when adding to cart
-    addItem(product)
-    setAdded(true)
-    setTimeout(() => setAdded(false), 2200)
-  }
 
   return (
     <article
@@ -36,13 +25,7 @@ export default function ProductCard({ product, index = 0 }) {
 
       <div className="card__row">
         <h3 className="card__name">{product.name}</h3>
-        <button
-          className={`card__button ${added ? 'card__button--added' : ''}`}
-          onClick={handleAdd}
-          disabled={!product.in_stock}
-        >
-          {!product.in_stock ? 'sold out' : added ? 'added ✓' : 'add to cart >'}
-        </button>
+        <AddToCart product={product} variant="card" />
       </div>
 
       <div className="card__chips">

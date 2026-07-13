@@ -189,36 +189,7 @@
   text-align: right;
 }
 
-.pd__add {
-  margin-top: 1.75rem;
-  background: var(--brand-blue);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  letter-spacing: 0.05em;
-  text-transform: lowercase;
-  padding: 0.85rem 1.75rem;
-  cursor: pointer;
-  transition: background var(--dur-fast) var(--ease-standard),
-              transform var(--dur-fast) var(--ease-standard);
-}
-
-.pd__add:hover:not(:disabled) {
-  transform: translateY(-2px);
-  background: color-mix(in srgb, var(--brand-blue) 85%, black);
-}
-
-/* added state wins even while hovered */
-.pd__add--added,
-.pd__add--added:hover:not(:disabled) { background: var(--accent-green); }
-
-.pd__add:disabled {
-  background: var(--surface-hover);
-  color: var(--text-muted);
-  cursor: not-allowed;
-}
+.pd__cart { margin-top: 1.75rem; }
 
 @media (max-width: 680px) {
   .pd__grid { grid-template-columns: 1fr; gap: 1.75rem; }

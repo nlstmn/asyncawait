@@ -104,37 +104,6 @@
 
 .card:hover .card__name { color: var(--brand-blue); }
 
-.card__button {
-  background: var(--brand-blue);
-  color: #fff;
-  border: none;
-  border-radius: 14px;
-  font-size: 0.72rem;
-  font-family: var(--font-mono);
-  cursor: pointer;
-  letter-spacing: 0.05em;
-  text-transform: lowercase;
-  padding: 0.5rem 0.95rem;
-  white-space: nowrap;
-  transition: background var(--dur-fast) var(--ease-standard),
-              transform var(--dur-fast) var(--ease-standard);
-}
-
-.card__button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  background: color-mix(in srgb, var(--brand-blue) 85%, black);
-}
-
-/* added state wins even while the button is hovered (same specificity, later) */
-.card__button--added,
-.card__button--added:hover:not(:disabled) { background: var(--accent-green); }
-
-.card__button:disabled {
-  background: var(--surface-hover);
-  color: var(--text-muted);
-  cursor: not-allowed;
-}
-
 /* ── Spec chips ── */
 .card__chips {
   display: flex;

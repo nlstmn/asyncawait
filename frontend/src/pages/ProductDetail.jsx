@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { useCart } from '../context/CartContext'
 import { getProductById, CHIPS } from '../data/products'
+import AddToCart from '../components/AddToCart'
 import './ProductDetail.css'
 
 // a few extra shots per mug — random ceramic/coffee photos, seeded by id so
@@ -29,17 +29,9 @@ const SPECS = [
 
 export default function ProductDetail() {
   const { id } = useParams()
-  const { addItem } = useCart()
   const [active, setActive] = useState(0)
-  const [added, setAdded] = useState(false)
 
   const product = getProductById(id)
-
-  const handleAdd = () => {
-    addItem(product)
-    setAdded(true)
-    setTimeout(() => setAdded(false), 2200)
-  }
 
   if (!product) {
     return (
@@ -117,13 +109,9 @@ export default function ProductDetail() {
             ))}
           </dl>
 
-          <button
-            className={`pd__add ${added ? 'pd__add--added' : ''}`}
-            onClick={handleAdd}
-            disabled={!product.in_stock}
-          >
-            {!product.in_stock ? 'sold out' : added ? 'added ✓' : 'add to cart >'}
-          </button>
+          <div className="pd__cart">
+            <AddToCart product={product} variant="detail" />
+          </div>
         </div>
       </div>
     </div>

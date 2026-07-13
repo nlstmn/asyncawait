@@ -21,10 +21,10 @@ export default function About() {
           are the same, nothing mass-produced, no repeating stuff.
         </p>
         <p>
-          designed and made in <strong>Barcelona, Spain</strong>, then shipped
+          designed and made in <strong>Barcelona / Spain</strong>, then shipped
           asynchronously anywhere in Europe.
         </p>
-        <p className="about__note">// no two mugs resolve the same way.</p>
+        <p className="about__note">// real merch for people who code</p>
       </div>
     </div>
   )

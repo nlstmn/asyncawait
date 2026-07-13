@@ -1,0 +1,69 @@
+/* ── Add-to-cart button ── */
+.atc {
+  background: var(--brand-blue);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard);
+}
+
+.atc:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--brand-blue) 85%, black);
+}
+
+.atc:disabled {
+  background: var(--surface-hover);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.atc--card   { font-size: 0.72rem; padding: 0.5rem 0.95rem; }
+.atc--detail { font-size: 0.85rem; padding: 0.85rem 1.75rem; }
+
+/* ── Green +/- quantity stepper (shown once in cart) ── */
+.atc-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  background: var(--brand-green);
+  color: #0d0d0d;
+  border-radius: 12px;
+}
+
+.atc-step--card   { padding: 0.15rem; }
+.atc-step--detail { padding: 0.25rem; }
+
+.atc-step__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: #0d0d0d;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-standard);
+}
+
+.atc-step__btn:hover { background: color-mix(in srgb, var(--brand-green) 80%, black); }
+
+.atc-step--card   .atc-step__btn { width: 26px; height: 26px; font-size: 1rem; }
+.atc-step--detail .atc-step__btn { width: 34px; height: 34px; font-size: 1.2rem; }
+
+.atc-step__count {
+  font-family: var(--font-mono);
+  font-weight: bold;
+  text-align: center;
+  min-width: 1.8ch;
+}
+
+.atc-step--detail .atc-step__count { font-size: 1rem; }

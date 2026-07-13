@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { COUNTRIES, DIAL_CODES } from '../data/countries'
+import Typewriter from '../components/Typewriter'
 import './Checkout.css'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -88,7 +89,7 @@ export default function Checkout() {
     <div className="checkout">
       <header className="checkout__header">
         <h1 className="checkout__title">checkout</h1>
-        <p className="checkout__subtitle">last step before deploy</p>
+        <p className="checkout__subtitle"><Typewriter text="last step before deploy" /></p>
       </header>
 
       <div className="checkout__grid">

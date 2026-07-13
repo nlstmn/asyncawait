@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import FaqModal from './FaqModal'
 import { ICONS } from './icons'
 import './Footer.css'
@@ -10,10 +9,6 @@ export default function Footer() {
   return (
     <footer className="footer">
       <nav className="footer__links" aria-label="Footer">
-        <Link to="/contact" aria-label="contact">
-          <span className="footer__icon">{ICONS.contact}</span>
-          <span className="footer__label">contact</span>
-        </Link>
         <a href="https://instagram.com/asyncdrip" target="_blank" rel="noopener noreferrer" aria-label="instagram">
           <span className="footer__icon">{ICONS.instagram}</span>
           <span className="footer__label">instagram</span>

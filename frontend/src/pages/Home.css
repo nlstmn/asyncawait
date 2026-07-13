@@ -72,7 +72,7 @@
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
   padding: 0.6rem 1.4rem;
-  border-radius: 24px;
+  border-radius: 12px;
   transition: border-color var(--dur-fast) var(--ease-standard),
               transform var(--dur-fast) var(--ease-standard),
               color var(--dur-fast) var(--ease-standard),
@@ -112,13 +112,13 @@
   .home__blob--a {
     width: 62vw; height: 62vw;
     top: -8%; left: -18%;
-    background: var(--brand-blue);
+    background: var(--brand-green);
     animation: blobFloatA 9s var(--ease-standard) infinite;
   }
   .home__blob--b {
     width: 56vw; height: 56vw;
     bottom: -10%; right: -16%;
-    background: var(--brand-green);
+    background: var(--brand-blue);
     animation: blobFloatB 11s var(--ease-standard) infinite;
   }
 

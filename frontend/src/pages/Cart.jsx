@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { ICONS } from '../components/icons'
+import Typewriter from '../components/Typewriter'
 import './Cart.css'
 
 export default function Cart() {
@@ -12,7 +13,7 @@ export default function Cart() {
       <div className="cart cart--empty">
         <h1 className="cart__title">your cart</h1>
         <span className="cart__empty-icon" aria-hidden="true">{ICONS.cart}</span>
-        <p className="cart__empty-sub">no items staged for commit yet.</p>
+        <p className="cart__empty-sub">no items staged for commit yet</p>
         <Link to="/shop" className="cart__empty-btn">browse the shop &gt;</Link>
       </div>
     )
@@ -22,7 +23,7 @@ export default function Cart() {
     <div className="cart">
       <header className="cart__header">
         <h1 className="cart__title">your cart</h1>
-        <p className="cart__subtitle">review before you push to prod</p>
+        <p className="cart__subtitle"><Typewriter text="review before you push to prod" /></p>
       </header>
 
       <ul className="cart__list">
