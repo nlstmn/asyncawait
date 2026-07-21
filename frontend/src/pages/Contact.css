@@ -79,7 +79,7 @@
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 50%;
-  color: var(--brand-blue);
+  color: var(--accent-green);
   box-shadow: var(--shadow-float);
   transform: rotate(-12deg);
   transition: transform var(--dur-fast) var(--ease-spring);
