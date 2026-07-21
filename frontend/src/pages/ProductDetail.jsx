@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getProductById, CHIPS } from '../data/products'
+import { formatPrice } from '../utils/format'
 import AddToCart from '../components/AddToCart'
 import './ProductDetail.css'
 
@@ -30,6 +31,7 @@ const SPECS = [
 export default function ProductDetail() {
   const { id } = useParams()
   const [active, setActive] = useState(0)
+  const touchStartX = useRef(null)
 
   const product = getProductById(id)
 
@@ -43,6 +45,16 @@ export default function ProductDetail() {
   }
 
   const gallery = galleryFor(product)
+  const go = (dir) => setActive(a => (a + dir + gallery.length) % gallery.length)
+
+  // let mobile users swipe the carousel left/right by hand, not just the arrows
+  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX }
+  const onTouchEnd = (e) => {
+    if (touchStartX.current == null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1) // swipe left → next, right → prev
+    touchStartX.current = null
+  }
 
   return (
     <div className="pd">
@@ -51,7 +63,7 @@ export default function ProductDetail() {
       <div className="pd__grid">
         {/* ── Carousel ── */}
         <div className="pd__carousel">
-          <div className="pd__stage">
+          <div className="pd__stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
             <img
               key={active}
               src={gallery[active]}
@@ -63,12 +75,12 @@ export default function ProductDetail() {
 
             <button
               className="pd__nav pd__nav--prev"
-              onClick={() => setActive(a => (a - 1 + gallery.length) % gallery.length)}
+              onClick={() => go(-1)}
               aria-label="Previous image"
             >&lt;</button>
             <button
               className="pd__nav pd__nav--next"
-              onClick={() => setActive(a => (a + 1) % gallery.length)}
+              onClick={() => go(1)}
               aria-label="Next image"
             >&gt;</button>
           </div>
@@ -90,7 +102,7 @@ export default function ProductDetail() {
         {/* ── Details ── */}
         <div className="pd__info">
           <h1 className="pd__name">{product.name}</h1>
-          <p className="pd__price">${product.price.toFixed(2)}</p>
+          <p className="pd__price">{formatPrice(product.price)}</p>
           <p className="pd__desc">{product.description}</p>
 
           <div className="pd__chips">

@@ -40,7 +40,7 @@ export default function Shop() {
         </div>
       ) : (
         <div className="shop__soon-block">
-          <p className="shop__soon-title">socks are compiling…</p>
+          <p className="shop__soon-title">compiling…</p>
           <p className="shop__soon-sub">// coming soon — async-knit, for cold feet</p>
         </div>
       )}

@@ -75,7 +75,7 @@
 .checkout__field select {
   background-color: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--r-sm);
   padding: 0.7rem 0.85rem;
   color: var(--text);
   font-family: var(--font-body);
@@ -133,10 +133,10 @@
 .checkout__submit {
   margin-top: 0.5rem;
   background: var(--brand-green);
-  color: #0d0d0d;
+  color: var(--text);
   border: none;
   padding: 0.9rem 1.5rem;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   font-family: var(--font-mono);
   font-size: 0.9rem;
   font-weight: bold;
@@ -153,7 +153,7 @@
 .checkout__summary {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--r-md);
   padding: 1.5rem;
 }
 
@@ -211,7 +211,7 @@
   height: 64px;
   border-radius: 50%;
   background: var(--brand-green);
-  color: #0d0d0d;
+  color: var(--text);
   font-size: 2rem;
   margin-bottom: 1.25rem;
   animation: bounce var(--dur-med) var(--ease-spring);
@@ -238,7 +238,7 @@
   padding: 0.9rem 1.1rem;
   background: color-mix(in srgb, var(--brand-blue) 8%, var(--surface));
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--r-md);
   font-family: var(--font-mono);
   font-size: 0.78rem;
   line-height: 1.6;

@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { ICONS } from '../components/icons'
+import { formatPrice } from '../utils/format'
 import Typewriter from '../components/Typewriter'
 import './Cart.css'
 
@@ -13,7 +14,7 @@ export default function Cart() {
       <div className="cart cart--empty">
         <h1 className="cart__title">your cart</h1>
         <span className="cart__empty-icon" aria-hidden="true">{ICONS.cart}</span>
-        <p className="cart__empty-sub">no items staged for commit yet</p>
+        <p className="cart__empty-sub"><Typewriter text="no items staged for commit yet" /></p>
         <Link to="/shop" className="cart__empty-btn">browse the shop &gt;</Link>
       </div>
     )
@@ -33,7 +34,7 @@ export default function Cart() {
 
             <div className="cart__item-info">
               <h3 className="cart__item-name">{item.name}</h3>
-              <span className="cart__item-price">${item.price.toFixed(2)} each</span>
+              <span className="cart__item-price">{formatPrice(item.price)} each</span>
             </div>
 
             <div className="cart__qty">
@@ -50,7 +51,7 @@ export default function Cart() {
               >+</button>
             </div>
 
-            <span className="cart__item-total">${(item.price * item.quantity).toFixed(2)}</span>
+            <span className="cart__item-total">{formatPrice(item.price * item.quantity)}</span>
 
             <button
               className="cart__remove"
@@ -67,7 +68,7 @@ export default function Cart() {
         <div className="cart__summary">
           <div className="cart__summary-row">
             <span>subtotal</span>
-            <span className="cart__summary-total">${subtotal.toFixed(2)}</span>
+            <span className="cart__summary-total">{formatPrice(subtotal)}</span>
           </div>
           <button className="cart__checkout" onClick={() => navigate('/checkout')}>
             checkout &gt;

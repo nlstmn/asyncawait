@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { CHIPS } from '../data/products'
+import { formatPrice } from '../utils/format'
 import AddToCart from './AddToCart'
 import './ProductCard.css'
 
@@ -19,7 +20,7 @@ export default function ProductCard({ product, index = 0 }) {
     >
       <div className="card__media">
         <img src={product.image_url} alt={product.name} loading="lazy" />
-        <span className="card__price-tag">${product.price.toFixed(2)}</span>
+        <span className="card__price-tag">{formatPrice(product.price)}</span>
         {!product.in_stock && <span className="card__badge">sold out</span>}
       </div>
 

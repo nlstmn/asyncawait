@@ -41,7 +41,8 @@
 
 .navbar__links a {
   display: inline-block;
-  font-size: 0.95rem;
+  font-size: 15px;
+  font-weight: 700;
   font-family: var(--font-mono);
   color: var(--text-muted);
   letter-spacing: 0.06em;

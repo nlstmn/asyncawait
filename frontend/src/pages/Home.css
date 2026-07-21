@@ -72,7 +72,7 @@
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
   padding: 0.6rem 1.4rem;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   transition: border-color var(--dur-fast) var(--ease-standard),
               transform var(--dur-fast) var(--ease-standard),
               color var(--dur-fast) var(--ease-standard),

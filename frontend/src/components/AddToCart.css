@@ -3,7 +3,7 @@
   background: var(--brand-blue);
   color: #fff;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   font-family: var(--font-mono);
   letter-spacing: 0.05em;
   text-transform: lowercase;
@@ -33,8 +33,8 @@
   align-items: center;
   gap: 0.15rem;
   background: var(--brand-green);
-  color: #0d0d0d;
-  border-radius: 12px;
+  color: var(--text);
+  border-radius: var(--r-md);
 }
 
 .atc-step--card   { padding: 0.15rem; }
@@ -46,8 +46,9 @@
   justify-content: center;
   background: none;
   border: none;
-  border-radius: 8px;
-  color: #0d0d0d;
+  border-radius: var(--r-sm);
+  color: var(--text);
+  font-size: 15px;
   font-weight: bold;
   line-height: 1;
   cursor: pointer;
@@ -56,14 +57,13 @@
 
 .atc-step__btn:hover { background: color-mix(in srgb, var(--brand-green) 80%, black); }
 
-.atc-step--card   .atc-step__btn { width: 26px; height: 26px; font-size: 1rem; }
-.atc-step--detail .atc-step__btn { width: 34px; height: 34px; font-size: 1.2rem; }
+.atc-step--card   .atc-step__btn { width: 26px; height: 26px; }
+.atc-step--detail .atc-step__btn { width: 34px; height: 34px; }
 
 .atc-step__count {
   font-family: var(--font-mono);
+  font-size: 15px;
   font-weight: bold;
   text-align: center;
   min-width: 1.8ch;
 }
-
-.atc-step--detail .atc-step__count { font-size: 1rem; }

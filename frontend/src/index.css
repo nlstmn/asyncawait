@@ -53,6 +53,11 @@
   --error:        #cc4444;
   --nav-height:   60px;
   --footer-height: 52px;
+
+  /* Radii — the ONLY three corner sizes in the app (round elements use 50%) */
+  --r-sm: 8px;   /* inputs, small tags/badges, stepper +/- buttons */
+  --r-md: 12px;  /* buttons, chips, thumbnails, price tags, bordered panels */
+  --r-lg: 20px;  /* elevated & media surfaces: cards, cart items, carousel, modal */
 }
 
 /* ── Shared keyframes ─────────────────────────────────────────────────────── */

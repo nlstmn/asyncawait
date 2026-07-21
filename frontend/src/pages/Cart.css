@@ -42,8 +42,10 @@
 }
 
 .cart__empty-sub {
+  /* same recipe as every other page subtitle: mono, 0.85rem, muted */
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
   color: var(--text-muted);
-  font-size: 0.9rem;
   margin: 0 0 1.75rem;
 }
 
@@ -53,7 +55,7 @@
   color: #fff;
   border: none;
   padding: 0.85rem 2rem;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   font-family: var(--font-mono);
   font-size: 0.9rem;
   letter-spacing: 0.03em;
@@ -88,7 +90,7 @@
   gap: 1rem;
   padding: 1rem 1.25rem;
   background: var(--surface);
-  border-radius: 18px;
+  border-radius: var(--r-lg);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   animation: fadeUp var(--dur-med) var(--ease-standard) both;
   transition: background var(--dur-med) var(--ease-standard);
@@ -98,7 +100,7 @@
   width: 64px;
   height: 64px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   background: var(--surface-hover);
 }
 
@@ -120,7 +122,7 @@
   align-items: center;
   gap: 0.5rem;
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--r-md);
   padding: 0.15rem 0.35rem;
 }
 
@@ -128,11 +130,11 @@
   background: none;
   border: none;
   color: var(--text);
-  font-size: 1.1rem;
+  font-size: 15px;
   cursor: pointer;
   width: 24px;
   height: 24px;
-  border-radius: 50%;
+  border-radius: var(--r-sm);
   line-height: 1;
   transition: background var(--dur-fast) var(--ease-standard),
               color var(--dur-fast) var(--ease-standard);
@@ -142,7 +144,7 @@
 
 .cart__qty-value {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 15px;
   min-width: 1.4ch;
   text-align: center;
 }
@@ -183,7 +185,7 @@
   display: inline-block;
   background: none;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--r-md);
   padding: 0.55rem 1.1rem;
   cursor: pointer;
   font-family: var(--font-mono);
@@ -230,7 +232,7 @@
   color: #fff;
   border: none;
   padding: 0.85rem 2rem;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   font-family: var(--font-mono);
   font-size: 0.9rem;
   letter-spacing: 0.03em;

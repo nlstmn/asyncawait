@@ -40,10 +40,12 @@
 .pd__stage {
   position: relative;
   aspect-ratio: 1 / 1;
-  border-radius: 26px;
+  border-radius: var(--r-lg);
   overflow: hidden;
   background: var(--surface-hover);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  /* allow vertical page scroll but let us own horizontal swipes */
+  touch-action: pan-y;
 }
 
 .pd__img {
@@ -66,7 +68,7 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding: 0.3rem 0.7rem;
-  border-radius: 10px;
+  border-radius: var(--r-sm);
 }
 
 .pd__nav {
@@ -106,7 +108,7 @@
   height: 56px;
   padding: 0;
   border: 2px solid transparent;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   overflow: hidden;
   background: var(--surface-hover);
   cursor: pointer;
@@ -159,7 +161,7 @@
   font-size: 0.66rem;
   letter-spacing: 0.04em;
   padding: 0.3rem 0.7rem;
-  border-radius: 12px;
+  border-radius: var(--r-md);
 }
 
 /* ── Spec sheet ── */

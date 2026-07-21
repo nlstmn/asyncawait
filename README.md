@@ -49,8 +49,10 @@ rules so the UI stays consistent.
 | `--text-muted`    | `#888`     | secondary text                       |
 | `--error`         | `#cc4444`  | destructive (empty cart, remove)     |
 
-Light theme only (no dark mode). On lime green (`--brand-green`) always use dark
-text (`#0d0d0d`) for contrast, never white.
+Light theme only (no dark mode). There are exactly **two greens**: `--brand-green`
+(lime — button / stepper / sticker backgrounds) and `--accent-green` (darker,
+text-safe — used as a text color for prices/notes). On lime green always use the
+`--text` token for contrast, never white (do not hardcode a dark hex).
 
 ### Typography
 
@@ -62,11 +64,30 @@ text (`#0d0d0d`) for contrast, never white.
   via `.typewriter { font-weight: 700 }`. Every page **subtitle** is `0.85rem`.
 - All page **titles** (contact, about, cart, checkout, shop tabs) are `2.2rem`,
   `--font-display`.
+- **Navbar** links are `15px` **bold**; **footer** links are `13px` **bold**
+  (both `--font-mono`, lowercase).
+
+### Currency
+
+- **All prices are in euros (€).** Never render `$`.
+- Format money through the single helper `formatPrice()` in
+  `src/utils/format.js` (`€` prefix, two decimals) — used by the shop card,
+  product detail, cart, and checkout so currency is identical everywhere.
 
 ### Shape & spacing
 
-- **All buttons use `border-radius: 12px`.** (Round elements — qty steppers'
-  `+/−`, carousel arrows, pin/close badges — stay circular.)
+- **Corner radii use exactly three tokens** (defined in `index.css`) — never a
+  raw px value:
+  - `--r-sm: 8px` — inputs/selects, small tags & badges, stepper `+/−` buttons.
+  - `--r-md: 12px` — **all buttons**, chips, thumbnails, price tags, bordered
+    info panels (contact card, checkout summary, pay-note).
+  - `--r-lg: 20px` — elevated / media surfaces: product cards, cart items,
+    carousel stage, about photo, FAQ modal.
+  - Genuinely round elements (carousel arrows, pin/close badges, the nav count
+    pill) stay `50%` / pill and are exempt.
+- Both quantity steppers (the shared `AddToCart` green stepper and the cart
+  page's qty control) share one shape: `--r-md` container, `--r-sm` buttons,
+  `15px` glyph/count text.
 - Page container gutter is `1.5rem`; content max-width is **`780px`** for
   cart / checkout / contact / about, and `1100px` for shop / product detail.
 - `--nav-height: 60px`, `--footer-height: 52px`.

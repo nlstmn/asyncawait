@@ -17,7 +17,7 @@
   max-height: 80vh;
   overflow-y: visible;
   background: var(--surface);
-  border-radius: 22px;
+  border-radius: var(--r-lg);
   padding: 1.75rem 2rem 2rem;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
   animation: fadeUp var(--dur-med) var(--ease-spring) both;

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { COUNTRIES, DIAL_CODES } from '../data/countries'
+import { formatPrice } from '../utils/format'
 import Typewriter from '../components/Typewriter'
 import './Checkout.css'
 
@@ -11,7 +12,7 @@ const POSTAL_RE = /^[A-Za-z0-9][A-Za-z0-9\s-]{2,9}$/
 export default function Checkout() {
   const { items, subtotal, clear } = useCart()
   const [form, setForm] = useState({
-    firstName: '', lastName: '', email: '', dial: '+34', phone: '',
+    firstName: '', lastName: '', email: '', confirmEmail: '', dial: '+34', phone: '',
     address: '', country: '', city: '', postal: '',
   })
   const [status, setStatus] = useState('idle') // idle | submitting | done | error
@@ -28,11 +29,12 @@ export default function Checkout() {
 
   // ── validation ──
   const emailOk  = EMAIL_RE.test(form.email)
+  const emailsMatch = form.email === form.confirmEmail
   const phoneOk  = /^[+\d\s().-]+$/.test(form.phone) && (form.phone.match(/\d/g) || []).length >= 7
   const postalOk = POSTAL_RE.test(form.postal)
   const isValid =
     form.firstName.trim() && form.lastName.trim() && form.address.trim() &&
-    form.country && form.city && emailOk && phoneOk && postalOk
+    form.country && form.city && emailOk && emailsMatch && phoneOk && postalOk
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -62,7 +64,7 @@ export default function Checkout() {
             thanks {order.name.split(' ')[0]} — order <span className="checkout__oid">#{order.id}</span> is in.
           </p>
           <p className="checkout__success-sub">
-            total <strong>${order.total.toFixed(2)}</strong> · confirmation sent to {order.email}
+            total <strong>{formatPrice(order.total)}</strong> · confirmation sent to {order.email}
           </p>
           <p className="checkout__pay-note">
             check your email 📨 payment is handled manually for now — we'll send
@@ -132,6 +134,20 @@ export default function Checkout() {
               placeholder="ada@example.com"
             />
             {form.email && !emailOk && <span className="checkout__err">enter a valid email</span>}
+          </label>
+
+          <label className="checkout__field">
+            <span>confirm email</span>
+            <input
+              type="email"
+              name="confirmEmail"
+              value={form.confirmEmail}
+              onChange={update}
+              required
+              autoComplete="off"
+              placeholder="re-enter your email"
+            />
+            {form.confirmEmail && !emailsMatch && <span className="checkout__err">emails don't match</span>}
           </label>
 
           <label className="checkout__field">
@@ -217,7 +233,7 @@ export default function Checkout() {
             type="submit"
             disabled={!isValid || status === 'submitting'}
           >
-            {status === 'submitting' ? 'committing…' : `place order · $${subtotal.toFixed(2)}`}
+            {status === 'submitting' ? 'committing…' : `place order · ${formatPrice(subtotal)}`}
           </button>
         </form>
 
@@ -230,14 +246,14 @@ export default function Checkout() {
                   {item.name} <span className="checkout__item-qty">×{item.quantity}</span>
                 </span>
                 <span className="checkout__item-price">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {formatPrice(item.price * item.quantity)}
                 </span>
               </li>
             ))}
           </ul>
           <div className="checkout__summary-total">
             <span>total</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatPrice(subtotal)}</span>
           </div>
         </aside>
       </div>

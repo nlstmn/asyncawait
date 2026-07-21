@@ -21,8 +21,9 @@ export default function About() {
 
         <div className="about__body">
           <p>
-            async/await drip is a one-person thing — just me, a developer, who
-            decided to make merch specifically for coders.
+            async/await drip is a one-person thing — just me,<br />
+            a developer, who decided to make merch specifically<br />
+            for coders.
           </p>
         <p>
           right now that means mugs. every one is handcrafted and unique — no two
