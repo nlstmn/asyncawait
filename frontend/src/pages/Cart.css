@@ -9,7 +9,7 @@
 
 .cart__title {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: 35px;
   font-weight: normal;
   color: var(--text);
   letter-spacing: -0.02em;
@@ -17,60 +17,17 @@
 
 .cart__subtitle {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 14px;
   color: var(--text-muted);
   margin-top: 0.35rem;
 }
 
-/* ── Empty state ── */
-.cart--empty {
-  text-align: center;
-  padding-top: 5rem;
-}
-
-/* blue line-style cart icon, no circle; equal gap above (to title) and below (to sub) */
-.cart__empty-icon {
-  display: block;
-  color: var(--brand-blue);
-  margin: 1.75rem 0;
-}
-
-.cart__empty-icon svg {
-  width: 52px;
-  height: 52px;
-  display: inline-block;
-}
-
-.cart__empty-sub {
-  /* same recipe as every other page subtitle: mono, 0.85rem, muted */
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin: 0 0 1.75rem;
-}
-
-.cart__empty-btn {
-  display: inline-block;
-  background: var(--brand-blue);
-  color: #fff;
-  border: none;
-  padding: 0.85rem 2rem;
-  border-radius: var(--r-md);
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-  letter-spacing: 0.03em;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform var(--dur-fast) var(--ease-standard),
-              opacity var(--dur-fast) var(--ease-standard);
-}
-
-.cart__empty-btn:hover { transform: translateY(-2px); opacity: 0.92; }
+/* empty-cart state now uses the shared .empty-state pattern (see index.css) */
 
 .cart__continue {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 14px;
   color: var(--brand-blue);
   transition: transform var(--dur-fast) var(--ease-standard);
 }
@@ -91,7 +48,7 @@
   padding: 1rem 1.25rem;
   background: var(--surface);
   border-radius: var(--r-lg);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-card);
   animation: fadeUp var(--dur-med) var(--ease-standard) both;
   transition: background var(--dur-med) var(--ease-standard);
 }
@@ -106,14 +63,14 @@
 
 .cart__item-name {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: normal;
   color: var(--text);
 }
 
 .cart__item-price {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 12px;
   color: var(--text-muted);
 }
 
@@ -151,7 +108,7 @@
 
 .cart__item-total {
   font-family: var(--font-mono);
-  font-size: 0.95rem;
+  font-size: 15px;
   font-weight: bold;
   color: var(--brand-blue);
   min-width: 4.5ch;
@@ -162,7 +119,7 @@
   background: none;
   border: none;
   color: var(--text-muted);
-  font-size: 1.3rem;
+  font-size: 21px;
   cursor: pointer;
   line-height: 1;
   transition: color var(--dur-fast) var(--ease-standard),
@@ -189,7 +146,7 @@
   padding: 0.55rem 1.1rem;
   cursor: pointer;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 13px;
   letter-spacing: 0.04em;
   color: var(--text-muted);
   transition: color var(--dur-fast) var(--ease-standard),
@@ -216,12 +173,12 @@
   align-items: baseline;
   gap: 1rem;
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 16px;
   color: var(--text);
 }
 
 .cart__summary-total {
-  font-size: 1.4rem;
+  font-size: 22px;
   font-weight: bold;
   color: var(--brand-blue);
 }
@@ -234,7 +191,7 @@
   padding: 0.85rem 2rem;
   border-radius: var(--r-md);
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 14px;
   letter-spacing: 0.03em;
   cursor: pointer;
   transition: transform var(--dur-fast) var(--ease-standard),

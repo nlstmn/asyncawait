@@ -60,10 +60,12 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 - `--font-heading` (Garlic Butter): reserved heading face.
 - `--font-body` (Poppins): body copy, form inputs.
 - `--font-mono` (Courier New): taglines, prices, chips, nav/footer, buttons, specs.
+- **All font sizes are declared in `px`, never `rem`** (deliberate: pixel-exact
+  type across the app; the root stays at the 16px default).
 - Typewriter taglines/subtitles use the `Typewriter` component and render bold
-  via `.typewriter { font-weight: 700 }`. Every page **subtitle** is `0.85rem`.
-- All page **titles** (contact, about, cart, checkout, shop tabs) are `2.2rem`,
-  `--font-display`.
+  via `.typewriter { font-weight: 700 }`. Every page **subtitle** is `14px`.
+- All page **titles** (contact, about, cart, checkout, shop tabs) are `35px`,
+  `--font-display`. The shared empty-state title matches at `35px`.
 - **Navbar** links are `15px` **bold**; **footer** links are `13px` **bold**
   (both `--font-mono`, lowercase).
 
@@ -91,6 +93,15 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 - Page container gutter is `1.5rem`; content max-width is **`780px`** for
   cart / checkout / contact / about, and `1100px` for shop / product detail.
 - `--nav-height: 60px`, `--footer-height: 52px`.
+- **Elevation uses exactly two shadow tokens** — never a bespoke shadow:
+  `--shadow-card` (resting cards, panels, media) and `--shadow-float` (hover
+  lift, carousel arrows, stickers, the FAQ modal).
+
+### Empty states
+
+- Every "nothing here yet" screen (empty cart, empty checkout) uses the shared
+  `.empty-state` block in `index.css` — title, blue icon, `Typewriter`
+  subtitle, filled CTA — so they're pixel-identical in layout and position.
 
 ### Motion
 

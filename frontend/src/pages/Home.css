@@ -59,7 +59,7 @@
 
 .home__tagline {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 14px;
   letter-spacing: 0.14em;
   text-transform: lowercase;
   color: var(--text-muted);
@@ -67,7 +67,7 @@
 
 .home__cta {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 13px;
   letter-spacing: 0.08em;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);

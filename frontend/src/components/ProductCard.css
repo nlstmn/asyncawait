@@ -13,7 +13,7 @@
   padding: 0.8rem 0.8rem 1.1rem;
   background: var(--surface);
   border-radius: var(--r-lg);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-card);
   will-change: transform;
   transition: transform var(--dur-med) var(--ease-spring),
               box-shadow var(--dur-med) var(--ease-standard),
@@ -24,14 +24,14 @@
 /* lift + a small clockwise turn; transition carries it both ways */
 .card:hover {
   transform: translateY(-4px) rotate(1.5deg);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--shadow-float);
 }
 
 /* mobile / touch: no hover turn (tap would otherwise stick the transform) */
 @media (max-width: 640px) {
   .card:hover {
     transform: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-card);
   }
   .card:hover .card__media img { transform: none; }
 }
@@ -66,7 +66,7 @@
   color: var(--text);
   font-family: var(--font-mono);
   font-weight: bold;
-  font-size: 0.85rem;
+  font-size: 14px;
   padding: 0.35rem 0.7rem;
   border-radius: var(--r-md);
 }
@@ -76,7 +76,7 @@
   top: 0.6rem; left: 0.6rem;
   background: var(--error);
   color: white;
-  font-size: 0.65rem;
+  font-size: 10px;
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -95,7 +95,7 @@
 
 .card__name {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: normal;
   color: var(--text);
   letter-spacing: -0.01em;
@@ -117,7 +117,7 @@
   border: 1px solid var(--border);
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 0.66rem;
+  font-size: 11px;
   letter-spacing: 0.04em;
   padding: 0.3rem 0.7rem;
   border-radius: var(--r-md);

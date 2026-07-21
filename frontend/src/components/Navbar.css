@@ -91,7 +91,7 @@
   border-radius: 9px;
   background: var(--brand-blue);
   color: #fff;
-  font-size: 0.62rem;
+  font-size: 10px;
   font-family: var(--font-mono);
   font-weight: bold;
   display: flex;
@@ -164,7 +164,7 @@
   .navbar__mobile-menu a {
     display: block;
     padding: 0.85rem 1.5rem;
-    font-size: 0.85rem;
+    font-size: 14px;
     font-family: var(--font-mono);
     color: var(--text-muted);
     letter-spacing: 0.05em;

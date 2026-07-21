@@ -24,8 +24,8 @@
   cursor: not-allowed;
 }
 
-.atc--card   { font-size: 0.72rem; padding: 0.5rem 0.95rem; }
-.atc--detail { font-size: 0.85rem; padding: 0.85rem 1.75rem; }
+.atc--card   { font-size: 12px; padding: 0.5rem 0.95rem; }
+.atc--detail { font-size: 14px; padding: 0.85rem 1.75rem; }
 
 /* ── Green +/- quantity stepper (shown once in cart) ── */
 .atc-step {

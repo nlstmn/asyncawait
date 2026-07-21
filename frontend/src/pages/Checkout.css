@@ -9,7 +9,7 @@
 
 .checkout__title {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: 35px;
   font-weight: normal;
   color: var(--text);
   letter-spacing: -0.02em;
@@ -17,7 +17,7 @@
 
 .checkout__subtitle {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 14px;
   color: var(--text-muted);
   margin-top: 0.35rem;
 }
@@ -65,7 +65,7 @@
 
 .checkout__field span {
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 12px;
   color: var(--text-muted);
   letter-spacing: 0.04em;
 }
@@ -79,7 +79,7 @@
   padding: 0.7rem 0.85rem;
   color: var(--text);
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 14px;
   resize: vertical;
   transition: border-color var(--dur-fast) var(--ease-standard),
               background-color var(--dur-fast) var(--ease-standard);
@@ -120,13 +120,13 @@
 
 .checkout__err {
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 12px;
   color: var(--error);
 }
 
 .checkout__error {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 13px;
   color: var(--error);
 }
 
@@ -138,7 +138,7 @@
   padding: 0.9rem 1.5rem;
   border-radius: var(--r-md);
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: bold;
   letter-spacing: 0.03em;
   cursor: pointer;
@@ -159,7 +159,7 @@
 
 .checkout__summary-title {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 13px;
   text-transform: lowercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
@@ -172,7 +172,7 @@
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  font-size: 0.85rem;
+  font-size: 14px;
 }
 
 .checkout__item-name { color: var(--text); font-family: var(--font-body); }
@@ -180,7 +180,7 @@
 .checkout__item-qty {
   color: var(--brand-blue);
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 12px;
   font-weight: bold;
 }
 .checkout__item-price { font-family: var(--font-mono); color: var(--brand-blue); white-space: nowrap; }
@@ -192,14 +192,13 @@
   padding-top: 1rem;
   border-top: 1px solid var(--border);
   font-family: var(--font-mono);
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: bold;
   color: var(--brand-blue);
 }
 
 /* ── Success ── */
-.checkout--done,
-.checkout--empty { text-align: center; padding-top: 4rem; }
+.checkout--done { text-align: center; padding-top: 4rem; }
 
 .checkout__success { animation: fadeUp var(--dur-med) var(--ease-standard) both; }
 
@@ -212,13 +211,13 @@
   border-radius: 50%;
   background: var(--brand-green);
   color: var(--text);
-  font-size: 2rem;
+  font-size: 32px;
   margin-bottom: 1.25rem;
   animation: bounce var(--dur-med) var(--ease-spring);
 }
 
 .checkout__success-msg {
-  font-size: 1rem;
+  font-size: 16px;
   color: var(--text);
   margin: 0.75rem 0 0.4rem;
 }
@@ -227,7 +226,7 @@
 
 .checkout__success-sub {
   font-family: var(--font-mono);
-  font-size: 0.82rem;
+  font-size: 13px;
   color: var(--text-muted);
   margin-bottom: 1.25rem;
 }
@@ -240,22 +239,15 @@
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   font-family: var(--font-mono);
-  font-size: 0.78rem;
+  font-size: 12px;
   line-height: 1.6;
   color: var(--text);
-}
-
-.checkout__empty-msg {
-  font-family: var(--font-mono);
-  font-size: 1.1rem;
-  color: var(--accent-green);
-  margin: 1.25rem 0 1.75rem;
 }
 
 .checkout__back {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 14px;
   color: var(--brand-blue);
   transition: transform var(--dur-fast) var(--ease-standard);
 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { COUNTRIES, DIAL_CODES } from '../data/countries'
 import { formatPrice } from '../utils/format'
+import { ICONS } from '../components/icons'
 import Typewriter from '../components/Typewriter'
 import './Checkout.css'
 
@@ -79,10 +80,11 @@ export default function Checkout() {
 
   if (items.length === 0) {
     return (
-      <div className="checkout checkout--empty">
-        <h1 className="checkout__title">checkout</h1>
-        <p className="checkout__empty-msg">// nothing to check out</p>
-        <Link to="/shop" className="checkout__back">browse the shop &gt;</Link>
+      <div className="empty-state">
+        <h1 className="empty-state__title">checkout</h1>
+        <span className="empty-state__icon" aria-hidden="true">{ICONS.cart}</span>
+        <p className="empty-state__sub"><Typewriter text="nothing to check out yet" /></p>
+        <Link to="/shop" className="empty-state__btn">browse the shop &gt;</Link>
       </div>
     )
   }

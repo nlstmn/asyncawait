@@ -11,11 +11,11 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <div className="cart cart--empty">
-        <h1 className="cart__title">your cart</h1>
-        <span className="cart__empty-icon" aria-hidden="true">{ICONS.cart}</span>
-        <p className="cart__empty-sub"><Typewriter text="no items staged for commit yet" /></p>
-        <Link to="/shop" className="cart__empty-btn">browse the shop &gt;</Link>
+      <div className="empty-state">
+        <h1 className="empty-state__title">your cart</h1>
+        <span className="empty-state__icon" aria-hidden="true">{ICONS.cart}</span>
+        <p className="empty-state__sub"><Typewriter text="no items staged for commit yet" /></p>
+        <Link to="/shop" className="empty-state__btn">browse the shop &gt;</Link>
       </div>
     )
   }
