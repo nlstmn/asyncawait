@@ -1,5 +1,7 @@
 import Typewriter from '../components/Typewriter'
 import SmartImage from '../components/SmartImage'
+import makerPhoto from '../assets/5924640461664490176.jpg'
+import mugPhoto from '../assets/5812090667579150242.jpg'
 import './About.css'
 
 export default function About() {
@@ -13,11 +15,18 @@ export default function About() {
       </header>
 
       <div className="about__content">
-        <SmartImage
-          wrapClassName="about__photo"
-          src="https://loremflickr.com/480/600/woman,portrait?lock=7"
-          alt="the maker"
-        />
+        <div className="about__photos">
+          <SmartImage
+            wrapClassName="about__photo about__photo--maker"
+            src={makerPhoto}
+            alt="the maker"
+          />
+          <SmartImage
+            wrapClassName="about__photo about__photo--mug"
+            src={mugPhoto}
+            alt="a handmade mug stamped 'push with force'"
+          />
+        </div>
 
         <div className="about__body">
           <p>

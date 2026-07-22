@@ -183,8 +183,22 @@
   color: var(--brand-blue);
 }
 
-.cart__summary-row--ship { font-size: 13px; }
-.cart__free { color: var(--accent-green); font-weight: bold; }
+/* free-shipping chip — a small tinted pill, distinct from the plain rows */
+.cart__free-badge {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  color: var(--accent-green);
+  background: color-mix(in srgb, var(--brand-green) 16%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--brand-green) 40%, var(--border));
+  border-radius: var(--r-sm);
+  padding: 0.35rem 0.7rem;
+}
 
 .cart__checkout {
   margin-top: 0.5rem;

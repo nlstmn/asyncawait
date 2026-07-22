@@ -70,10 +70,7 @@ export default function Cart() {
             <span>subtotal</span>
             <span className="cart__summary-total">{formatPrice(subtotal)}</span>
           </div>
-          <div className="cart__summary-row cart__summary-row--ship">
-            <span>shipping</span>
-            <span className="cart__free">free</span>
-          </div>
+          <span className="cart__free-badge">✓ free shipping across the EU</span>
           <button className="cart__checkout" onClick={() => navigate('/checkout')}>
             checkout &gt;
           </button>
