@@ -5,15 +5,15 @@ import './FaqModal.css'
 const FAQ = [
   {
     q: 'when will my order ship?',
-    a: 'asynchronously. it resolves when it resolves — usually within 3–5 business days.',
+    a: 'once your payment is in and we’ve confirmed the receipt, we ship within 2–4 business days and email you to confirm.',
   },
   {
     q: 'do you ship worldwide?',
-    a: 'yes — anywhere a promise can reach. shipping is free for now.',
+    a: 'no — we ship within the EU only. shipping is free for now, and it reaches you in 4–8 days depending on the country.',
   },
   {
     q: 'can i return a mug?',
-    a: 'sure, within 14 days. no breaking changes, please — unbroken mugs only.',
+    a: 'no — our mugs can’t be returned. every one is handmade and one of a kind, so we can’t take on the cost of a return. to keep things transparent, we package each order carefully and send you detailed photos before it ships.',
   },
   {
     q: 'are the mugs dishwasher-safe?',
@@ -21,7 +21,7 @@ const FAQ = [
   },
   {
     q: 'how do i reach a human?',
-    a: 'instagram, whatsapp or email — all linked below. we are async, but we do respond.',
+    a: 'instagram, whatsapp, or email — all linked below. we’re async, but we do respond.',
   },
 ]
 

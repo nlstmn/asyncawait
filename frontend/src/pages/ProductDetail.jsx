@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getProductById, CHIPS } from '../data/products'
 import { formatPrice } from '../utils/format'
+import SmartImage from '../components/SmartImage'
 import AddToCart from '../components/AddToCart'
 import './ProductDetail.css'
 
@@ -64,12 +65,12 @@ export default function ProductDetail() {
         {/* ── Carousel ── */}
         <div className="pd__carousel">
           <div className="pd__stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
-            <img
+            <SmartImage
               key={active}
               src={gallery[active]}
               alt={`${product.name} — view ${active + 1}`}
-              className="pd__img"
-              loading="lazy"
+              wrapClassName="pd__stage-img"
+              imgClassName="pd__img"
             />
             {!product.in_stock && <span className="pd__badge">sold out</span>}
 

@@ -253,6 +253,10 @@ export default function Checkout() {
               </li>
             ))}
           </ul>
+          <div className="checkout__ship">
+            <span>shipping</span>
+            <span className="checkout__free">free</span>
+          </div>
           <div className="checkout__summary-total">
             <span>total</span>
             <span>{formatPrice(subtotal)}</span>

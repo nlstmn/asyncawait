@@ -1,0 +1,41 @@
+/* wrapper carries the skeleton; clips the shimmer to the wrapper's radius */
+.simg {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--surface-hover);
+}
+
+/* shimmer sweep while loading */
+.simg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--surface) 65%, transparent) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: simgShimmer 1.2s ease-in-out infinite;
+}
+
+.simg--loaded::after { content: none; animation: none; }
+
+.simg > img {
+  display: block;
+  opacity: 0;
+  transition: opacity var(--dur-med) var(--ease-standard);
+}
+
+.simg--loaded > img { opacity: 1; }
+
+@keyframes simgShimmer {
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .simg::after { animation: none; }
+  .simg > img { transition: none; }
+}

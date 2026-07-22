@@ -32,11 +32,12 @@
   flex: none;
   width: 240px;
   height: 300px;
-  object-fit: cover;
   border-radius: var(--r-lg);
   background: var(--surface-hover);
   box-shadow: var(--shadow-card);
 }
+
+.about__photo img { width: 100%; height: 100%; object-fit: cover; }
 
 .about__body {
   display: flex;

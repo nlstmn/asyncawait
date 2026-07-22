@@ -48,15 +48,15 @@
   touch-action: pan-y;
 }
 
+/* SmartImage wrapper fills the stage so its skeleton covers the whole area */
+.pd__stage-img { position: absolute; inset: 0; }
+
 .pd__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  animation: pdFade var(--dur-med) var(--ease-standard) both;
 }
-
-@keyframes pdFade { from { opacity: 0; } to { opacity: 1; } }
 
 .pd__badge {
   position: absolute;

@@ -46,6 +46,9 @@
   background: var(--surface-hover);
 }
 
+/* SmartImage wrapper fills the tile so its skeleton covers the whole area */
+.card__media-img { position: absolute; inset: 0; }
+
 .card__media img {
   width: 100%;
   height: 100%;

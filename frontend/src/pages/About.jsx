@@ -1,4 +1,5 @@
 import Typewriter from '../components/Typewriter'
+import SmartImage from '../components/SmartImage'
 import './About.css'
 
 export default function About() {
@@ -12,11 +13,10 @@ export default function About() {
       </header>
 
       <div className="about__content">
-        <img
-          className="about__photo"
+        <SmartImage
+          wrapClassName="about__photo"
           src="https://loremflickr.com/480/600/woman,portrait?lock=7"
           alt="the maker"
-          loading="lazy"
         />
 
         <div className="about__body">
@@ -27,11 +27,11 @@ export default function About() {
           </p>
         <p>
           right now that means mugs. every one is handcrafted and unique — no two
-          are the same, nothing mass-produced, no repeating stuff.
+          are the same, nothing mass-produced.
         </p>
         <p>
-          designed and made in <strong>Barcelona / Spain</strong>, then shipped
-          asynchronously anywhere in Europe.
+          designed and made in <strong>Barcelona, Spain</strong>, then shipped
+          asynchronously across the EU.
         </p>
           <p className="about__note">// real merch for people who code</p>
         </div>

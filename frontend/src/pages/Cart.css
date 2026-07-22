@@ -183,6 +183,9 @@
   color: var(--brand-blue);
 }
 
+.cart__summary-row--ship { font-size: 13px; }
+.cart__free { color: var(--accent-green); font-weight: bold; }
+
 .cart__checkout {
   margin-top: 0.5rem;
   background: var(--brand-blue);
