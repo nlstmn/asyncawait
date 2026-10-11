@@ -17,8 +17,8 @@ const CONTACTS = [
   },
   {
     label: 'email',
-    value: 'nlstmn@gmail.com',
-    href: 'mailto:nlstmn@gmail.com',
+    value: 'info@asyncdrip.com',
+    href: 'mailto:info@asyncdrip.com',
   },
 ]
 

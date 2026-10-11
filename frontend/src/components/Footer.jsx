@@ -17,7 +17,7 @@ export default function Footer() {
           <span className="footer__icon">{ICONS.whatsapp}</span>
           <span className="footer__label">whatsapp</span>
         </a>
-        <a href="mailto:nlstmn@gmail.com" aria-label="email">
+        <a href="mailto:info@asyncdrip.com" aria-label="email">
           <span className="footer__icon">{ICONS.email}</span>
           <span className="footer__label">email</span>
         </a>
