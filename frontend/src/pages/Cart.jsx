@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { ICONS } from '../components/icons'
-import { formatPrice } from '../utils/format'
+import { formatPrice, itemLabel } from '../utils/format'
 import Typewriter from '../components/Typewriter'
 import './Cart.css'
 
@@ -33,7 +33,7 @@ export default function Cart() {
             <img className="cart__item-img" src={item.image_url} alt={item.name} loading="lazy" />
 
             <div className="cart__item-info">
-              <h3 className="cart__item-name">{item.name}</h3>
+              <h3 className="cart__item-name">{itemLabel(item, items)}</h3>
               <span className="cart__item-price">{formatPrice(item.price)} each</span>
             </div>
 

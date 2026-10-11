@@ -97,6 +97,14 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   `--shadow-card` (resting cards, panels, media) and `--shadow-float` (hover
   lift, carousel arrows, stickers, the FAQ modal).
 
+### Modals
+
+- Every dialog uses the shared shell in `components/Modal.css`
+  (`.modal__overlay / __dialog / __scroll / __title / __close`): width
+  `min(560px, 100%)`, `--r-lg`, `--shadow-float`, padding `1.75rem 2rem 2rem`,
+  heading font 26px blue, and the pinned rotated "✕" badge top-right.
+  Only the content inside differs. No subtitle lines under modal titles.
+
 ### Empty states
 
 - Every "nothing here yet" screen (empty cart, empty checkout) uses the shared

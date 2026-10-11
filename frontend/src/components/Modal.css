@@ -1,0 +1,70 @@
+/* ── Shared modal recipe ───────────────────────────────────────────────────
+   Every dialog in the app (FAQ, confirm order, …) uses this exact shell so
+   they look identical: same width, radius, shadow, padding, and the pinned
+   "x" close badge. Content inside is per-modal. */
+.modal__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: pageFade var(--dur-fast) var(--ease-standard) both;
+}
+
+.modal__dialog {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: 80vh;
+  overflow-y: visible;
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  padding: 1.75rem 2rem 2rem;
+  box-shadow: var(--shadow-float);
+  animation: fadeUp var(--dur-med) var(--ease-spring) both;
+}
+
+/* scrollable body, scrollbar hidden */
+.modal__scroll {
+  max-height: calc(80vh - 4rem);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.modal__scroll::-webkit-scrollbar { display: none; }
+
+.modal__title {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  color: var(--brand-blue);
+  margin-bottom: 1.25rem;
+}
+
+/* close badge pinned onto the top-right corner, half outside */
+.modal__close {
+  position: absolute;
+  top: -14px;
+  right: -12px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--brand-blue);
+  box-shadow: var(--shadow-float);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transform: rotate(12deg);
+  transition: transform var(--dur-fast) var(--ease-spring);
+}
+
+.modal__close:hover:not(:disabled) { transform: rotate(-5deg) scale(1.08); }
+.modal__close:disabled { opacity: 0.55; cursor: not-allowed; }

@@ -1,43 +1,4 @@
-/* same overlay/dialog recipe as the FAQ modal */
-.confirm__overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  animation: pageFade var(--dur-fast) var(--ease-standard) both;
-}
-
-.confirm__dialog {
-  width: min(520px, 100%);
-  max-height: 85vh;
-  overflow-y: auto;
-  background: var(--surface);
-  border-radius: var(--r-lg);
-  padding: 1.75rem 2rem 2rem;
-  box-shadow: var(--shadow-float);
-  animation: fadeUp var(--dur-med) var(--ease-spring) both;
-  scrollbar-width: none;
-}
-
-.confirm__dialog::-webkit-scrollbar { display: none; }
-
-.confirm__title {
-  font-family: var(--font-heading);
-  font-size: 26px;
-  color: var(--brand-blue);
-}
-
-.confirm__sub {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--text-muted);
-  margin: 0.25rem 0 1.25rem;
-}
+/* content of the confirm-order modal; the shell comes from Modal.css */
 
 /* who / where */
 .confirm__meta {

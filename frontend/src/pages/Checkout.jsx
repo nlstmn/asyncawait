@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { COUNTRIES, DIAL_CODES } from '../data/countries'
-import { formatPrice } from '../utils/format'
+import { formatPrice, itemLabel } from '../utils/format'
+import { placeOrder as sendOrder } from '../utils/orders'
 import { ICONS } from '../components/icons'
 import Typewriter from '../components/Typewriter'
 import ConfirmOrderModal from '../components/ConfirmOrderModal'
@@ -47,12 +48,13 @@ export default function Checkout() {
     setConfirming(true)
   }
 
-  const placeOrder = () => {
+  const placeOrder = async () => {
     setStatus('submitting')
-    // static site: no backend — simulate an async "commit" and confirm locally
-    setTimeout(() => {
+    try {
+      // POSTs to the Netlify function, which emails the customer + the shop
+      const { id } = await sendOrder({ form, items, total: subtotal })
       setOrder({
-        id: Math.floor(1000 + Math.random() * 9000),
+        id,
         name: `${form.firstName} ${form.lastName}`.trim(),
         email: form.email,
         total: subtotal,
@@ -61,7 +63,11 @@ export default function Checkout() {
       setStatus('done')
       clear()
       window.scrollTo(0, 0) // success screen starts at the top (esp. mobile)
-    }, 700)
+    } catch (err) {
+      setConfirming(false)
+      setStatus('error')
+      setError(err.message || "couldn't place the order — try again or email us")
+    }
   }
 
   if (status === 'done' && order) {
@@ -253,7 +259,7 @@ export default function Checkout() {
             {items.map(item => (
               <li key={item.id} className="checkout__item">
                 <span className="checkout__item-name">
-                  {item.name} <span className="checkout__item-qty">×{item.quantity}</span>
+                  {itemLabel(item, items)} <span className="checkout__item-qty">×{item.quantity}</span>
                 </span>
                 <span className="checkout__item-price">
                   {formatPrice(item.price * item.quantity)}

@@ -5,6 +5,10 @@
   command = "npm run build"
   publish = "dist"
 
+# serverless functions (order emails) — path is relative to `base`
+[functions]
+  directory = "netlify/functions"
+
 # SPA fallback: client-side routes like /product/:id must resolve to index.html
 # (also declared in frontend/public/_redirects as the canonical Vite pattern).
 [[redirects]]

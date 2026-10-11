@@ -32,6 +32,7 @@ export function CartProvider({ children }) {
       return [...prev, {
         id: product.id,
         name: product.name,
+        finish: product.finish,
         price: product.price,
         image_url: product.image_url,
         quantity: clampQty(quantity),
