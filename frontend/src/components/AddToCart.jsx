@@ -9,8 +9,9 @@ import './AddToCart.css'
  * clickable product card.
  */
 export default function AddToCart({ product, variant = 'card' }) {
-  const { items, addItem, setQty } = useCart()
+  const { items, addItem, setQty, maxPerItem } = useCart()
   const inCart = items.find(i => i.id === product.id)?.quantity || 0
+  const atMax = inCart >= maxPerItem
   const stop = (e) => e.stopPropagation()
 
   if (!product.in_stock) {
@@ -33,7 +34,9 @@ export default function AddToCart({ product, variant = 'card' }) {
         <button
           className="atc-step__btn"
           onClick={(e) => { stop(e); setQty(product.id, inCart + 1) }}
-          aria-label={`Add one more ${product.name}`}
+          disabled={atMax}
+          title={atMax ? `max ${maxPerItem} per mug` : undefined}
+          aria-label={atMax ? `Maximum ${maxPerItem} per mug` : `Add one more ${product.name}`}
         >+</button>
       </div>
     )

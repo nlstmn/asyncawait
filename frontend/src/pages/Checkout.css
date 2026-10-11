@@ -208,38 +208,14 @@
   color: var(--brand-blue);
 }
 
-/* ── Success ── */
-.checkout--done { text-align: center; padding-top: 4rem; }
-
-.checkout__success { animation: fadeUp var(--dur-med) var(--ease-standard) both; }
-
-.checkout__check {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  background: var(--brand-green);
-  color: var(--text);
-  font-size: 32px;
-  margin-bottom: 1.25rem;
-  animation: bounce var(--dur-med) var(--ease-spring);
-}
-
-.checkout__success-msg {
-  font-size: 16px;
-  color: var(--text);
-  margin: 0.75rem 0 0.4rem;
-}
-
+/* ── Success — layout comes from the shared .status block (index.css) ── */
 .checkout__oid { font-family: var(--font-mono); color: var(--brand-blue); font-weight: bold; }
 
 .checkout__success-sub {
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--text-muted);
-  margin-bottom: 1.25rem;
+  margin: -1rem 0 1.25rem;   /* tuck under the status subtitle */
 }
 
 .checkout__pay-note {
@@ -254,16 +230,6 @@
   line-height: 1.6;
   color: var(--text);
 }
-
-.checkout__back {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--brand-blue);
-  transition: transform var(--dur-fast) var(--ease-standard);
-}
-
-.checkout__back:hover { transform: translateX(3px); }
 
 @media (max-width: 680px) {
   .checkout__grid { grid-template-columns: 1fr; }

@@ -9,7 +9,7 @@ const FAQ = [
   },
   {
     q: 'do you ship worldwide?',
-    a: 'no — we ship within the EU only. shipping is free for now, and it reaches you in 4–8 days depending on the country.',
+    a: 'no — we ship within the EU only. shipping is free, and it reaches you in 4–8 days depending on the country.',
   },
   {
     q: 'can I return a mug?',
@@ -17,11 +17,11 @@ const FAQ = [
   },
   {
     q: 'are the mugs dishwasher-safe?',
-    a: 'yes. thread-safe too.',
+    a: 'yes, dishwasher and microwave safe. heats your coffee faster than your CI runs.',
   },
   {
     q: 'how do I reach a human?',
-    a: 'Instagram, WhatsApp, or email — all linked below. we’re async, but we do respond.',
+    a: 'Instagram, WhatsApp, or email — all linked below. we’re async, but we do respond fast.',
   },
 ]
 
@@ -52,7 +52,7 @@ export default function FaqModal({ onClose }) {
         </button>
 
         <div className="faq__scroll">
-          <h2 className="faq__title">faq</h2>
+          <h2 className="faq__title">FAQ</h2>
 
           <dl className="faq__list">
             {FAQ.map(({ q, a }) => (

@@ -55,7 +55,8 @@
   transition: background var(--dur-fast) var(--ease-standard);
 }
 
-.atc-step__btn:hover { background: color-mix(in srgb, var(--brand-green) 80%, black); }
+.atc-step__btn:hover:not(:disabled) { background: color-mix(in srgb, var(--brand-green) 80%, black); }
+.atc-step__btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .atc-step--card   .atc-step__btn { width: 26px; height: 26px; }
 .atc-step--detail .atc-step__btn { width: 34px; height: 34px; }

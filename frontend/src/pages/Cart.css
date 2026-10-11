@@ -22,7 +22,7 @@
   margin-top: 0.35rem;
 }
 
-/* empty-cart state now uses the shared .empty-state pattern (see index.css) */
+/* empty-cart state now uses the shared .status pattern (see index.css) */
 
 .cart__continue {
   display: inline-block;
@@ -97,7 +97,8 @@
               color var(--dur-fast) var(--ease-standard);
 }
 
-.cart__qty-btn:hover { background: var(--surface-hover); color: var(--brand-blue); }
+.cart__qty-btn:hover:not(:disabled) { background: var(--surface-hover); color: var(--brand-blue); }
+.cart__qty-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
 .cart__qty-value {
   font-family: var(--font-mono);

@@ -68,7 +68,7 @@
    One treatment for every "nothing here yet" screen (empty cart, empty
    checkout): title, blue icon, typewriter subtitle, filled CTA — identical
    layout and vertical position on every page. */
-.empty-state {
+.status {
   max-width: 780px;
   margin: 0 auto;
   padding: 5rem 1.5rem;
@@ -76,7 +76,7 @@
   animation: fadeUp var(--dur-med) var(--ease-standard) both;
 }
 
-.empty-state__title {
+.status__title {
   font-family: var(--font-display);
   font-size: 35px;
   font-weight: normal;
@@ -84,17 +84,32 @@
   letter-spacing: -0.02em;
 }
 
-.empty-state__icon { display: block; color: var(--brand-blue); margin: 1.75rem 0; }
-.empty-state__icon svg { width: 52px; height: 52px; display: inline-block; }
+.status__icon { display: block; color: var(--brand-blue); margin: 1.75rem 0; }
+.status__icon svg { width: 52px; height: 52px; display: inline-block; }
 
-.empty-state__sub {
+/* success variant: the same icon slot, as a green check circle */
+.status__icon--ok {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 1.5rem auto;
+  border-radius: 50%;
+  background: var(--brand-green);
+  color: var(--text);
+  font-size: 28px;
+  animation: bounce var(--dur-med) var(--ease-spring);
+}
+
+.status__sub {
   font-family: var(--font-mono);
   font-size: 14px;
   color: var(--text-muted);
   margin: 0 0 1.75rem;
 }
 
-.empty-state__btn {
+.status__btn {
   display: inline-block;
   background: var(--brand-blue);
   color: #fff;
@@ -110,7 +125,7 @@
               opacity var(--dur-fast) var(--ease-standard);
 }
 
-.empty-state__btn:hover { transform: translateY(-2px); opacity: 0.92; }
+.status__btn:hover { transform: translateY(-2px); opacity: 0.92; }
 
 /* ── Shared keyframes ─────────────────────────────────────────────────────── */
 @keyframes fadeUp {

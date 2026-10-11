@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { MAX_PER_ITEM } from '../data/products'
 
 const CartContext = createContext(null)
+const clampQty = (q) => Math.min(q, MAX_PER_ITEM)
 const STORAGE_KEY = 'asyncdrip_cart'
 
 function loadCart() {
@@ -24,7 +26,7 @@ export function CartProvider({ children }) {
       const existing = prev.find(i => i.id === product.id)
       if (existing) {
         return prev.map(i =>
-          i.id === product.id ? { ...i, quantity: i.quantity + quantity } : i
+          i.id === product.id ? { ...i, quantity: clampQty(i.quantity + quantity) } : i
         )
       }
       return [...prev, {
@@ -32,14 +34,14 @@ export function CartProvider({ children }) {
         name: product.name,
         price: product.price,
         image_url: product.image_url,
-        quantity,
+        quantity: clampQty(quantity),
       }]
     })
   }
 
   function setQty(id, quantity) {
     if (quantity < 1) return removeItem(id)
-    setItems(prev => prev.map(i => (i.id === id ? { ...i, quantity } : i)))
+    setItems(prev => prev.map(i => (i.id === id ? { ...i, quantity: clampQty(quantity) } : i)))
   }
 
   function removeItem(id) {
@@ -55,7 +57,7 @@ export function CartProvider({ children }) {
     subtotal: items.reduce((sum, i) => sum + i.price * i.quantity, 0),
   }), [items])
 
-  const value = { items, addItem, setQty, removeItem, clear, count, subtotal }
+  const value = { items, addItem, setQty, removeItem, clear, count, subtotal, maxPerItem: MAX_PER_ITEM }
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

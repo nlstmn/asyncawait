@@ -31,7 +31,8 @@ export default function ProductCard({ product, index = 0 }) {
       </div>
 
       <div className="card__chips">
-        <span className="card__chip">{product.category}</span>
+        <span className="card__chip">{product.finish}</span>
+        <span className="card__chip">{product.color}</span>
         {CHIPS.map(chip => (
           <span key={chip} className="card__chip">{chip}</span>
         ))}

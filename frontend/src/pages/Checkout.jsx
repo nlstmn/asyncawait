@@ -5,6 +5,7 @@ import { COUNTRIES, DIAL_CODES } from '../data/countries'
 import { formatPrice } from '../utils/format'
 import { ICONS } from '../components/icons'
 import Typewriter from '../components/Typewriter'
+import ConfirmOrderModal from '../components/ConfirmOrderModal'
 import './Checkout.css'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -19,6 +20,7 @@ export default function Checkout() {
   const [status, setStatus] = useState('idle') // idle | submitting | done | error
   const [error, setError] = useState(null)
   const [order, setOrder] = useState(null)
+  const [confirming, setConfirming] = useState(false) // confirm-order modal open
 
   // selecting a country resets the (now-stale) city choice
   const update = (e) => {
@@ -37,10 +39,16 @@ export default function Checkout() {
     form.firstName.trim() && form.lastName.trim() && form.address.trim() &&
     form.country && form.city && emailOk && emailsMatch && phoneOk && postalOk
 
+  // submitting the form only opens the confirm modal; the order is placed
+  // from there
   const handleSubmit = (e) => {
     e.preventDefault()
-    setStatus('submitting')
     setError(null)
+    setConfirming(true)
+  }
+
+  const placeOrder = () => {
+    setStatus('submitting')
     // static site: no backend — simulate an async "commit" and confirm locally
     setTimeout(() => {
       setOrder({
@@ -49,6 +57,7 @@ export default function Checkout() {
         email: form.email,
         total: subtotal,
       })
+      setConfirming(false)
       setStatus('done')
       clear()
       window.scrollTo(0, 0) // success screen starts at the top (esp. mobile)
@@ -56,35 +65,34 @@ export default function Checkout() {
   }
 
   if (status === 'done' && order) {
+    // same shared layout as the empty-cart / empty-checkout screens
     return (
-      <div className="checkout checkout--done">
-        <div className="checkout__success">
-          <span className="checkout__check">✓</span>
-          <h1 className="checkout__title">order committed!</h1>
-          <p className="checkout__success-msg">
-            thanks {order.name.split(' ')[0]} — order <span className="checkout__oid">#{order.id}</span> is in.
-          </p>
-          <p className="checkout__success-sub">
-            total <strong>{formatPrice(order.total)}</strong> · confirmation sent to {order.email}
-          </p>
-          <p className="checkout__pay-note">
-            check your email 📨 payment is handled manually for now — we'll send
-            you IBAN / Bizum / Revolut details to settle your order before online
-            payment goes live.
-          </p>
-          <Link to="/shop" className="checkout__back">&lt; back to the shop</Link>
-        </div>
+      <div className="status">
+        <h1 className="status__title">order committed!</h1>
+        <span className="status__icon status__icon--ok" aria-hidden="true">✓</span>
+        <p className="status__sub">
+          thanks {order.name.split(' ')[0]} — order <span className="checkout__oid">#{order.id}</span> is in.
+        </p>
+        <p className="checkout__success-sub">
+          total <strong>{formatPrice(order.total)}</strong> · confirmation sent to {order.email}
+        </p>
+        <p className="checkout__pay-note">
+          check your email 📨 payment is handled manually for now — we'll send
+          you IBAN / Bizum / Revolut details to settle your order before online
+          payment goes live.
+        </p>
+        <Link to="/shop" className="status__btn">back to the shop &gt;</Link>
       </div>
     )
   }
 
   if (items.length === 0) {
     return (
-      <div className="empty-state">
-        <h1 className="empty-state__title">checkout</h1>
-        <span className="empty-state__icon" aria-hidden="true">{ICONS.cart}</span>
-        <p className="empty-state__sub"><Typewriter text="nothing to check out yet" /></p>
-        <Link to="/shop" className="empty-state__btn">browse the shop &gt;</Link>
+      <div className="status">
+        <h1 className="status__title">checkout</h1>
+        <span className="status__icon" aria-hidden="true">{ICONS.cart}</span>
+        <p className="status__sub"><Typewriter text="nothing to check out yet" /></p>
+        <Link to="/shop" className="status__btn">browse the shop &gt;</Link>
       </div>
     )
   }
@@ -263,6 +271,17 @@ export default function Checkout() {
           </div>
         </aside>
       </div>
+
+      {confirming && (
+        <ConfirmOrderModal
+          form={form}
+          items={items}
+          total={subtotal}
+          busy={status === 'submitting'}
+          onConfirm={placeOrder}
+          onCancel={() => setConfirming(false)}
+        />
+      )}
     </div>
   )
 }

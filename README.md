@@ -65,7 +65,7 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 - Typewriter taglines/subtitles use the `Typewriter` component and render bold
   via `.typewriter { font-weight: 700 }`. Every page **subtitle** is `14px`.
 - All page **titles** (contact, about, cart, checkout, shop tabs) are `35px`,
-  `--font-display`. The shared empty-state title matches at `35px`.
+  `--font-display`. The shared status title matches at `35px`.
 - **Navbar** links are `15px` **bold**; **footer** links are `13px` **bold**
   (both `--font-mono`, lowercase).
 
@@ -100,7 +100,7 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 ### Empty states
 
 - Every "nothing here yet" screen (empty cart, empty checkout) uses the shared
-  `.empty-state` block in `index.css` — title, blue icon, `Typewriter`
+  `.status` block in `index.css` — title, blue icon, `Typewriter`
   subtitle, filled CTA — so they're pixel-identical in layout and position.
 
 ### Motion

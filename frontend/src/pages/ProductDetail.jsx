@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getProductById, CHIPS } from '../data/products'
+import { getProductById, CHIPS, OK_BINARY } from '../data/products'
 import { formatPrice } from '../utils/format'
 import SmartImage from '../components/SmartImage'
 import AddToCart from '../components/AddToCart'
@@ -18,15 +18,17 @@ function galleryFor(product) {
   return shots
 }
 
-// every mug is handmade to the same brief — shared spec sheet
-const SPECS = [
-  ['capacity', '325 ml'],
-  ['height', '9.5 cm'],
+// same brief for every mug, with the per-mug finish / color / phrase filled in
+const specsFor = (p) => [
+  ['front', p.phrase],
+  ['back', `"ok" in binary · ${OK_BINARY}`],
+  ['finish', `${p.finish}, hand-glazed, food-safe`],
+  ['color', p.color],
+  ['capacity', '480 ml'],
+  ['height', '10 cm'],
   ['diameter', '8 cm'],
   ['material', 'stoneware ceramic'],
-  ['finish', 'hand-glazed, food-safe'],
   ['care', 'dishwasher & microwave safe'],
-  ['made in', 'Barcelona, Spain'],
 ]
 
 export default function ProductDetail() {
@@ -107,14 +109,15 @@ export default function ProductDetail() {
           <p className="pd__desc">{product.description}</p>
 
           <div className="pd__chips">
-            <span className="pd__chip">{product.category}</span>
+            <span className="pd__chip">{product.finish}</span>
+            <span className="pd__chip">{product.color}</span>
             {CHIPS.map(chip => (
               <span key={chip} className="pd__chip">{chip}</span>
             ))}
           </div>
 
           <dl className="pd__specs">
-            {SPECS.map(([label, value]) => (
+            {specsFor(product).map(([label, value]) => (
               <div key={label} className="pd__spec">
                 <dt className="pd__spec-label">{label}</dt>
                 <dd className="pd__spec-value">{value}</dd>

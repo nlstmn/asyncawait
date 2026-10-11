@@ -6,16 +6,16 @@ import Typewriter from '../components/Typewriter'
 import './Cart.css'
 
 export default function Cart() {
-  const { items, setQty, removeItem, clear, subtotal } = useCart()
+  const { items, setQty, removeItem, clear, subtotal, maxPerItem } = useCart()
   const navigate = useNavigate()
 
   if (items.length === 0) {
     return (
-      <div className="empty-state">
-        <h1 className="empty-state__title">your cart</h1>
-        <span className="empty-state__icon" aria-hidden="true">{ICONS.cart}</span>
-        <p className="empty-state__sub"><Typewriter text="no items staged for commit yet" /></p>
-        <Link to="/shop" className="empty-state__btn">browse the shop &gt;</Link>
+      <div className="status">
+        <h1 className="status__title">your cart</h1>
+        <span className="status__icon" aria-hidden="true">{ICONS.cart}</span>
+        <p className="status__sub"><Typewriter text="no items staged for commit yet" /></p>
+        <Link to="/shop" className="status__btn">browse the shop &gt;</Link>
       </div>
     )
   }
@@ -47,7 +47,9 @@ export default function Cart() {
               <button
                 className="cart__qty-btn"
                 onClick={() => setQty(item.id, item.quantity + 1)}
-                aria-label={`Increase quantity of ${item.name}`}
+                disabled={item.quantity >= maxPerItem}
+                title={item.quantity >= maxPerItem ? `max ${maxPerItem} per mug` : undefined}
+                aria-label={item.quantity >= maxPerItem ? `Maximum ${maxPerItem} per mug` : `Increase quantity of ${item.name}`}
               >+</button>
             </div>
 

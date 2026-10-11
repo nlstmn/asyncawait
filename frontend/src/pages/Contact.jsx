@@ -30,7 +30,7 @@ export default function Contact() {
       <header className="contact__header">
         <h1 className="contact__title">contact</h1>
         <p className="contact__subtitle">
-          <Typewriter text="we're async — but we do respond" />
+          <Typewriter text="we're async — but we do respond fast" />
         </p>
       </header>
 
