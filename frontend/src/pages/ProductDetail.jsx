@@ -6,17 +6,8 @@ import SmartImage from '../components/SmartImage'
 import AddToCart from '../components/AddToCart'
 import './ProductDetail.css'
 
-// a few extra shots per mug — random ceramic/coffee photos, seeded by id so
-// each product keeps a stable little gallery across reloads
-const KEYWORDS = ['ceramic,mug', 'coffee,cup', 'espresso,mug', 'latte,ceramic', 'handmade,pottery']
-
-function galleryFor(product) {
-  const shots = [product.image_url]
-  for (let i = 0; i < KEYWORDS.length; i++) {
-    shots.push(`https://loremflickr.com/800/800/${KEYWORDS[i]}?lock=${product.id * 100 + i + 1}`)
-  }
-  return shots
-}
+// the mug's own photos: front (phrase) and back ("ok" in binary)
+const galleryFor = (product) => product.images ?? [product.image_url]
 
 // same brief for every mug, with the per-mug finish / color / phrase filled in
 const specsFor = (p) => [
@@ -124,6 +115,12 @@ export default function ProductDetail() {
               </div>
             ))}
           </dl>
+
+          <p className="pd__note">
+            // handmade, not fabricated — glaze, strokes and lettering vary a
+            little from mug to mug, so yours may differ slightly from the photo.
+            that's the point.
+          </p>
 
           <div className="pd__cart">
             <AddToCart product={product} variant="detail" />

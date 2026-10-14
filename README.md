@@ -71,10 +71,12 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 
 ### Currency
 
-- **All prices are in euros (€).** Never render `$`.
-- Format money through the single helper `formatPrice()` in
-  `src/utils/format.js` (`€` prefix, two decimals) — used by the shop card,
-  product detail, cart, and checkout so currency is identical everywhere.
+- **All prices are in euros.** Never render `$`.
+- European format: **comma decimal, `€` after the number with a space** —
+  `29,99 €`, never `€29.99` or `29,99€`.
+- Format money only through `formatPrice()` in `src/utils/format.js` — used by
+  the shop card, product detail, cart, checkout, and the order emails so
+  currency is identical everywhere.
 
 ### Shape & spacing
 

@@ -2,8 +2,8 @@ import { getProductById } from '../data/products'
 
 // All prices are in euros — single source of money formatting so every page
 // (shop card, product detail, cart, checkout) renders currency identically.
-// European decimal separator: comma, not dot (e.g. €14,99).
-export const formatPrice = (amount) => `€${Number(amount).toFixed(2).replace('.', ',')}`
+// European format: comma decimal, € after the number (e.g. 29,99 €).
+export const formatPrice = (amount) => `${Number(amount).toFixed(2).replace('.', ',')} €`
 
 // Display name for a cart line. Two mugs can share a name and differ only by
 // finish (glossy / matte); when that happens in the same list, append the

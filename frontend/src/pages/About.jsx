@@ -1,7 +1,7 @@
 import Typewriter from '../components/Typewriter'
 import SmartImage from '../components/SmartImage'
-import makerPhoto from '../assets/5924640461664490176.jpg'
-import mugPhoto from '../assets/5812090667579150242.jpg'
+import makerPhoto from '../assets/maker.jpg'
+import mugPhoto from '../assets/push-with-force-mug.jpg'
 import './About.css'
 
 export default function About() {

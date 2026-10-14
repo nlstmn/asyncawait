@@ -3,7 +3,14 @@
 //
 // Three mugs. Every one carries the "ok" signature on the back, written in
 // binary (0110111101101011 = "ok"), and a phrase on the front.
-// Images are placeholders until real product photos are added.
+// Each product has two photos: front (phrase) and back (binary).
+import iwommGlossyFront from '../assets/iwomm-glossy-front.png'
+import iwommGlossyBack from '../assets/iwomm-glossy-back.png'
+import iwommMatteFront from '../assets/iwomm-matte-front.png'
+import iwommMatteBack from '../assets/iwomm-matte-back.png'
+import cantReproduceFront from '../assets/cant-reproduce-front.png'
+import cantReproduceBack from '../assets/cant-reproduce-back.png'
+
 export const PRODUCTS = [
   {
     id: 1,
@@ -13,8 +20,9 @@ export const PRODUCTS = [
     color: 'navy blue',
     description:
       'the classic excuse, hand-glazed glossy. a navy brush stroke on cream stoneware, "ok" in binary on the back.',
-    price: 25.99,
-    image_url: 'https://loremflickr.com/600/600/ceramic,mug,coffee?lock=11',
+    price: 29.99,
+    image_url: iwommGlossyFront,
+    images: [iwommGlossyFront, iwommGlossyBack],
     category: 'mug',
     in_stock: true,
   },
@@ -26,8 +34,9 @@ export const PRODUCTS = [
     color: 'navy blue',
     description:
       'same excuse, quieter surface. a navy brush stroke on matte cream stoneware, "ok" in binary on the back.',
-    price: 25.99,
-    image_url: 'https://loremflickr.com/600/600/coffee,cup,handmade?lock=12',
+    price: 29.99,
+    image_url: iwommMatteFront,
+    images: [iwommMatteFront, iwommMatteBack],
     category: 'mug',
     in_stock: true,
   },
@@ -39,8 +48,9 @@ export const PRODUCTS = [
     color: 'vintage green anthracite',
     description:
       'closed as cannot reproduce. matte vintage green anthracite glaze, "ok" in binary on the back.',
-    price: 25.99,
-    image_url: 'https://loremflickr.com/600/600/espresso,mug?lock=13',
+    price: 29.99,
+    image_url: cantReproduceFront,
+    images: [cantReproduceFront, cantReproduceBack],
     category: 'mug',
     in_stock: true,
   },

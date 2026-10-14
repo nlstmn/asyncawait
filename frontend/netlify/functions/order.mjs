@@ -12,14 +12,14 @@
 // The catalogue is duplicated here on purpose: functions can't import from
 // the Vite app, and the server must be the source of truth for prices.
 const CATALOGUE = {
-  1: { name: 'it works on my machine', finish: 'glossy', price: 25.99 },
-  2: { name: 'it works on my machine', finish: 'matte', price: 25.99 },
-  3: { name: "can't reproduce", finish: 'matte', price: 25.99 },
+  1: { name: 'it works on my machine', finish: 'glossy', price: 29.99 },
+  2: { name: 'it works on my machine', finish: 'matte', price: 29.99 },
+  3: { name: "can't reproduce", finish: 'matte', price: 29.99 },
 }
 const MAX_PER_ITEM = 3
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const eur = (n) => `€${Number(n).toFixed(2).replace('.', ',')}`
+const eur = (n) => `${Number(n).toFixed(2).replace('.', ',')} €`
 const json = (status, body) => new Response(JSON.stringify(body), {
   status,
   headers: { 'Content-Type': 'application/json' },

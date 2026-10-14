@@ -191,6 +191,15 @@
   text-align: right;
 }
 
+/* handmade disclaimer under the spec sheet */
+.pd__note {
+  margin-top: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--accent-green);
+}
+
 .pd__cart { margin-top: 1.75rem; }
 
 @media (max-width: 680px) {
