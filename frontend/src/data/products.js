@@ -4,12 +4,12 @@
 // Three mugs. Every one carries the "ok" signature on the back, written in
 // binary (0110111101101011 = "ok"), and a phrase on the front.
 // Each product has two photos: front (phrase) and back (binary).
-import iwommGlossyFront from '../assets/iwomm-glossy-front.png'
-import iwommGlossyBack from '../assets/iwomm-glossy-back.png'
-import iwommMatteFront from '../assets/iwomm-matte-front.png'
-import iwommMatteBack from '../assets/iwomm-matte-back.png'
-import cantReproduceFront from '../assets/cant-reproduce-front.png'
-import cantReproduceBack from '../assets/cant-reproduce-back.png'
+import iwommGlossyFront from '../assets/iwomm-glossy-front.jpg'
+import iwommGlossyBack from '../assets/iwomm-glossy-back.jpg'
+import iwommMatteFront from '../assets/iwomm-matte-front.jpg'
+import iwommMatteBack from '../assets/iwomm-matte-back.jpg'
+import cantReproduceFront from '../assets/cant-reproduce-front.jpg'
+import cantReproduceBack from '../assets/cant-reproduce-back.jpg'
 
 export const PRODUCTS = [
   {
