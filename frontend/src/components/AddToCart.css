@@ -24,21 +24,19 @@
   cursor: not-allowed;
 }
 
-.atc--card   { font-size: 12px; padding: 0.5rem 0.95rem; }
-.atc--detail { font-size: 14px; padding: 0.85rem 1.75rem; }
+.atc--card   { font-size: 12px; padding: var(--sp-2) var(--sp-4); }
+.atc--detail { font-size: 14px; padding: var(--sp-4) var(--sp-7); }
 
 /* ── Green +/- quantity stepper (shown once in cart) ── */
 .atc-step {
   display: inline-flex;
   align-items: center;
-  gap: 0.15rem;
+  gap: var(--sp-1);
   background: var(--brand-green);
   color: var(--text);
   border-radius: var(--r-md);
+  padding: var(--sp-1);
 }
-
-.atc-step--card   { padding: 0.15rem; }
-.atc-step--detail { padding: 0.25rem; }
 
 .atc-step__btn {
   display: flex;

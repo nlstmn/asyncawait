@@ -48,6 +48,8 @@ rules so the UI stays consistent.
 | `--text`          | `#1a1a1a`  | body text                            |
 | `--text-muted`    | `#888`     | secondary text                       |
 | `--error`         | `#cc4444`  | destructive (empty cart, remove)     |
+| `--paper-kraft`   | `#d2b48c`  | material: the kraft swing tag        |
+| `--rope`          | `#8b6b43`  | material: twine, tag hole, tag edge  |
 
 Light theme only (no dark mode). There are exactly **two greens**: `--brand-green`
 (lime — button / stepper / sticker backgrounds) and `--accent-green` (darker,
@@ -92,7 +94,17 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 - Both quantity steppers (the shared `AddToCart` green stepper and the cart
   page's qty control) share one shape: `--r-md` container, `--r-sm` buttons,
   `15px` glyph/count text.
-- Page container gutter is `1.5rem`; content max-width is **`780px`** for
+- **Spacing uses the `--sp-*` scale** (defined in `index.css`) for every
+  padding, gap and margin — never a raw `px`/`rem` spacing value:
+  `--sp-1 4` · `--sp-2 8` · `--sp-3 12` · `--sp-4 16` · `--sp-5 20` ·
+  `--sp-6 24` · `--sp-7 32` · `--sp-8 48` · `--sp-9 80`. Conventions:
+  chips `sp-1 sp-3`; table cells `sp-3 sp-4`; bordered panels `sp-4`–`sp-6`;
+  primary CTAs `sp-4 sp-6` (wide ones `sp-4 sp-7`); page padding is
+  **symmetric** top/bottom — `sp-8 sp-6` (shop-width pages `sp-7 sp-6`);
+  section gaps `sp-7`. Negative offsets are
+  `calc(var(--sp-n) * -1)`. Element *sizes* (icon 40px, thumb 56px) are not
+  spacing and stay literal.
+- Page gutter is `--sp-6`; content max-width is **`780px`** for
   cart / checkout / contact / about, and `1100px` for shop / product detail.
 - `--nav-height: 60px`, `--footer-height: 52px`.
 - **Elevation uses exactly two shadow tokens** — never a bespoke shadow:
@@ -106,6 +118,25 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   `min(560px, 100%)`, `--r-lg`, `--shadow-float`, padding `1.75rem 2rem 2rem`,
   heading font 26px blue, and the pinned rotated "✕" badge top-right.
   Only the content inside differs. No subtitle lines under modal titles.
+
+### Tables, tags & badges
+
+- **Bordered tables use the shared `.table` / `.table__row` classes** in
+  `index.css` (product spec sheet, confirm-order items): outer `1px --border`
+  with `--r-md`, rows split by `1px --border`, cells `sp-3 sp-4`, mono 13px.
+  A closing total row is `.table__row--total` (18px bold blue) with its label
+  in `.table__label`. Don't hand-roll another bordered list.
+- **Pinned badge** (contact cards): a 40px round `--surface` badge pinned half
+  outside the panel's top-left corner (`calc(var(--sp-4) * -1)` /
+  `calc(var(--sp-3) * -1)`), `--accent-green` icon, `--shadow-float`, resting
+  at `rotate(-12deg)` and springing to `rotate(5deg) scale(1.08)` on hover.
+- **Kraft swing tag** (product detail): the description is a separate prop
+  lying beside the photo box, never on the photo — 160px `--paper-kraft`
+  card, pointed left end with a `--rope` hole, mono 11px, `rotate(-3deg)`,
+  `drop-shadow(var(--shadow-card))`, tied to the box's right edge with a
+  two-stroke `--rope` twine (hidden when the layout stacks on mobile).
+- Don't invent a fourth tag style.
+- Product-detail copy is `user-select: none` on purpose.
 
 ### Empty states
 

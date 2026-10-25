@@ -55,20 +55,19 @@ export default function ConfirmOrderModal({ form, items, total, busy, onConfirm,
             </div>
           </dl>
 
-          <ul className="confirm__items">
+          <div className="confirm__table table">
             {items.map(item => (
-              <li key={item.id} className="confirm__item">
+              <div key={item.id} className="table__row">
                 <span className="confirm__item-name">
                   {itemLabel(item, items)} <span className="confirm__item-qty">×{item.quantity}</span>
                 </span>
                 <span className="confirm__item-price">{formatPrice(item.price * item.quantity)}</span>
-              </li>
+              </div>
             ))}
-          </ul>
-
-          <div className="confirm__total">
-            <span>total · free shipping</span>
-            <span>{formatPrice(total)}</span>
+            <div className="table__row table__row--total">
+              <span className="table__label">total · free shipping</span>
+              <span>{formatPrice(total)}</span>
+            </div>
           </div>
 
           <div className="confirm__actions">
