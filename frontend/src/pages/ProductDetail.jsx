@@ -1,12 +1,12 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getProductById, CHIPS, OK_BINARY } from '../data/products'
+import { getProductById, imageFocus, CHIPS, OK_BINARY } from '../data/products'
 import { formatPrice } from '../utils/format'
 import SmartImage from '../components/SmartImage'
 import AddToCart from '../components/AddToCart'
 import './ProductDetail.css'
 
-// the mug's own photos: front (phrase) and back ("ok" in binary)
+// product shots (front phrase, back binary "ok") followed by lifestyle photos
 const galleryFor = (product) => product.images ?? [product.image_url]
 
 // same brief for every mug, with the per-mug finish / color / phrase filled in
@@ -22,12 +22,28 @@ const specsFor = (p) => [
   ['care', 'dishwasher & microwave safe'],
 ]
 
+// the twine from the photo box to the tag's hole (px, matches the CSS offsets)
+const ROPE = 'M 0 10 C 30 17, 64 19, 104 12'
+
 export default function ProductDetail() {
   const { id } = useParams()
   const [active, setActive] = useState(0)
   const touchStartX = useRef(null)
 
   const product = getProductById(id)
+  const gallery = product ? galleryFor(product) : []
+  const go = (dir) => setActive(a => (a + dir + gallery.length) % gallery.length)
+
+  // ← / → keys flip the carousel, same as the arrows and swiping
+  useEffect(() => {
+    if (gallery.length < 2) return
+    const onKey = (e) => {
+      if (e.key === 'ArrowLeft') go(-1)
+      else if (e.key === 'ArrowRight') go(1)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [gallery.length])
 
   if (!product) {
     return (
@@ -37,9 +53,6 @@ export default function ProductDetail() {
       </div>
     )
   }
-
-  const gallery = galleryFor(product)
-  const go = (dir) => setActive(a => (a + dir + gallery.length) % gallery.length)
 
   // let mobile users swipe the carousel left/right by hand, not just the arrows
   const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX }
@@ -64,6 +77,7 @@ export default function ProductDetail() {
               alt={`${product.name} — view ${active + 1}`}
               wrapClassName="pd__stage-img"
               imgClassName="pd__img"
+              style={{ objectPosition: imageFocus(gallery[active]) }}
             />
             {!product.in_stock && <span className="pd__badge">sold out</span>}
 
@@ -87,7 +101,7 @@ export default function ProductDetail() {
                 onClick={() => setActive(i)}
                 aria-label={`View image ${i + 1}`}
               >
-                <img src={src} alt="" loading="lazy" />
+                <img src={src} alt="" loading="lazy" style={{ objectPosition: imageFocus(src) }} />
               </button>
             ))}
           </div>
@@ -97,7 +111,15 @@ export default function ProductDetail() {
         <div className="pd__info">
           <h1 className="pd__name">{product.name}</h1>
           <p className="pd__price">{formatPrice(product.price)}</p>
-          <p className="pd__desc">{product.description}</p>
+
+          {/* kraft swing tag lying beside the photo box, tied to it with twine */}
+          <aside className="pd__tag">
+            <svg className="pd__tag-rope" width="104" height="24" aria-hidden="true">
+              <path className="pd__tag-rope-core" d={ROPE} />
+              <path className="pd__tag-rope-twist" d={ROPE} />
+            </svg>
+            <p className="pd__tag-card">{product.description}</p>
+          </aside>
 
           <div className="pd__chips">
             <span className="pd__chip">{product.finish}</span>
@@ -107,9 +129,9 @@ export default function ProductDetail() {
             ))}
           </div>
 
-          <dl className="pd__specs">
+          <dl className="pd__specs table">
             {specsFor(product).map(([label, value]) => (
-              <div key={label} className="pd__spec">
+              <div key={label} className="table__row">
                 <dt className="pd__spec-label">{label}</dt>
                 <dd className="pd__spec-value">{value}</dd>
               </div>
