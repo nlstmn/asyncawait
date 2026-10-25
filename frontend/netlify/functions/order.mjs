@@ -8,6 +8,7 @@
 //   ORDER_FROM       verified sender, e.g. "async/await drip <orders@yourdomain>"
 //   ORDER_TO         where shop notifications go (your inbox)
 //   PAY_IBAN, PAY_BIZUM, PAY_REVOLUT   payment details shown to the customer
+//   PAY_NAME         account holder, shown after the IBAN and Bizum number
 //
 // The catalogue is duplicated here on purpose: functions can't import from
 // the Vite app, and the server must be the source of truth for prices.
@@ -102,12 +103,27 @@ const label = (line, lines) =>
   lines.some(o => o !== line && o.name === line.name) ? `${line.name} · ${line.finish}` : line.name
 
 function customerEmail({ id, customer, lines, total }) {
+  // same bordered table as the site's .table: 1px #ddd frame, 12px radius,
+  // 12/16px cells, blue prices, muted total label with the bold blue amount
+  const cell = 'padding:12px 16px;border-bottom:1px solid #ddd'
   const rows = lines.map(l =>
-    `<tr><td style="padding:6px 0">${esc(label(l, lines))} ×${l.quantity}</td><td align="right">${eur(l.subtotal)}</td></tr>`
+    `<tr><td style="${cell}">${esc(label(l, lines))} <span style="color:#004ECC;font-size:12px;font-weight:bold">×${l.quantity}</span></td>` +
+    `<td align="right" style="${cell};color:#004ECC;white-space:nowrap">${eur(l.subtotal)}</td></tr>`
   ).join('')
+  // the customer's own details, so they can spot a typo before we ship
+  const details = [
+    ['name', `${customer.firstName} ${customer.lastName}`],
+    ['email', customer.email],
+    ['phone', customer.phone],
+    ['ships to', `${customer.address}, ${customer.postal} ${customer.city}, ${customer.country}`],
+  ].map(([k, v], i, all) =>
+    `<tr><td style="${i < all.length - 1 ? cell : 'padding:12px 16px'};color:#888;white-space:nowrap">${k}</td>` +
+    `<td style="${i < all.length - 1 ? cell : 'padding:12px 16px'}">${esc(v)}</td></tr>`
+  ).join('')
+  const holder = process.env.PAY_NAME ? ` · ${esc(process.env.PAY_NAME)}` : ''
   const pay = [
-    process.env.PAY_IBAN && `IBAN: ${esc(process.env.PAY_IBAN)}`,
-    process.env.PAY_BIZUM && `Bizum: ${esc(process.env.PAY_BIZUM)}`,
+    process.env.PAY_IBAN && `IBAN: ${esc(process.env.PAY_IBAN)}${holder}`,
+    process.env.PAY_BIZUM && `Bizum: ${esc(process.env.PAY_BIZUM)}${holder}`,
     process.env.PAY_REVOLUT && `Revolut: ${esc(process.env.PAY_REVOLUT)}`,
   ].filter(Boolean).join('<br>')
 
@@ -117,16 +133,18 @@ function customerEmail({ id, customer, lines, total }) {
 <div style="font-family:'Courier New',monospace;color:#1a1a1a;max-width:520px;margin:0 auto;line-height:1.6">
   <h1 style="font-size:22px;color:#004ECC;margin:0 0 4px">order #${id} committed!</h1>
   <p style="margin:0 0 20px">thanks ${esc(customer.firstName)} — your mugs are staged.</p>
-  <table width="100%" style="border-collapse:collapse;font-size:14px">${rows}
-    <tr><td style="padding-top:10px;border-top:1px solid #ddd"><strong>total · free shipping</strong></td>
-        <td align="right" style="padding-top:10px;border-top:1px solid #ddd"><strong>${eur(total)}</strong></td></tr>
+  <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px">${rows}
+    <tr><td style="padding:12px 16px;color:#888">total · free shipping</td>
+        <td align="right" style="padding:12px 16px;font-size:18px;font-weight:bold;color:#004ECC;white-space:nowrap">${eur(total)}</td></tr>
   </table>
   <p style="margin:20px 0 6px"><strong>how to pay</strong></p>
   <p style="margin:0 0 6px">payment is manual for now. send ${eur(total)} to one of:</p>
   <p style="margin:0 0 20px;background:#f0f4ff;padding:10px 12px;border-radius:8px">${pay || 'we will send you payment details shortly.'}</p>
   <p style="margin:0 0 20px">put <strong>#${id}</strong> in the transfer note and reply to this email with the receipt. once it's confirmed we ship within 2–4 business days and send you photos of your mugs before they go.</p>
-  <p style="font-size:12px;color:#888;margin:0">ships to: ${esc(customer.address)}, ${esc(customer.postal)} ${esc(customer.city)}, ${esc(customer.country)}</p>
-  <p style="font-size:12px;color:#888;margin:16px 0 0">// async/await drip · made in Barcelona · @asyncdrip</p>
+  <p style="margin:0 0 6px"><strong>your details</strong></p>
+  <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px">${details}</table>
+  <p style="margin:6px 0 20px;font-size:12px;color:#888">something off? reply to this email and we'll fix it before it ships.</p>
+  <p style="font-size:12px;color:#888;margin:16px 0 0">© ${new Date().getFullYear()} async/await drip · made in Barcelona · @asyncdrip</p>
 </div>`,
   }
 }
