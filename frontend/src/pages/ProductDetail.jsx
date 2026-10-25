@@ -70,6 +70,11 @@ export default function ProductDetail() {
       <div className="pd__grid">
         {/* ── Carousel ── */}
         <div className="pd__carousel">
+          {/* rendered swing tag overlaying the top-left corner of the carousel */}
+          {product.tag && (
+            <img className="pd__tag-img" src={product.tag} alt={product.description} />
+          )}
+
           <div className="pd__stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
             <SmartImage
               key={active}
@@ -112,14 +117,17 @@ export default function ProductDetail() {
           <h1 className="pd__name">{product.name}</h1>
           <p className="pd__price">{formatPrice(product.price)}</p>
 
-          {/* kraft swing tag lying beside the photo box, tied to it with twine */}
-          <aside className="pd__tag">
-            <svg className="pd__tag-rope" width="104" height="24" aria-hidden="true">
-              <path className="pd__tag-rope-core" d={ROPE} />
-              <path className="pd__tag-rope-twist" d={ROPE} />
-            </svg>
-            <p className="pd__tag-card">{product.description}</p>
-          </aside>
+          {/* mugs without a rendered tag image get the CSS kraft tag, tied to
+              the photo box */}
+          {!product.tag && (
+            <aside className="pd__tag">
+              <svg className="pd__tag-rope" width="104" height="24" aria-hidden="true">
+                <path className="pd__tag-rope-core" d={ROPE} />
+                <path className="pd__tag-rope-twist" d={ROPE} />
+              </svg>
+              <p className="pd__tag-card">{product.description}</p>
+            </aside>
+          )}
 
           <div className="pd__chips">
             <span className="pd__chip">{product.finish}</span>

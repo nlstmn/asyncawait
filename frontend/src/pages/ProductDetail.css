@@ -40,6 +40,21 @@
 }
 
 /* ── Carousel ── */
+.pd__carousel { position: relative; }
+
+/* rendered swing tag (per-mug PNG, description baked in) hanging over the
+   top-left corner of the photo box, rope loop poking past the edge */
+.pd__tag-img {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--sp-6) * -1);
+  left: calc(var(--sp-6) * -1);
+  width: 180px;
+  height: auto;
+  filter: drop-shadow(var(--shadow-float));
+  pointer-events: none;   /* swipes and clicks go to the photo */
+}
+
 .pd__stage {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -244,4 +259,5 @@
   /* stacked layout: the box is above, so the twine has nothing to tie to */
   .pd__tag { margin-left: 0; }
   .pd__tag-rope { display: none; }
+  .pd__tag-img { width: 130px; top: calc(var(--sp-4) * -1); left: calc(var(--sp-3) * -1); }
 }

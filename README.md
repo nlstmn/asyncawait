@@ -130,11 +130,13 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   outside the panel's top-left corner (`calc(var(--sp-4) * -1)` /
   `calc(var(--sp-3) * -1)`), `--accent-green` icon, `--shadow-float`, resting
   at `rotate(-12deg)` and springing to `rotate(5deg) scale(1.08)` on hover.
-- **Kraft swing tag** (product detail): the description is a separate prop
-  lying beside the photo box, never on the photo — 160px `--paper-kraft`
-  card, pointed left end with a `--rope` hole, mono 11px, `rotate(-3deg)`,
-  `drop-shadow(var(--shadow-card))`, tied to the box's right edge with a
-  two-stroke `--rope` twine (hidden when the layout stacks on mobile).
+- **Swing tag** (product detail): the description is a separate prop lying
+  beside the photo box, never on the photo. A mug with a rendered tag image
+  (`tag` in `products.js`, transparent PNG, e.g. `iwomm-glossy-tag.png`)
+  shows it at 200px with `drop-shadow(var(--shadow-card))`. Mugs without one
+  get the CSS fallback: 160px `--paper-kraft` card, pointed left end with a
+  `--rope` hole, mono 11px, `rotate(-3deg)`, tied to the box's right edge
+  with a two-stroke `--rope` twine (hidden when the layout stacks on mobile).
 - Don't invent a fourth tag style.
 - Product-detail copy is `user-select: none` on purpose.
 

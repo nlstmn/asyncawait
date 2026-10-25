@@ -26,6 +26,9 @@ import duoWall from '../assets/duo-wall.jpg'     // can't reproduce on iwomm (ba
 import duoStool from '../assets/duo-stool.jpg'   // can't reproduce (back) on iwomm
 import collectionTray from '../assets/collection-tray.jpg'
 import collectionHeld from '../assets/collection-held.jpg'
+// rendered hang tag (transparent PNG) carrying the description — per mug;
+// mugs without one fall back to the CSS kraft tag
+import iwommGlossyTag from '../assets/iwomm-glossy-tag.png'
 
 export const PRODUCTS = [
   {
@@ -37,6 +40,7 @@ export const PRODUCTS = [
     description:
       'the classic excuse, hand-glazed glossy. a navy brush stroke on cream stoneware, "ok" in binary on the back.',
     price: 29.99,
+    tag: iwommGlossyTag,
     image_url: iwommGlossyFront,
     images: [
       iwommGlossyFront, iwommGlossyBack,
