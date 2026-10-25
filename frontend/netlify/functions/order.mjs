@@ -11,6 +11,8 @@
 //
 // The catalogue is duplicated here on purpose: functions can't import from
 // the Vite app, and the server must be the source of truth for prices.
+import { getStore } from '@netlify/blobs'
+
 const CATALOGUE = {
   1: { name: 'it works on my machine', finish: 'glossy', price: 29.99 },
   2: { name: 'it works on my machine', finish: 'matte', price: 29.99 },
@@ -18,6 +20,50 @@ const CATALOGUE = {
 }
 const MAX_PER_ITEM = 3
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// Rate limit: at most RATE_LIMIT order attempts per IP per RATE_WINDOW_MS,
+// counted in Netlify Blobs (one small JSON record per IP). Stops a script
+// from flooding the inbox / burning the Resend quota with fake orders.
+const RATE_LIMIT = 5
+const RATE_WINDOW_MS = 60 * 60 * 1000
+
+const clientIp = (req) =>
+  req.headers.get('x-nf-client-connection-ip')
+  || req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+  || 'unknown'
+
+// Sequential order numbers: #0001, #0002, … kept in a Blobs counter. The
+// conditional write (onlyIfMatch / onlyIfNew) makes two simultaneous orders
+// never share a number — the loser re-reads and tries again.
+async function nextOrderId() {
+  const store = getStore('orders')
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const cur = await store.getWithMetadata('counter', { type: 'text' })
+    const n = (cur ? Number(cur.data) : 0) + 1
+    const res = cur
+      ? await store.set('counter', String(n), { onlyIfMatch: cur.etag })
+      : await store.set('counter', String(n), { onlyIfNew: true })
+    if (res.modified) return String(n).padStart(4, '0')
+  }
+  throw new Error('order counter contention')
+}
+
+async function overLimit(req) {
+  try {
+    const store = getStore('order-rate-limit')
+    const key = clientIp(req).replace(/[^a-zA-Z0-9.:_-]/g, '_')
+    const now = Date.now()
+    const rec = (await store.get(key, { type: 'json' })) || { start: now, count: 0 }
+    if (now - rec.start > RATE_WINDOW_MS) { rec.start = now; rec.count = 0 }
+    rec.count += 1
+    await store.setJSON(key, rec)
+    return rec.count > RATE_LIMIT
+  } catch (err) {
+    // fail open: a storage hiccup must never block a real customer
+    console.error('[order] rate-limit store unavailable', err)
+    return false
+  }
+}
 
 const eur = (n) => `${Number(n).toFixed(2).replace('.', ',')} €`
 const json = (status, body) => new Response(JSON.stringify(body), {
@@ -120,13 +166,24 @@ export default async (req) => {
     return json(500, { error: 'order service not configured' })
   }
 
+  if (await overLimit(req)) {
+    return json(429, { error: 'too many orders from this connection — try again in an hour or email us' })
+  }
+
   let body
   try { body = await req.json() } catch { return json(400, { error: 'bad json' }) }
 
   const v = validate(body)
   if (v.error) return json(v.error === 'spam' ? 200 : 400, v.error === 'spam' ? { id: 0 } : { error: v.error })
 
-  const id = Math.floor(1000 + Math.random() * 9000)
+  let id
+  try {
+    id = await nextOrderId()
+  } catch (err) {
+    // counter unavailable: still take the order, with a time-based number
+    console.error('[order] counter failed, using fallback id', err)
+    id = `T${Date.now().toString().slice(-6)}`
+  }
   const order = { id, ...v }
 
   try {
