@@ -1,11 +1,11 @@
 .about {
-  max-width: 780px;   /* same width as contact / cart */
+  max-width: 1100px;   /* shop width: the photos need the room */
   margin: 0 auto;
-  padding: 3rem 1.5rem 5rem;
+  padding: var(--sp-8) var(--sp-6);
   animation: fadeUp var(--dur-med) var(--ease-standard) both;
 }
 
-.about__header { margin-bottom: 2.5rem; }
+.about__header { margin-bottom: var(--sp-8); }
 
 .about__title {
   font-family: var(--font-display);
@@ -15,44 +15,46 @@
 }
 
 .about__subtitle {
-  margin-top: 0.5rem;
+  margin-top: var(--sp-2);
   font-size: 14px;
   color: var(--text-muted);
   font-family: var(--font-mono);
 }
 
-/* photo + text side by side (stacks on mobile) */
-.about__content {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-}
-
-/* overlapping, slightly-turned photo collage: the maker as the main card,
-   the mug shot pinned over it like a polaroid */
-.about__photos {
-  position: relative;
-  flex: none;
-  width: 300px;
-  height: 360px;
-}
-
+/* ── shared photo card ── */
 .about__photo {
-  position: absolute;
   border-radius: var(--r-lg);
   background: var(--surface-hover);
   overflow: hidden;
-  transition: transform var(--dur-med) var(--ease-spring);
+  transition: transform var(--dur-med) var(--ease-spring),
+              box-shadow var(--dur-med) var(--ease-standard);
 }
 
 .about__photo img { width: 100%; height: 100%; object-fit: cover; }
 
+/* ── Hero: maker collage on the left, the opening lines on the right ── */
+.about__hero {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: var(--sp-8);
+  align-items: center;
+}
+
+/* overlapping, slightly-turned pair: the maker as the main card, the mug
+   shot pinned over its corner like a polaroid */
+.about__collage {
+  position: relative;
+  height: 500px;
+}
+
+.about__collage .about__photo { position: absolute; }
+
 .about__photo--maker {
   top: 0;
   left: 0;
-  width: 212px;
-  height: 292px;
-  transform: rotate(-4deg);
+  width: 300px;
+  height: 400px;
+  transform: rotate(-3deg);
   box-shadow: var(--shadow-card);
   z-index: 1;
 }
@@ -60,8 +62,8 @@
 .about__photo--mug {
   bottom: 0;
   right: 0;
-  width: 172px;
-  height: 226px;
+  width: 220px;
+  height: 280px;
   border: 6px solid var(--surface);   /* white polaroid edge */
   transform: rotate(6deg);
   box-shadow: var(--shadow-float);
@@ -69,29 +71,114 @@
 }
 
 /* on hover the two photos fan apart a touch */
-.about__photos:hover .about__photo--maker { transform: rotate(-6deg) translateX(-4px); }
-.about__photos:hover .about__photo--mug   { transform: rotate(9deg) translate(4px, -4px); }
+.about__collage:hover .about__photo--maker { transform: rotate(-6deg) translateX(-4px); }
+.about__collage:hover .about__photo--mug   { transform: rotate(9deg) translate(4px, -4px); }
 
-.about__body {
+.about__story {
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: var(--sp-5);
   font-size: 16px;
   line-height: 1.7;
   color: var(--text);
 }
 
-@media (max-width: 620px) {
-  .about__content { flex-direction: column; align-items: center; gap: 1.5rem; }
-  .about__photos { margin: 0 auto; }
+/* the opening lines in the display face, like a pull quote */
+.about__lead {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
-.about__body strong { color: var(--brand-blue); }
+/* ── Board: three photos laid on the table at different heights, the
+   sticker and the Barcelona line in the middle ── */
+.about__board {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: var(--sp-7);
+  align-items: start;
+  margin-top: var(--sp-9);
+}
 
-.about__note {
+.about__board .about__photo { display: block; width: 100%; }
+
+.about__photo--pouf {
+  aspect-ratio: 3 / 4;
+  transform: rotate(-4deg);
+  box-shadow: var(--shadow-card);
+}
+
+.about__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+  margin-top: var(--sp-8);   /* sits lower than its neighbours */
+}
+
+.about__stripes-wrap { position: relative; width: 100%; }
+
+.about__photo--stripes {
+  aspect-ratio: 4 / 3;
+  border: 6px solid var(--surface);
+  transform: rotate(2deg);
+  box-shadow: var(--shadow-float);
+}
+
+/* lime sticker slapped over the corner of the stripes photo */
+.about__sticker {
+  position: absolute;
+  top: calc(var(--sp-4) * -1);
+  right: calc(var(--sp-4) * -1);
+  z-index: 2;
+  background: var(--brand-green);
+  color: var(--text);
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
-  color: var(--accent-green);
-  margin-top: 0.5rem;
+  white-space: nowrap;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  transform: rotate(-6deg);
+  box-shadow: var(--shadow-float);
+}
+
+.about__caption {
+  max-width: 360px;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.about__caption strong,
+.about__story strong { color: var(--brand-blue); }
+
+.about__photo--desk {
+  aspect-ratio: 3 / 4;
+  border: 6px solid var(--surface);
+  transform: rotate(3deg);
+  box-shadow: var(--shadow-card);
+  margin-top: var(--sp-7);
+}
+
+/* each board photo straightens and lifts on hover */
+.about__board .about__photo:hover {
+  transform: rotate(0) translateY(-4px);
+  box-shadow: var(--shadow-float);
+}
+
+@media (max-width: 760px) {
+  .about__hero { grid-template-columns: 1fr; gap: var(--sp-6); }
+  .about__collage { width: 300px; height: 380px; margin: 0 auto; }
+  .about__photo--maker { width: 212px; height: 292px; }
+  .about__photo--mug { width: 172px; height: 226px; }
+  .about__lead { font-size: 24px; }
+
+  .about__board { grid-template-columns: 1fr; gap: var(--sp-6); margin-top: var(--sp-8); }
+  .about__board .about__photo,
+  .about__stripes-wrap { max-width: 320px; margin-left: auto; margin-right: auto; }
+  .about__center, .about__photo--desk { margin-top: 0; }
+  .about__sticker { right: var(--sp-2); }
 }
