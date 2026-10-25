@@ -48,8 +48,6 @@ rules so the UI stays consistent.
 | `--text`          | `#1a1a1a`  | body text                            |
 | `--text-muted`    | `#888`     | secondary text                       |
 | `--error`         | `#cc4444`  | destructive (empty cart, remove)     |
-| `--paper-kraft`   | `#d2b48c`  | material: the kraft swing tag        |
-| `--rope`          | `#8b6b43`  | material: twine, tag hole, tag edge  |
 
 Light theme only (no dark mode). There are exactly **two greens**: `--brand-green`
 (lime — button / stepper / sticker backgrounds) and `--accent-green` (darker,
@@ -105,7 +103,7 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   `calc(var(--sp-n) * -1)`. Element *sizes* (icon 40px, thumb 56px) are not
   spacing and stay literal.
 - Page gutter is `--sp-6`; content max-width is **`780px`** for
-  cart / checkout / contact, and `1100px` for shop / product detail / about.
+  cart / checkout / contact / about, and `1100px` for shop / product detail.
 - `--nav-height: 60px`, `--footer-height: 52px`.
 - **Elevation uses exactly two shadow tokens** — never a bespoke shadow:
   `--shadow-card` (resting cards, panels, media) and `--shadow-float` (hover
@@ -119,7 +117,7 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   heading font 26px blue, and the pinned rotated "✕" badge top-right.
   Only the content inside differs. No subtitle lines under modal titles.
 
-### Tables, tags & badges
+### Tables & badges
 
 - **Bordered tables use the shared `.table` / `.table__row` classes** in
   `index.css` (product spec sheet, confirm-order items): outer `1px --border`
@@ -130,14 +128,9 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   outside the panel's top-left corner (`calc(var(--sp-4) * -1)` /
   `calc(var(--sp-3) * -1)`), `--accent-green` icon, `--shadow-float`, resting
   at `rotate(-12deg)` and springing to `rotate(5deg) scale(1.08)` on hover.
-- **Swing tag** (product detail): the description is a separate prop lying
-  beside the photo box, never on the photo. A mug with a rendered tag image
-  (`tag` in `products.js`, transparent PNG, e.g. `iwomm-glossy-tag.png`)
-  shows it at 200px with `drop-shadow(var(--shadow-card))`. Mugs without one
-  get the CSS fallback: 160px `--paper-kraft` card, pointed left end with a
-  `--rope` hole, mono 11px, `rotate(-3deg)`, tied to the box's right edge
-  with a two-stroke `--rope` twine (hidden when the layout stacks on mobile).
-- Don't invent a fourth tag style.
+- **No product tags and no description on the detail page for now** (removed
+  2026-10-25 as noise). `description` stays in `products.js`; the tag PNGs stay
+  in `assets/tags/` unused.
 - Product-detail copy is `user-select: none` on purpose.
 
 ### Empty states
@@ -165,8 +158,8 @@ blue/green blobs behind the content.
 
 - `brand/` logo · `products/` front/back product shots (`<mug>-front.jpg`,
   `<mug>-back.jpg`) · `lifestyle/` photoshoot scenes named by what they show
-  (`iwomm-moka-pour`, `duo-wall`, `collection-held`…) · `tags/` rendered
-  swing-tag PNGs (`<mug>-tag.png`, transparent) · `about/` About-page photos.
+  (`iwomm-moka-pour`, `duo-wall`, `collection-held`…) · `tags/` swing-tag
+  PNGs (`<mug>-tag.png`, transparent; unused for now) · `about/` About-page photos.
 - Photos are JPEG, longest side 1400px, quality ~82; tags are PNG ≤ 720px.
   Nothing lands in the folder root.
 

@@ -42,22 +42,6 @@
 /* ── Carousel ── */
 .pd__carousel { position: relative; }
 
-/* rendered swing tag (per-mug PNG, description baked in) hanging over the
-   top-left corner of the photo box, rope loop poking past the edge */
-.pd__tag-img {
-  position: absolute;
-  z-index: 1;
-  top: calc(var(--sp-7) * -1);
-  left: calc(var(--sp-9) * -1);
-  width: 220px;
-  height: auto;
-  /* swings out to the left from the knot so the card hangs half off the box */
-  transform: rotate(-18deg);
-  transform-origin: 50% 0;
-  filter: drop-shadow(var(--shadow-float));
-  pointer-events: none;   /* swipes and clicks go to the photo */
-}
-
 .pd__stage {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -160,59 +144,6 @@
   margin-top: var(--sp-2);
 }
 
-/* ── Kraft swing tag — a separate prop lying next to the photo box, tied to
-   its right edge with twine. Hole on the left, pointed end, slight tilt. ── */
-.pd__tag {
-  position: relative;
-  width: 160px;
-  margin: var(--sp-5) 0 0 var(--sp-4);
-  filter: drop-shadow(var(--shadow-card));
-}
-
-/* twine: runs from inside the photo box (grid gap + tag margin + a little
-   overlap into the box) to the hole; two strokes read as a twisted rope */
-.pd__tag-rope {
-  position: absolute;
-  top: 50%;
-  left: calc((var(--sp-8) + var(--sp-6) + var(--sp-4)) * -1);
-  transform: translateY(-50%);
-  overflow: visible;
-  fill: none;
-  stroke-linecap: round;
-}
-
-.pd__tag-rope-core  { stroke: var(--rope); stroke-width: 3; }
-.pd__tag-rope-twist { stroke: color-mix(in srgb, var(--rope) 45%, var(--surface)); stroke-width: 1.2; stroke-dasharray: 2 3; }
-
-.pd__tag-card {
-  position: relative;
-  padding: var(--sp-4) var(--sp-4) var(--sp-4) var(--sp-7);
-  background: var(--paper-kraft);
-  border: 1px solid color-mix(in srgb, var(--rope) 35%, var(--paper-kraft));
-  /* pointed left end with the hole, like a luggage / price tag */
-  clip-path: polygon(0 50%, var(--sp-3) 0, 100% 0, 100% 100%, var(--sp-3) 100%);
-  transform: rotate(-3deg);
-  transform-origin: 0 50%;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  line-height: 1.5;
-  color: var(--text);
-}
-
-/* the reinforced hole the twine goes through */
-.pd__tag-card::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: var(--sp-4);
-  width: var(--sp-2);
-  height: var(--sp-2);
-  transform: translate(-50%, -50%);
-  border: 2px solid var(--rope);
-  border-radius: 50%;
-  background: var(--bg);
-}
-
 .pd__chips {
   display: flex;
   flex-wrap: wrap;
@@ -259,8 +190,4 @@
 @media (max-width: 680px) {
   .pd__grid { grid-template-columns: 1fr; gap: var(--sp-6); }
   .pd__name { font-size: 34px; }
-  /* stacked layout: the box is above, so the twine has nothing to tie to */
-  .pd__tag { margin-left: 0; }
-  .pd__tag-rope { display: none; }
-  .pd__tag-img { width: 160px; top: calc(var(--sp-6) * -1); left: calc(var(--sp-8) * -1); }
 }

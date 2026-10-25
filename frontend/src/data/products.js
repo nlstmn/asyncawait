@@ -26,11 +26,6 @@ import duoWall from '../assets/lifestyle/duo-wall.jpg'     // can't reproduce on
 import duoStool from '../assets/lifestyle/duo-stool.jpg'   // can't reproduce (back) on iwomm
 import collectionTray from '../assets/lifestyle/collection-tray.jpg'
 import collectionHeld from '../assets/lifestyle/collection-held.jpg'
-// rendered hang tags (transparent PNGs) carrying each mug's description;
-// a mug without one falls back to the CSS kraft tag
-import iwommGlossyTag from '../assets/tags/iwomm-glossy-tag.png'
-import iwommMatteTag from '../assets/tags/iwomm-matte-tag.png'
-import cantReproduceTag from '../assets/tags/cant-reproduce-tag.png'
 
 export const PRODUCTS = [
   {
@@ -42,7 +37,6 @@ export const PRODUCTS = [
     description:
       'the classic excuse, hand-glazed glossy. a navy brush stroke on cream stoneware, "ok" in binary on the back.',
     price: 29.99,
-    tag: iwommGlossyTag,
     image_url: iwommGlossyFront,
     images: [
       iwommGlossyFront, iwommGlossyBack,
@@ -60,7 +54,6 @@ export const PRODUCTS = [
     description:
       'same excuse, quieter surface. a navy brush stroke on matte cream stoneware, "ok" in binary on the back.',
     price: 29.99,
-    tag: iwommMatteTag,
     image_url: iwommMatteFront,
     images: [
       iwommMatteFront, iwommMatteBack,
@@ -79,7 +72,6 @@ export const PRODUCTS = [
     description:
       'closed as cannot reproduce. matte vintage green anthracite glaze, "ok" in binary on the back.',
     price: 29.99,
-    tag: cantReproduceTag,
     image_url: cantReproduceFront,
     images: [
       cantReproduceFront, cantReproduceBack,

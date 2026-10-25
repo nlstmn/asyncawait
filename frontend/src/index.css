@@ -74,10 +74,6 @@
   --sp-7: 32px;  /* section gaps, CTA horizontal padding */
   --sp-8: 48px;  /* page top padding, header → content */
   --sp-9: 80px;  /* page bottom padding, status-screen padding */
-
-  /* Materials — the physical props (kraft swing tag + twine) */
-  --paper-kraft: #d2b48c;
-  --rope:        #8b6b43;
 }
 
 /* ── Shared bordered table ─────────────────────────────────────────────────
