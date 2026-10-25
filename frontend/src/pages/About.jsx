@@ -7,6 +7,8 @@ import mugsStripesPhoto from '../assets/about/mugs-stripes.jpg'
 import deskPhoto from '../assets/about/desk.jpg'
 import './About.css'
 
+// scrapbook page: a handwritten line over a strip of three overlapping taped
+// prints, the story in typewriter text with two more prints taped beside it
 export default function About() {
   return (
     <div className="about">
@@ -17,62 +19,64 @@ export default function About() {
         </p>
       </header>
 
-      {/* ── who: the maker collage next to the opening lines ── */}
-      <section className="about__hero">
-        <div className="about__collage">
+      <section className="about__page">
+        <p className="about__script">
+          real merch for people who code
+          <svg className="about__script-line" viewBox="0 0 220 12" aria-hidden="true">
+            <path d="M 2 5 C 60 1, 130 8, 218 3" />
+            <path d="M 70 10 C 110 7, 150 11, 190 8" />
+          </svg>
+        </p>
+
+        <div className="about__strip">
+          <span className="about__tape about__tape--strip" aria-hidden="true" />
           <SmartImage
-            wrapClassName="about__photo about__photo--maker"
-            src={makerPhoto}
-            alt="the maker"
+            wrapClassName="about__print about__print--pouf"
+            src={makerPoufPhoto}
+            alt="the maker, cross-legged with a can't reproduce mug"
           />
           <SmartImage
-            wrapClassName="about__photo about__photo--mug"
-            src={mugPhoto}
-            alt="a handmade mug stamped 'push with force'"
+            wrapClassName="about__print about__print--up"
+            src={mugsStripesPhoto}
+            alt="three mugs on a striped sheet"
+          />
+          <SmartImage
+            wrapClassName="about__print"
+            src={deskPhoto}
+            alt="the desk where the code happens"
           />
         </div>
 
-        <div className="about__story">
-          <p className="about__lead">
-            async/await drip is a one-person thing — just me,<br />
-            a developer, who decided to make merch specifically for coders.
-          </p>
-          <p>
-            right now that means mugs. every one is handcrafted and unique — no two
-            are the same, nothing mass-produced.
-          </p>
-        </div>
-      </section>
-
-      {/* ── where: three photos scattered on the table, the sticker and the
-          Barcelona line in the middle ── */}
-      <section className="about__board">
-        <SmartImage
-          wrapClassName="about__photo about__photo--pouf"
-          src={makerPoufPhoto}
-          alt="the maker, cross-legged with a can't reproduce mug"
-        />
-
-        <div className="about__center">
-          <div className="about__stripes-wrap">
-            <SmartImage
-              wrapClassName="about__photo about__photo--stripes"
-              src={mugsStripesPhoto}
-              alt="three mugs on a striped sheet"
-            />
-            <span className="about__sticker">// real merch for people who code</span>
+        <div className="about__body">
+          <div className="about__story">
+            <p>
+              async/await drip is a one-person thing — just me,<br />
+              a developer, who decided to make merch specifically for coders.
+            </p>
+            <p>
+              right now that means mugs. every one is handcrafted and unique — no two
+              are the same, nothing mass-produced.
+            </p>
+            <p>
+              designed and made in <strong>Barcelona, Spain</strong>, then shipped
+              asynchronously across the EU.
+            </p>
           </div>
-          <p className="about__caption">
-            designed and made in <strong>Barcelona, Spain</strong>, then shipped
-            asynchronously across the EU.
-          </p>
-        </div>
 
-        <SmartImage
-          wrapClassName="about__photo about__photo--desk"
-          src={deskPhoto}
-          alt="the desk where the code happens"
-        />
+          <div className="about__pair">
+            <span className="about__tape about__tape--pair" aria-hidden="true" />
+            <SmartImage
+              wrapClassName="about__print about__print--maker"
+              src={makerPhoto}
+              alt="the maker"
+            />
+            <SmartImage
+              wrapClassName="about__print about__print--mug"
+              src={mugPhoto}
+              alt="a handmade mug stamped 'push with force'"
+            />
+          </div>
+        </div>
       </section>
     </div>
   )

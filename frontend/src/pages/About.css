@@ -1,5 +1,5 @@
 .about {
-  max-width: 1100px;   /* shop width: the photos need the room */
+  max-width: 780px;   /* same width as contact / cart */
   margin: 0 auto;
   padding: var(--sp-8) var(--sp-6);
   animation: fadeUp var(--dur-med) var(--ease-standard) both;
@@ -21,164 +21,144 @@
   font-family: var(--font-mono);
 }
 
-/* ── shared photo card ── */
-.about__photo {
-  border-radius: var(--r-lg);
-  background: var(--surface-hover);
-  overflow: hidden;
-  transition: transform var(--dur-med) var(--ease-spring),
-              box-shadow var(--dur-med) var(--ease-standard);
-}
+/* ── Scrapbook page ── */
+.about__page { position: relative; }
 
-.about__photo img { width: 100%; height: 100%; object-fit: cover; }
-
-/* ── Hero: maker collage on the left, the opening lines on the right ── */
-.about__hero {
-  display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: var(--sp-8);
-  align-items: center;
-}
-
-/* overlapping, slightly-turned pair: the maker as the main card, the mug
-   shot pinned over its corner like a polaroid */
-.about__collage {
+/* handwritten line, overlapping the top of the photo strip */
+.about__script {
   position: relative;
-  height: 500px;
-}
-
-.about__collage .about__photo { position: absolute; }
-
-.about__photo--maker {
-  top: 0;
-  left: 0;
-  width: 300px;
-  height: 400px;
-  transform: rotate(-3deg);
-  box-shadow: var(--shadow-card);
-  z-index: 1;
-}
-
-.about__photo--mug {
-  bottom: 0;
-  right: 0;
-  width: 220px;
-  height: 280px;
-  border: 6px solid var(--surface);   /* white polaroid edge */
-  transform: rotate(6deg);
-  box-shadow: var(--shadow-float);
   z-index: 2;
-}
-
-/* on hover the two photos fan apart a touch */
-.about__collage:hover .about__photo--maker { transform: rotate(-6deg) translateX(-4px); }
-.about__collage:hover .about__photo--mug   { transform: rotate(9deg) translate(4px, -4px); }
-
-.about__story {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-5);
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--text);
-}
-
-/* the opening lines in the display face, like a pull quote */
-.about__lead {
-  font-family: var(--font-display);
-  font-size: 28px;
-  line-height: 1.3;
+  display: inline-block;
+  margin: 0 0 calc(var(--sp-8) * -1) var(--sp-6);
+  font-family: var(--font-heading);
+  font-size: 44px;
+  line-height: 1;
+  color: var(--brand-blue);
   letter-spacing: -0.01em;
 }
 
-/* ── Board: three photos laid on the table at different heights, the
-   sticker and the Barcelona line in the middle ── */
-.about__board {
+.about__script-line {
+  display: block;
+  width: 220px;
+  height: 12px;
+  margin: var(--sp-1) 0 0 var(--sp-7);
+  fill: none;
+  stroke: var(--brand-blue);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* three prints in a row, overlapping a little; the middle one lifted and on top */
+.about__strip {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+  padding-top: var(--sp-5);   /* the script hangs over the top edge of the prints */
+}
+
+.about__print {
+  display: block;
+  aspect-ratio: 1 / 1;
+  border: 6px solid var(--surface);   /* photo-print edge */
+  border-radius: var(--r-md);
+  background: var(--surface-hover);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.about__print img { width: 100%; height: 100%; object-fit: cover; }
+
+.about__strip .about__print--pouf { transform: rotate(-3deg); }
+.about__strip .about__print:last-child { margin-left: calc(var(--sp-6) * -1); transform: rotate(3deg); }
+
+.about__print--up {
+  position: relative;
+  z-index: 1;
+  margin: calc(var(--sp-4) * -1) calc(var(--sp-6) * -1) 0 calc(var(--sp-6) * -1);
+  transform: rotate(1deg);
+}
+
+/* translucent tape strips, like the real thing */
+.about__tape {
+  position: absolute;
+  z-index: 3;
+  height: var(--sp-6);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--surface) 80%, transparent);
+  box-shadow: var(--shadow-card);
+  pointer-events: none;
+}
+
+.about__tape--strip {
+  width: 160px;
+  left: calc(var(--sp-4) * -1);
+  bottom: calc(var(--sp-2) * -1);
+  transform: rotate(-3deg);
+}
+
+/* across the top-right corner of the mug print, where it overlaps the maker */
+.about__tape--pair {
+  width: 110px;
+  right: calc(var(--sp-4) * -1);
+  top: 160px;
+  transform: rotate(8deg);
+}
+
+/* the story on the left, two more prints taped beside it on the right */
+.about__body {
+  display: grid;
+  grid-template-columns: 1fr 240px;
   gap: var(--sp-7);
   align-items: start;
-  margin-top: var(--sp-9);
+  margin-top: var(--sp-8);
 }
 
-.about__board .about__photo { display: block; width: 100%; }
-
-.about__photo--pouf {
-  aspect-ratio: 3 / 4;
-  transform: rotate(-4deg);
-  box-shadow: var(--shadow-card);
-}
-
-.about__center {
+/* the story, typewriter style */
+.about__story {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--sp-6);
-  margin-top: var(--sp-8);   /* sits lower than its neighbours */
-}
-
-.about__stripes-wrap { position: relative; width: 100%; }
-
-.about__photo--stripes {
-  aspect-ratio: 4 / 3;
-  border: 6px solid var(--surface);
-  transform: rotate(2deg);
-  box-shadow: var(--shadow-float);
-}
-
-/* lime sticker slapped over the corner of the stripes photo */
-.about__sticker {
-  position: absolute;
-  top: calc(var(--sp-4) * -1);
-  right: calc(var(--sp-4) * -1);
-  z-index: 2;
-  background: var(--brand-green);
-  color: var(--text);
+  gap: var(--sp-4);
+  margin-left: var(--sp-6);
   font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: bold;
-  white-space: nowrap;
-  padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--r-sm);
-  transform: rotate(-6deg);
-  box-shadow: var(--shadow-float);
-}
-
-.about__caption {
-  max-width: 360px;
-  text-align: center;
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
   color: var(--text);
 }
 
-.about__caption strong,
 .about__story strong { color: var(--brand-blue); }
 
-.about__photo--desk {
-  aspect-ratio: 3 / 4;
-  border: 6px solid var(--surface);
-  transform: rotate(3deg);
-  box-shadow: var(--shadow-card);
-  margin-top: var(--sp-7);
+/* the two prints overlap: the mug lies over the maker's bottom-right corner */
+.about__pair {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding-right: var(--sp-3);
 }
 
-/* each board photo straightens and lifts on hover */
-.about__board .about__photo:hover {
-  transform: rotate(0) translateY(-4px);
-  box-shadow: var(--shadow-float);
+.about__print--maker { width: 190px; aspect-ratio: 3 / 4; transform: rotate(-3deg); }
+.about__print--mug {
+  position: relative;
+  z-index: 1;
+  width: 160px;
+  aspect-ratio: 4 / 5;
+  margin: calc(var(--sp-9) * -1) 0 0 auto;
+  transform: rotate(4deg);
 }
 
-@media (max-width: 760px) {
-  .about__hero { grid-template-columns: 1fr; gap: var(--sp-6); }
-  .about__collage { width: 300px; height: 380px; margin: 0 auto; }
-  .about__photo--maker { width: 212px; height: 292px; }
-  .about__photo--mug { width: 172px; height: 226px; }
-  .about__lead { font-size: 24px; }
+/* keep the maker's head in the square crop */
+.about__print--pouf img { object-position: 50% 15%; }
 
-  .about__board { grid-template-columns: 1fr; gap: var(--sp-6); margin-top: var(--sp-8); }
-  .about__board .about__photo,
-  .about__stripes-wrap { max-width: 320px; margin-left: auto; margin-right: auto; }
-  .about__center, .about__photo--desk { margin-top: 0; }
-  .about__sticker { right: var(--sp-2); }
+@media (max-width: 560px) {
+  .about__script { font-size: 34px; margin-left: var(--sp-3); }
+  .about__script-line { width: 160px; }
+  .about__strip { gap: var(--sp-2); }
+  .about__print { border-width: 4px; }
+  .about__body { grid-template-columns: 1fr; }
+  .about__story { margin-left: 0; }
+  .about__pair { flex-direction: row; justify-content: center; padding-right: 0; }
+  .about__print--maker { width: 160px; }
+  .about__print--mug { width: 140px; margin: var(--sp-7) 0 0 calc(var(--sp-6) * -1); }
+  .about__tape--pair { top: var(--sp-6); right: var(--sp-6); }
 }
