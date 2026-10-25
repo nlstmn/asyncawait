@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import logoSvg from '../assets/async-await-logo.svg'
+import logoSvg from '../assets/brand/async-await-logo.svg'
 import { ICONS } from './icons'
 import './Navbar.css'
 

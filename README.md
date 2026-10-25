@@ -105,7 +105,7 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   `calc(var(--sp-n) * -1)`. Element *sizes* (icon 40px, thumb 56px) are not
   spacing and stay literal.
 - Page gutter is `--sp-6`; content max-width is **`780px`** for
-  cart / checkout / contact / about, and `1100px` for shop / product detail.
+  cart / checkout / contact, and `1100px` for shop / product detail / about.
 - `--nav-height: 60px`, `--footer-height: 52px`.
 - **Elevation uses exactly two shadow tokens** — never a bespoke shadow:
   `--shadow-card` (resting cards, panels, media) and `--shadow-float` (hover
@@ -160,6 +160,15 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 Global grain overlay via `body::before` (feTurbulence SVG); `0.26` opacity on
 mobile, `0.4` on desktop. The mobile home page adds floating blurred
 blue/green blobs behind the content.
+
+### Assets (`frontend/src/assets/`)
+
+- `brand/` logo · `products/` front/back product shots (`<mug>-front.jpg`,
+  `<mug>-back.jpg`) · `lifestyle/` photoshoot scenes named by what they show
+  (`iwomm-moka-pour`, `duo-wall`, `collection-held`…) · `tags/` rendered
+  swing-tag PNGs (`<mug>-tag.png`, transparent) · `about/` About-page photos.
+- Photos are JPEG, longest side 1400px, quality ~82; tags are PNG ≤ 720px.
+  Nothing lands in the folder root.
 
 ### Components
 

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Typewriter from '../components/Typewriter'
-import logoSvg from '../assets/async-await-logo.svg'
+import logoSvg from '../assets/brand/async-await-logo.svg'
 import './Home.css'
 
 const REST = { rx: 0, ry: 0, tx: 0, ty: 0, mx: 0, my: 0, glow: 0 }

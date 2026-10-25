@@ -6,29 +6,31 @@
 // Each product opens with two product shots — front (phrase) and back
 // (binary) — followed by lifestyle photos from the shoot. Shots that show
 // several mugs at once are shared between the products they feature.
-import iwommGlossyFront from '../assets/iwomm-glossy-front.jpg'
-import iwommGlossyBack from '../assets/iwomm-glossy-back.jpg'
-import iwommMatteFront from '../assets/iwomm-matte-front.jpg'
-import iwommMatteBack from '../assets/iwomm-matte-back.jpg'
-import cantReproduceFront from '../assets/cant-reproduce-front.jpg'
-import cantReproduceBack from '../assets/cant-reproduce-back.jpg'
-// lifestyle — "it works on my machine"
-import iwommBooksCoffee from '../assets/iwomm-books-coffee.jpg'
-import iwommEarphones from '../assets/iwomm-earphones.jpg'
-import iwommCoffeeHands from '../assets/iwomm-coffee-hands.jpg'
-import iwommHeldBack from '../assets/iwomm-held-back.jpg'
-import iwommMokaPour from '../assets/iwomm-moka-pour.jpg'
+import iwommGlossyFront from '../assets/products/iwomm-glossy-front.jpg'
+import iwommGlossyBack from '../assets/products/iwomm-glossy-back.jpg'
+import iwommMatteFront from '../assets/products/iwomm-matte-front.jpg'
+import iwommMatteBack from '../assets/products/iwomm-matte-back.jpg'
+import cantReproduceFront from '../assets/products/cant-reproduce-front.jpg'
+import cantReproduceBack from '../assets/products/cant-reproduce-back.jpg'
+// lifestyle — "it works on my machine" (finish per shot confirmed by Liana)
+import iwommBooksCoffee from '../assets/lifestyle/iwomm-books-coffee.jpg'   // glossy
+import iwommEarphones from '../assets/lifestyle/iwomm-earphones.jpg'        // matte
+import iwommCoffeeHands from '../assets/lifestyle/iwomm-coffee-hands.jpg'   // matte
+import iwommHeldBack from '../assets/lifestyle/iwomm-held-back.jpg'         // matte
+import iwommMokaPour from '../assets/lifestyle/iwomm-moka-pour.jpg'         // glossy
 // lifestyle — "can't reproduce"
-import cantReproduceHeld from '../assets/cant-reproduce-held.jpg'
-import cantReproduceMokaPour from '../assets/cant-reproduce-moka-pour.jpg'
+import cantReproduceHeld from '../assets/lifestyle/cant-reproduce-held.jpg'
+import cantReproduceMokaPour from '../assets/lifestyle/cant-reproduce-moka-pour.jpg'
 // lifestyle — several mugs in one frame
-import duoWall from '../assets/duo-wall.jpg'     // can't reproduce on iwomm (back)
-import duoStool from '../assets/duo-stool.jpg'   // can't reproduce (back) on iwomm
-import collectionTray from '../assets/collection-tray.jpg'
-import collectionHeld from '../assets/collection-held.jpg'
-// rendered hang tag (transparent PNG) carrying the description — per mug;
-// mugs without one fall back to the CSS kraft tag
-import iwommGlossyTag from '../assets/iwomm-glossy-tag.png'
+import duoWall from '../assets/lifestyle/duo-wall.jpg'     // can't reproduce on iwomm (back)
+import duoStool from '../assets/lifestyle/duo-stool.jpg'   // can't reproduce (back) on iwomm
+import collectionTray from '../assets/lifestyle/collection-tray.jpg'
+import collectionHeld from '../assets/lifestyle/collection-held.jpg'
+// rendered hang tags (transparent PNGs) carrying each mug's description;
+// a mug without one falls back to the CSS kraft tag
+import iwommGlossyTag from '../assets/tags/iwomm-glossy-tag.png'
+import iwommMatteTag from '../assets/tags/iwomm-matte-tag.png'
+import cantReproduceTag from '../assets/tags/cant-reproduce-tag.png'
 
 export const PRODUCTS = [
   {
@@ -44,8 +46,7 @@ export const PRODUCTS = [
     image_url: iwommGlossyFront,
     images: [
       iwommGlossyFront, iwommGlossyBack,
-      iwommBooksCoffee, iwommEarphones, iwommCoffeeHands, iwommHeldBack,
-      duoWall, collectionHeld,
+      iwommBooksCoffee, iwommMokaPour, duoWall, collectionTray, collectionHeld,
     ],
     category: 'mug',
     in_stock: true,
@@ -59,10 +60,12 @@ export const PRODUCTS = [
     description:
       'same excuse, quieter surface. a navy brush stroke on matte cream stoneware, "ok" in binary on the back.',
     price: 29.99,
+    tag: iwommMatteTag,
     image_url: iwommMatteFront,
     images: [
       iwommMatteFront, iwommMatteBack,
-      iwommMokaPour, duoStool, collectionTray, collectionHeld,
+      iwommEarphones, iwommCoffeeHands, iwommHeldBack,
+      duoStool, collectionHeld,
     ],
     category: 'mug',
     in_stock: true,
@@ -76,6 +79,7 @@ export const PRODUCTS = [
     description:
       'closed as cannot reproduce. matte vintage green anthracite glaze, "ok" in binary on the back.',
     price: 29.99,
+    tag: cantReproduceTag,
     image_url: cantReproduceFront,
     images: [
       cantReproduceFront, cantReproduceBack,

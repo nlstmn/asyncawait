@@ -47,10 +47,13 @@
 .pd__tag-img {
   position: absolute;
   z-index: 1;
-  top: calc(var(--sp-6) * -1);
-  left: calc(var(--sp-6) * -1);
-  width: 180px;
+  top: calc(var(--sp-7) * -1);
+  left: calc(var(--sp-9) * -1);
+  width: 220px;
   height: auto;
+  /* swings out to the left from the knot so the card hangs half off the box */
+  transform: rotate(-18deg);
+  transform-origin: 50% 0;
   filter: drop-shadow(var(--shadow-float));
   pointer-events: none;   /* swipes and clicks go to the photo */
 }
@@ -259,5 +262,5 @@
   /* stacked layout: the box is above, so the twine has nothing to tie to */
   .pd__tag { margin-left: 0; }
   .pd__tag-rope { display: none; }
-  .pd__tag-img { width: 130px; top: calc(var(--sp-4) * -1); left: calc(var(--sp-3) * -1); }
+  .pd__tag-img { width: 160px; top: calc(var(--sp-6) * -1); left: calc(var(--sp-8) * -1); }
 }
