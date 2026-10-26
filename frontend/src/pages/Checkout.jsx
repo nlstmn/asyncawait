@@ -2,15 +2,12 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { COUNTRIES, DIAL_CODES } from '../data/countries'
-import { formatPrice, itemLabel } from '../utils/format'
+import { formatPrice, itemLabel, EMAIL_RE, POSTAL_RE, isPhone } from '../shared/catalogue'
 import { placeOrder as sendOrder } from '../utils/orders'
 import { ICONS } from '../components/icons'
 import Typewriter from '../components/Typewriter'
 import ConfirmOrderModal from '../components/ConfirmOrderModal'
 import './Checkout.css'
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const POSTAL_RE = /^[A-Za-z0-9][A-Za-z0-9\s-]{2,9}$/
 
 export default function Checkout() {
   const { items, total, clear } = useCart()
@@ -35,7 +32,7 @@ export default function Checkout() {
   // ── validation ──
   const emailOk  = EMAIL_RE.test(form.email)
   const emailsMatch = form.email === form.confirmEmail
-  const phoneOk  = /^[+\d\s().-]+$/.test(form.phone) && (form.phone.match(/\d/g) || []).length >= 7
+  const phoneOk  = isPhone(form.phone)
   const postalOk = POSTAL_RE.test(form.postal)
   const isValid =
     form.firstName.trim() && form.lastName.trim() && form.address.trim() &&

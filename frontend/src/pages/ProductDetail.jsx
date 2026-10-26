@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getProductById, imageFocus, CHIPS, OK_BINARY } from '../data/products'
-import { formatPrice } from '../utils/format'
+import { formatPrice } from '../shared/catalogue'
 import SmartImage from '../components/SmartImage'
 import AddToCart from '../components/AddToCart'
 import NotFound from './NotFound'

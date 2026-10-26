@@ -1,15 +1,17 @@
-# Netlify build settings for the Vite/React frontend (repo is a monorepo:
-# frontend/ + backend/). Netlify only builds & serves the static frontend.
+# Netlify build settings for the Vite/React frontend. The legacy backend/
+# folder is not deployed.
 [build]
   base = "frontend"
   command = "npm run build"
   publish = "dist"
 
-# serverless functions (order emails) — path is relative to `base`
+# serverless functions (order emails) — path is relative to `base`; esbuild
+# bundles the shared catalogue import from src/shared
 [functions]
   directory = "netlify/functions"
+  node_bundler = "esbuild"
 
-# SPA fallback: client-side routes like /product/:id must resolve to index.html
+# SPA fallback: client-side routes like /mug/:id must resolve to index.html
 # (also declared in frontend/public/_redirects as the canonical Vite pattern).
 [[redirects]]
   from = "/*"

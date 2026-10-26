@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { CHIPS } from '../data/products'
-import { formatPrice } from '../utils/format'
+import { formatPrice } from '../shared/catalogue'
 import SmartImage from './SmartImage'
 import AddToCart from './AddToCart'
 import './ProductCard.css'

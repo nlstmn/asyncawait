@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { formatPrice, itemLabel } from '../utils/format'
+import { formatPrice, itemLabel } from '../shared/catalogue'
 import './Modal.css'
 import './ConfirmOrderModal.css'
 

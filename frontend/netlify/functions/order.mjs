@@ -13,18 +13,14 @@
 //   ORDER_ORIGINS    comma-separated origins allowed to call this function
 //   ORDER_DAILY_CAP  max orders accepted per day (default 40)
 //
-// The catalogue is duplicated here on purpose: functions can't import from
-// the Vite app, and the server must be the source of truth for prices.
+// Prices, limits, formatting and field rules come from the same file the
+// app uses (src/shared/catalogue.js), so the server is the source of truth
+// and the two can't drift.
 import { getStore } from '@netlify/blobs'
+import { CATALOGUE, MAX_PER_ITEM, formatPrice, itemLabel, EMAIL_RE, FIELD_MAX } from '../../src/shared/catalogue.js'
 
-const CATALOGUE = {
-  1: { name: 'it works on my machine', finish: 'glossy', price: 29.99 },
-  2: { name: 'it works on my machine', finish: 'matte', price: 29.99 },
-  3: { name: "can't reproduce", finish: 'matte', price: 29.99 },
-}
-const MAX_PER_ITEM = 3
-const MAX_LINES = Object.keys(CATALOGUE).length
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const BY_ID = Object.fromEntries(CATALOGUE.map(({ id, name, finish, price }) => [id, { id, name, finish, price }]))
+const MAX_LINES = CATALOGUE.length
 
 // Abuse limits. This endpoint is public and sends email from our domain, so
 // every input is capped and checked before anything else happens:
@@ -35,7 +31,6 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 //   - per-IP and per-day caps, counted atomically in Netlify Blobs
 const DEFAULT_ORIGINS = ['https://asyncdrip.com', 'https://www.asyncdrip.com']
 const DEV_ORIGIN_RE = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/
-const FIELD_MAX = { firstName: 60, lastName: 60, email: 120, phone: 30, address: 200, postal: 12, city: 80, country: 60 }
 // names / city / country never contain anything domain-shaped; an address may
 // legitimately have a dot ("Av. Diagonal"), so it only gets the stricter check
 const DOMAIN_RE = /[a-z0-9-]+\.[a-z]{2,}(\b|$)/i
@@ -106,7 +101,6 @@ async function overLimit(req, context) {
   }
 }
 
-const eur = (n) => `${Number(n).toFixed(2).replace('.', ',')} €`
 const json = (status, body) => new Response(JSON.stringify(body), {
   status,
   headers: { 'Content-Type': 'application/json' },
@@ -144,30 +138,26 @@ function validate(body) {
   for (const it of items) {
     const id = String(it?.id)
     const qty = Number(it?.quantity)
-    if (!Object.hasOwn(CATALOGUE, id) || !Number.isInteger(qty) || qty < 1) return { error: 'invalid item' }
+    if (!Object.hasOwn(BY_ID, id) || !Number.isInteger(qty) || qty < 1) return { error: 'invalid item' }
     qtyById.set(id, (qtyById.get(id) ?? 0) + qty)
   }
   const lines = []
   for (const [id, quantity] of qtyById) {
     if (quantity > MAX_PER_ITEM) return { error: `max ${MAX_PER_ITEM} per mug` }
-    const p = CATALOGUE[id]
-    lines.push({ id: Number(id), ...p, quantity, subtotal: p.price * quantity })
+    const p = BY_ID[id]
+    lines.push({ ...p, quantity, subtotal: p.price * quantity })
   }
   const total = lines.reduce((s, l) => s + l.subtotal, 0)
   return { customer, lines, total }
 }
-
-// mugs sharing a name get their finish appended, same rule as the UI
-const label = (line, lines) =>
-  lines.some(o => o !== line && o.name === line.name) ? `${line.name} · ${line.finish}` : line.name
 
 function customerEmail({ id, customer, lines, total }) {
   // same bordered table as the site's .table: 1px #ddd frame, 12px radius,
   // 12/16px cells, blue prices, muted total label with the bold blue amount
   const cell = 'padding:12px 16px;border-bottom:1px solid #ddd'
   const rows = lines.map(l =>
-    `<tr><td style="${cell}">${esc(label(l, lines))} <span style="color:#004ECC;font-size:12px;font-weight:bold">×${l.quantity}</span></td>` +
-    `<td align="right" style="${cell};color:#004ECC;white-space:nowrap">${eur(l.subtotal)}</td></tr>`
+    `<tr><td style="${cell}">${esc(itemLabel(l, lines))} <span style="color:#004ECC;font-size:12px;font-weight:bold">×${l.quantity}</span></td>` +
+    `<td align="right" style="${cell};color:#004ECC;white-space:nowrap">${formatPrice(l.subtotal)}</td></tr>`
   ).join('')
   // the customer's own details, so they can spot a typo before we ship
   const details = [
@@ -194,10 +184,10 @@ function customerEmail({ id, customer, lines, total }) {
   <p style="margin:0 0 20px">thanks ${esc(customer.firstName)} — your mugs are staged.</p>
   <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px">${rows}
     <tr><td style="padding:12px 16px;color:#888">total · free shipping</td>
-        <td align="right" style="padding:12px 16px;font-size:18px;font-weight:bold;color:#004ECC;white-space:nowrap">${eur(total)}</td></tr>
+        <td align="right" style="padding:12px 16px;font-size:18px;font-weight:bold;color:#004ECC;white-space:nowrap">${formatPrice(total)}</td></tr>
   </table>
   <p style="margin:20px 0 6px"><strong>HOW TO PAY</strong></p>
-  <p style="margin:0 0 6px">payment is manual for now. send ${eur(total)} to one of:</p>
+  <p style="margin:0 0 6px">payment is manual for now. send ${formatPrice(total)} to one of:</p>
   <p style="margin:0 0 20px;background:#f0f4ff;padding:10px 12px;border-radius:8px">${pay || 'we will send you payment details shortly.'}</p>
   <p style="margin:0 0 20px">put <strong>#${id}</strong> in the transfer note and reply to this email with the receipt. once it's confirmed we ship within 2–4 business days and send you photos of your mugs before they go.</p>
   <p style="margin:0 0 6px"><strong>YOUR DETAILS</strong></p>
@@ -209,13 +199,13 @@ function customerEmail({ id, customer, lines, total }) {
 }
 
 function shopEmail({ id, customer, lines, total }) {
-  const rows = lines.map(l => `• ${label(l, lines)} ×${l.quantity} — ${eur(l.subtotal)}`).join('\n')
+  const rows = lines.map(l => `• ${itemLabel(l, lines)} ×${l.quantity} — ${formatPrice(l.subtotal)}`).join('\n')
   return {
-    subject: `new order #${id} · ${eur(total)} · ${customer.firstName} ${customer.lastName}`,
+    subject: `new order #${id} · ${formatPrice(total)} · ${customer.firstName} ${customer.lastName}`,
     text: `order #${id}
 
 ${rows}
-total: ${eur(total)}
+total: ${formatPrice(total)}
 
 ${customer.firstName} ${customer.lastName}
 ${customer.email}
