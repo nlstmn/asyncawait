@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
+import './Modal.css'
 import './FaqModal.css'
 
 const FAQ = [
@@ -39,20 +40,20 @@ export default function FaqModal({ onClose }) {
   // portal to <body>: escapes the page/footer stacking contexts so the
   // overlay really covers everything (navbar + footer included)
   return createPortal(
-    <div className="faq__overlay" onClick={onClose}>
+    <div className="modal__overlay" onClick={onClose}>
       <div
-        className="faq__dialog"
+        className="modal__dialog"
         role="dialog"
         aria-modal="true"
         aria-label="faq"
         onClick={(e) => e.stopPropagation()}
       >
-        <button className="faq__close" onClick={onClose} aria-label="Close FAQ">
+        <button className="modal__close" onClick={onClose} aria-label="Close FAQ">
           ✕
         </button>
 
-        <div className="faq__scroll">
-          <h2 className="faq__title">FAQ</h2>
+        <div className="modal__scroll">
+          <h2 className="modal__title">FAQ</h2>
 
           <dl className="faq__list">
             {FAQ.map(({ q, a }) => (

@@ -183,7 +183,7 @@
 
 .cart__summary-row {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   gap: var(--sp-4);
   font-family: var(--font-mono);
   font-size: 16px;
@@ -194,23 +194,21 @@
   font-size: 22px;
   font-weight: bold;
   color: var(--brand-blue);
+  white-space: nowrap;
 }
 
-/* free-shipping chip — a small tinted pill, distinct from the plain rows */
-.cart__free-badge {
-  align-self: flex-end;
-  display: inline-flex;
-  align-items: center;
+/* "free shipping" is a caption under the total label, not a separate element */
+.cart__summary-label {
+  display: flex;
+  flex-direction: column;
   gap: var(--sp-1);
-  font-family: var(--font-mono);
+}
+
+.cart__free {
   font-size: 12px;
   font-weight: bold;
   letter-spacing: 0.03em;
   color: var(--accent-green);
-  background: color-mix(in srgb, var(--brand-green) 16%, var(--surface));
-  border: 1px solid color-mix(in srgb, var(--brand-green) 40%, var(--border));
-  border-radius: var(--r-sm);
-  padding: var(--sp-1) var(--sp-3);
 }
 
 .cart__checkout {
@@ -280,6 +278,5 @@
     border-top: 1px solid var(--border);
   }
   .cart__summary-row { justify-content: space-between; }
-  .cart__free-badge { align-self: flex-start; }
-  .cart__checkout { width: 100%; margin-top: 0; padding: var(--sp-4) var(--sp-6); font-weight: bold; }
+  .cart__checkout { width: 100%; margin-top: var(--sp-3); padding: var(--sp-4) var(--sp-6); font-weight: bold; }
 }

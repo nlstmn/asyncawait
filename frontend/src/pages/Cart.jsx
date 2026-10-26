@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { ICONS } from '../components/icons'
-import { formatPrice, itemLabel } from '../utils/format'
+import { formatPrice, itemLabel } from '../shared/catalogue'
 import Typewriter from '../components/Typewriter'
 import './Cart.css'
 
@@ -76,10 +76,12 @@ export default function Cart() {
         {/* on phones this becomes a sticky bar pinned to the bottom of the screen */}
         <div className="cart__summary">
           <div className="cart__summary-row">
-            <span>total</span>
+            <span className="cart__summary-label">
+              total
+              <small className="cart__free">✓ free EU shipping</small>
+            </span>
             <span className="cart__summary-total">{formatPrice(total)}</span>
           </div>
-          <span className="cart__free-badge">✓ free shipping across the EU</span>
           <button className="cart__checkout" onClick={() => navigate('/checkout')}>
             checkout &gt;
           </button>
