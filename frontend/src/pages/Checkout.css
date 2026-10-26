@@ -135,6 +135,7 @@
 }
 
 .checkout__submit {
+  width: 100%;
   margin-top: var(--sp-2);
   background: var(--brand-green);
   color: var(--text);
@@ -162,13 +163,7 @@
   overflow: hidden;
 }
 
-/* ── Summary ── */
-.checkout__summary {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  padding: var(--sp-6);
-}
+/* ── Summary: a .panel (index.css) ── */
 
 .checkout__summary-title {
   font-family: var(--font-mono);
@@ -247,4 +242,8 @@
 @media (max-width: 680px) {
   .checkout__grid { grid-template-columns: 1fr; }
   .checkout__summary { order: -1; }
+}
+
+@media (max-width: 560px) {
+  .checkout__submit { margin-top: 0; }
 }

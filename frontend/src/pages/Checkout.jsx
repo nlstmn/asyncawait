@@ -254,16 +254,19 @@ export default function Checkout() {
             <p className="checkout__error">// {error}</p>
           )}
 
-          <button
-            className="checkout__submit"
-            type="submit"
-            disabled={!isValid || status === 'submitting'}
-          >
-            {status === 'submitting' ? 'committing…' : `place order · ${formatPrice(total)}`}
-          </button>
+          {/* on phones this is a sticky bar pinned to the bottom of the screen */}
+          <div className="checkout__bar bar">
+            <button
+              className="checkout__submit"
+              type="submit"
+              disabled={!isValid || status === 'submitting'}
+            >
+              {status === 'submitting' ? 'committing…' : `place order · ${formatPrice(total)}`}
+            </button>
+          </div>
         </form>
 
-        <aside className="checkout__summary">
+        <aside className="checkout__summary panel">
           <h2 className="checkout__summary-title">order summary</h2>
           <ul className="checkout__items">
             {items.map(item => (

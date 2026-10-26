@@ -145,7 +145,7 @@
   gap: var(--sp-4);
 }
 
-/* ── Empty-cart (clear all): text button on desktop, trash icon on phones ── */
+/* ── Empty-cart (clear all): icon + text on desktop, icon only on phones ── */
 .cart__clear {
   display: inline-flex;
   align-items: center;
@@ -170,19 +170,19 @@
   background: color-mix(in srgb, var(--error) 8%, transparent);
 }
 
-.cart__clear-icon { display: none; }
-.cart__clear-icon svg { width: 20px; height: 20px; display: block; }
+.cart__clear-icon svg { width: 18px; height: 18px; display: block; }
 
-/* ── Summary ── */
+/* ── Summary: a .panel (index.css), a sticky .bar on phones ── */
 .cart__summary {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: var(--sp-3);
+  width: 320px;
 }
 
 .cart__summary-row {
   display: flex;
+  justify-content: space-between;
   align-items: flex-start;
   gap: var(--sp-4);
   font-family: var(--font-mono);
@@ -213,6 +213,7 @@
 
 .cart__checkout {
   margin-top: var(--sp-2);
+  width: 100%;
   background: var(--brand-blue);
   color: #fff;
   border: none;
@@ -251,32 +252,17 @@
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - var(--nav-height));
+    min-height: calc(100dvh - var(--nav-height));
   }
 
   /* actions row above, summary bar below, both pushed to the page bottom */
   .cart__footer { flex-direction: column; align-items: stretch; gap: var(--sp-6); margin-top: auto; padding-top: var(--sp-7); }
-  .cart__actions { flex-direction: row; align-items: center; justify-content: space-between; }
+  .cart__actions { flex-direction: row-reverse; align-items: center; justify-content: space-between; }
 
   /* trash icon instead of the text, sized for a thumb */
   .cart__clear { padding: var(--sp-3); }
   .cart__clear-text { display: none; }
-  .cart__clear-icon { display: block; }
 
-  /* sticky checkout bar: full width, bleeds into the page gutters and the
-     bottom padding, frosted so the list stays visible through it */
-  .cart__summary {
-    position: sticky;
-    bottom: 0;
-    z-index: 1;
-    align-items: stretch;
-    gap: var(--sp-2);
-    margin: 0 calc(var(--sp-6) * -1) calc(var(--sp-8) * -1);
-    padding: var(--sp-4) var(--sp-6) var(--sp-5);
-    background: color-mix(in srgb, var(--bg) 72%, transparent);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border);
-  }
-  .cart__summary-row { justify-content: space-between; }
-  .cart__checkout { width: 100%; margin-top: var(--sp-3); padding: var(--sp-4) var(--sp-6); font-weight: bold; }
+  .cart__summary { width: auto; gap: var(--sp-2); }
+  .cart__checkout { margin-top: var(--sp-3); font-weight: bold; }
 }

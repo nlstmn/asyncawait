@@ -53,6 +53,7 @@
   --error:        #cc4444;
   --nav-height:   60px;
   --footer-height: 52px;
+  --footer-gap:   var(--sp-8);   /* space between the last page content and the footer */
 
   /* Radii — the ONLY three corner sizes in the app (round elements use 50%) */
   --r-sm: 8px;   /* inputs, small tags/badges, stepper +/- buttons */
@@ -74,6 +75,37 @@
   --sp-7: 32px;  /* section gaps, CTA horizontal padding */
   --sp-8: 48px;  /* page top padding, header → content */
   --sp-9: 80px;  /* page bottom padding, status-screen padding */
+}
+
+/* ── Bordered info panel ───────────────────────────────────────────────────
+   The one box for summaries (cart, checkout): surface, 1px border, --r-md. */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-6);
+}
+
+/* ── Sticky action bar (phones) ──────────────────────────────────────────
+   The cart summary and the checkout submit become a frosted bar pinned to
+   the bottom of the screen. It bleeds into the page gutters and swallows the
+   page's bottom padding + the footer gap, so at the end of the scroll it
+   rests directly on the footer. Declared after .panel so a panel that is
+   also a bar loses its box on phones. */
+@media (max-width: 560px) {
+  .bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    margin: 0 calc(var(--sp-6) * -1) calc((var(--sp-8) + var(--footer-gap)) * -1);
+    padding: var(--sp-4) var(--sp-6) var(--sp-5);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+  }
 }
 
 /* ── Shared bordered table ─────────────────────────────────────────────────

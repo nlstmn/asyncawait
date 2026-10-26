@@ -2,7 +2,7 @@
    by the sticky-footer layout), links pinned to the true center, © right. */
 .footer {
   position: relative;
-  margin-top: 4rem;
+  margin-top: var(--footer-gap);
   height: var(--footer-height);
   background: var(--surface);
   display: flex;

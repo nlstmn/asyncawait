@@ -155,14 +155,29 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   rule is written as `.checkout__field .checkout__err` on purpose: the plain
   label rule `.checkout__field span` would otherwise win and turn it grey.
 
-### Mobile cart
+### Cart footer
 
-- Under 560px the summary (`.cart__summary`) is a **sticky bottom bar**:
-  full width, bleeds into the page gutters, `backdrop-filter: blur(12px)` over
-  a 72% `--bg` tint, `1px --border` top line, full-width bold checkout button.
-  "empty cart" collapses to a 46px trash-icon button (`ICONS.trash`,
-  `aria-label` keeps the name). The cart page is `min-height: 100vh − nav` so
-  the bar rests on the footer at the end of the scroll.
+- Desktop: "keep shopping" link over the "empty cart" button (trash icon +
+  text) on the left; on the right the summary is a **`.panel`** (the shared
+  bordered box in `index.css`: `--surface`, `1px --border`, `--r-md`, `sp-6`
+  padding — also the checkout summary), 320px wide: "total" with a 12px
+  `--accent-green` "✓ free EU shipping" caption under it, the amount
+  right-aligned, a full-width checkout button.
+- Under 560px the summary becomes the shared **`.bar`** (below); "empty
+  cart" collapses to a 46px trash-icon button (`ICONS.trash`, `aria-label`
+  keeps the name). The cart page is `min-height: 100dvh − nav` so the bar
+  rests on the footer at the end of the scroll.
+
+### Sticky action bar (`.bar`, phones only)
+
+- One rule in `index.css`, used by the cart summary and the checkout submit:
+  `position: sticky; bottom: 0`, bleeds into the page gutters,
+  `backdrop-filter: blur(12px)` over a 72% `--bg` tint, `1px --border` top
+  line, full-width bold button inside. Its negative bottom margin swallows
+  the page's `sp-8` bottom padding **and** `--footer-gap`, so there is never
+  a gap between the bar and the footer. The element must be the last thing
+  in the page for that to hold.
+- `--footer-gap` (= `sp-8`) is the footer's `margin-top` everywhere.
 
 ### Motion
 

@@ -66,15 +66,16 @@ export default function Cart() {
 
       <div className="cart__footer">
         <div className="cart__actions">
+          <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
           <button className="cart__clear" onClick={clear} aria-label="empty cart">
             <span className="cart__clear-icon" aria-hidden="true">{ICONS.trash}</span>
             <span className="cart__clear-text">empty cart</span>
           </button>
-          <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
         </div>
 
-        {/* on phones this becomes a sticky bar pinned to the bottom of the screen */}
-        <div className="cart__summary">
+        {/* bordered summary panel; on phones it becomes a sticky bar pinned
+            to the bottom of the screen */}
+        <div className="cart__summary panel bar">
           <div className="cart__summary-row">
             <span className="cart__summary-label">
               total
