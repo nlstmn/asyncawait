@@ -6,7 +6,7 @@ const ENDPOINT = import.meta.env.VITE_ORDER_ENDPOINT || '/.netlify/functions/ord
 
 const mockOrder = () => ({ id: Math.floor(1000 + Math.random() * 9000), mocked: true })
 
-export async function placeOrder({ form, items, total }) {
+export async function placeOrder({ form, items, total, website = '' }) {
   const payload = {
     customer: {
       firstName: form.firstName,
@@ -18,10 +18,10 @@ export async function placeOrder({ form, items, total }) {
       city: form.city,
       country: form.country,
     },
-    items: items.map(i => ({ id: i.id, name: i.name, finish: i.finish, price: i.price, quantity: i.quantity })),
-    total,
+    // the function re-prices from its own catalogue; it only needs id + qty
+    items: items.map(i => ({ id: i.id, quantity: i.quantity })),
     // honeypot: real users never fill this
-    website: '',
+    website,
   }
 
   let res
