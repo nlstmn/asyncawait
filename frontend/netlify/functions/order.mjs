@@ -128,7 +128,7 @@ function customerEmail({ id, customer, lines, total }) {
   ].filter(Boolean).join('<br>')
 
   return {
-    subject: `order #${id} committed — async/await drip`,
+    subject: 'order confirmation · async/await drip',
     html: `
 <div style="font-family:'Courier New',monospace;color:#1a1a1a;max-width:520px;margin:0 auto;line-height:1.6">
   <h1 style="font-size:22px;color:#004ECC;margin:0 0 4px">order #${id} committed!</h1>
@@ -137,11 +137,11 @@ function customerEmail({ id, customer, lines, total }) {
     <tr><td style="padding:12px 16px;color:#888">total · free shipping</td>
         <td align="right" style="padding:12px 16px;font-size:18px;font-weight:bold;color:#004ECC;white-space:nowrap">${eur(total)}</td></tr>
   </table>
-  <p style="margin:20px 0 6px"><strong>how to pay</strong></p>
+  <p style="margin:20px 0 6px"><strong>HOW TO PAY</strong></p>
   <p style="margin:0 0 6px">payment is manual for now. send ${eur(total)} to one of:</p>
   <p style="margin:0 0 20px;background:#f0f4ff;padding:10px 12px;border-radius:8px">${pay || 'we will send you payment details shortly.'}</p>
   <p style="margin:0 0 20px">put <strong>#${id}</strong> in the transfer note and reply to this email with the receipt. once it's confirmed we ship within 2–4 business days and send you photos of your mugs before they go.</p>
-  <p style="margin:0 0 6px"><strong>your details</strong></p>
+  <p style="margin:0 0 6px"><strong>YOUR DETAILS</strong></p>
   <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px">${details}</table>
   <p style="margin:6px 0 20px;font-size:12px;color:#888">something off? reply to this email and we'll fix it before it ships.</p>
   <p style="font-size:12px;color:#888;margin:16px 0 0">© ${new Date().getFullYear()} async/await drip · made in Barcelona · @asyncdrip</p>
@@ -152,7 +152,7 @@ function customerEmail({ id, customer, lines, total }) {
 function shopEmail({ id, customer, lines, total }) {
   const rows = lines.map(l => `• ${label(l, lines)} ×${l.quantity} — ${eur(l.subtotal)}`).join('\n')
   return {
-    subject: `new order #${id} — ${eur(total)} — ${customer.firstName} ${customer.lastName}`,
+    subject: `new order #${id} · ${eur(total)} · ${customer.firstName} ${customer.lastName}`,
     text: `order #${id}
 
 ${rows}
