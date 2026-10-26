@@ -48,4 +48,18 @@ export const ICONS = {
       <line x1="12" y1="17" x2="12.01" y2="17" />
     </svg>
   ),
+  trash: (
+    <svg {...svgProps}>
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+      <path d="M10 11v6M14 11v6" />
+      <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+    </svg>
+  ),
+  missing: (
+    <svg {...svgProps}>
+      <circle cx="12" cy="12" r="10" />
+      <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+    </svg>
+  ),
 }

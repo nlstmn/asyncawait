@@ -6,7 +6,7 @@ import Typewriter from '../components/Typewriter'
 import './Cart.css'
 
 export default function Cart() {
-  const { items, setQty, removeItem, clear, subtotal, maxPerItem } = useCart()
+  const { items, setQty, removeItem, clear, total, maxPerItem } = useCart()
   const navigate = useNavigate()
 
   if (items.length === 0) {
@@ -65,18 +65,24 @@ export default function Cart() {
       </ul>
 
       <div className="cart__footer">
-        <button className="cart__clear" onClick={clear}>empty cart</button>
+        <div className="cart__actions">
+          <button className="cart__clear" onClick={clear} aria-label="empty cart">
+            <span className="cart__clear-icon" aria-hidden="true">{ICONS.trash}</span>
+            <span className="cart__clear-text">empty cart</span>
+          </button>
+          <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
+        </div>
 
+        {/* on phones this becomes a sticky bar pinned to the bottom of the screen */}
         <div className="cart__summary">
           <div className="cart__summary-row">
-            <span>subtotal</span>
-            <span className="cart__summary-total">{formatPrice(subtotal)}</span>
+            <span>total</span>
+            <span className="cart__summary-total">{formatPrice(total)}</span>
           </div>
           <span className="cart__free-badge">✓ free shipping across the EU</span>
           <button className="cart__checkout" onClick={() => navigate('/checkout')}>
             checkout &gt;
           </button>
-          <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
         </div>
       </div>
     </div>

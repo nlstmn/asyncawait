@@ -138,9 +138,18 @@
   margin-top: var(--sp-7);
 }
 
-/* ── Empty-cart (clear all) ── */
+.cart__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+}
+
+/* ── Empty-cart (clear all): text button on desktop, trash icon on phones ── */
 .cart__clear {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
   background: none;
   border: 1px solid var(--border);
   border-radius: var(--r-md);
@@ -160,6 +169,9 @@
   border-color: var(--error);
   background: color-mix(in srgb, var(--error) 8%, transparent);
 }
+
+.cart__clear-icon { display: none; }
+.cart__clear-icon svg { width: 20px; height: 20px; display: block; }
 
 /* ── Summary ── */
 .cart__summary {
@@ -235,4 +247,39 @@
   .cart__qty        { grid-area: qty; justify-self: start; }
   .cart__item-total { grid-area: total; }
   .cart__remove     { grid-area: remove; justify-self: end; }
+
+  /* the page fills the viewport so the bar always rests on its bottom edge */
+  .cart {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - var(--nav-height));
+  }
+
+  /* actions row above, summary bar below, both pushed to the page bottom */
+  .cart__footer { flex-direction: column; align-items: stretch; gap: var(--sp-6); margin-top: auto; padding-top: var(--sp-7); }
+  .cart__actions { flex-direction: row; align-items: center; justify-content: space-between; }
+
+  /* trash icon instead of the text, sized for a thumb */
+  .cart__clear { padding: var(--sp-3); }
+  .cart__clear-text { display: none; }
+  .cart__clear-icon { display: block; }
+
+  /* sticky checkout bar: full width, bleeds into the page gutters and the
+     bottom padding, frosted so the list stays visible through it */
+  .cart__summary {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
+    align-items: stretch;
+    gap: var(--sp-2);
+    margin: 0 calc(var(--sp-6) * -1) calc(var(--sp-8) * -1);
+    padding: var(--sp-4) var(--sp-6) var(--sp-5);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+  }
+  .cart__summary-row { justify-content: space-between; }
+  .cart__free-badge { align-self: flex-start; }
+  .cart__checkout { width: 100%; margin-top: 0; padding: var(--sp-4) var(--sp-6); font-weight: bold; }
 }

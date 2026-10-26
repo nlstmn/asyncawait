@@ -118,11 +118,15 @@
   opacity: 0.6;
 }
 
-.checkout__err {
+/* the field label rule above also matches this span, so it needs the extra
+   specificity to actually be red */
+.checkout__field .checkout__err {
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--error);
 }
+
+.checkout__field input[aria-invalid="true"] { border-color: var(--error); }
 
 .checkout__error {
   font-family: var(--font-mono);
@@ -148,6 +152,15 @@
 
 .checkout__submit:hover:not(:disabled) { transform: translateY(-2px); opacity: 0.92; }
 .checkout__submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* honeypot field: off-screen, never visible, never tabbable */
+.checkout__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 
 /* ── Summary ── */
 .checkout__summary {

@@ -4,6 +4,7 @@ import { getProductById, imageFocus, CHIPS, OK_BINARY } from '../data/products'
 import { formatPrice } from '../utils/format'
 import SmartImage from '../components/SmartImage'
 import AddToCart from '../components/AddToCart'
+import NotFound from './NotFound'
 import './ProductDetail.css'
 
 // product shots (front phrase, back binary "ok") followed by lifestyle photos
@@ -42,14 +43,7 @@ export default function ProductDetail() {
     return () => window.removeEventListener('keydown', onKey)
   }, [gallery.length])
 
-  if (!product) {
-    return (
-      <div className="pd pd--msg">
-        <p>// mug not found.</p>
-        <Link to="/shop" className="pd__back">&lt; back to shop</Link>
-      </div>
-    )
-  }
+  if (!product) return <NotFound title="mug not found" message="// no mug matches this route" />
 
   // let mobile users swipe the carousel left/right by hand, not just the arrows
   const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX }

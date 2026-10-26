@@ -13,10 +13,11 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const POSTAL_RE = /^[A-Za-z0-9][A-Za-z0-9\s-]{2,9}$/
 
 export default function Checkout() {
-  const { items, subtotal, clear } = useCart()
+  const { items, total, clear } = useCart()
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', confirmEmail: '', dial: '+34', phone: '',
     address: '', country: '', city: '', postal: '',
+    website: '', // honeypot, stays empty for humans
   })
   const [status, setStatus] = useState('idle') // idle | submitting | done | error
   const [error, setError] = useState(null)
@@ -52,12 +53,13 @@ export default function Checkout() {
     setStatus('submitting')
     try {
       // POSTs to the Netlify function, which emails the customer + the shop
-      const { id } = await sendOrder({ form, items, total: subtotal })
+      const { id, emailed } = await sendOrder({ form, items, total, website: form.website })
       setOrder({
         id,
         name: `${form.firstName} ${form.lastName}`.trim(),
         email: form.email,
-        total: subtotal,
+        total,
+        emailed: emailed !== false,
       })
       setConfirming(false)
       setStatus('done')
@@ -80,7 +82,8 @@ export default function Checkout() {
           thanks {order.name.split(' ')[0]} — order <span className="checkout__oid">#{order.id}</span> is in.
         </p>
         <p className="checkout__success-sub">
-          total <strong>{formatPrice(order.total)}</strong> · confirmation sent to {order.email}
+          total <strong>{formatPrice(order.total)}</strong>
+          {order.emailed ? ` · confirmation sent to ${order.email}` : ' · we have your order and will email you shortly'}
         </p>
         <p className="checkout__pay-note">
           check your email 📨 payment is handled manually for now — we'll send
@@ -148,8 +151,9 @@ export default function Checkout() {
               required
               autoComplete="email"
               placeholder="ada@example.com"
+              aria-invalid={Boolean(form.email) && !emailOk}
             />
-            {form.email && !emailOk && <span className="checkout__err">enter a valid email</span>}
+            {form.email && !emailOk && <span className="checkout__err" role="alert">enter a valid email</span>}
           </label>
 
           <label className="checkout__field">
@@ -162,8 +166,9 @@ export default function Checkout() {
               required
               autoComplete="off"
               placeholder="re-enter your email"
+              aria-invalid={Boolean(form.confirmEmail) && !emailsMatch}
             />
-            {form.confirmEmail && !emailsMatch && <span className="checkout__err">emails don't match</span>}
+            {form.confirmEmail && !emailsMatch && <span className="checkout__err" role="alert">emails don't match</span>}
           </label>
 
           <label className="checkout__field">
@@ -188,9 +193,10 @@ export default function Checkout() {
                 required
                 autoComplete="tel"
                 placeholder="600 000 000"
+                aria-invalid={Boolean(form.phone) && !phoneOk}
               />
             </div>
-            {form.phone && !phoneOk && <span className="checkout__err">enter a valid phone number</span>}
+            {form.phone && !phoneOk && <span className="checkout__err" role="alert">enter a valid phone number</span>}
           </label>
 
           <label className="checkout__field">
@@ -235,10 +241,17 @@ export default function Checkout() {
                 required
                 autoComplete="postal-code"
                 placeholder="08001"
+                aria-invalid={Boolean(form.postal) && !postalOk}
               />
-              {form.postal && !postalOk && <span className="checkout__err">enter a valid postal code</span>}
+              {form.postal && !postalOk && <span className="checkout__err" role="alert">enter a valid postal code</span>}
             </label>
           </div>
+
+          {/* honeypot: hidden from people, filled by form-stuffing bots */}
+          <label className="checkout__trap" aria-hidden="true">
+            <span>website</span>
+            <input name="website" value={form.website} onChange={update} tabIndex={-1} autoComplete="off" />
+          </label>
 
           {status === 'error' && (
             <p className="checkout__error">// {error}</p>
@@ -249,7 +262,7 @@ export default function Checkout() {
             type="submit"
             disabled={!isValid || status === 'submitting'}
           >
-            {status === 'submitting' ? 'committing…' : `place order · ${formatPrice(subtotal)}`}
+            {status === 'submitting' ? 'committing…' : `place order · ${formatPrice(total)}`}
           </button>
         </form>
 
@@ -273,7 +286,7 @@ export default function Checkout() {
           </div>
           <div className="checkout__summary-total">
             <span>total</span>
-            <span>{formatPrice(subtotal)}</span>
+            <span>{formatPrice(total)}</span>
           </div>
         </aside>
       </div>
@@ -282,7 +295,7 @@ export default function Checkout() {
         <ConfirmOrderModal
           form={form}
           items={items}
-          total={subtotal}
+          total={total}
           busy={status === 'submitting'}
           onConfirm={placeOrder}
           onCancel={() => setConfirming(false)}
