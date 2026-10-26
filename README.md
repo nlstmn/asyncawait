@@ -29,6 +29,26 @@ npm run dev
 
 App available at `http://localhost:5173`.
 
+## Orders (Netlify function)
+
+Checkout POSTs to `frontend/netlify/functions/order.mjs`, which re-prices
+against its own catalogue, **stores the order in Netlify Blobs** (store
+`orders`, key `order/<id>`), then emails the customer (Resend) and the shop.
+Env vars are listed in `frontend/.env.example`; in plain `npm run dev` the
+client falls back to a mock order, use `npx netlify dev` for the real path.
+
+**Reading orders:** `cd frontend && npm run orders` pulls every stored order
+into `frontend/orders.json` (gitignored, owner only). Needs `NETLIFY_SITE_ID`
+and `NETLIFY_AUTH_TOKEN` in `frontend/.env`.
+
+**Abuse protection** (the endpoint is public and sends mail from our domain):
+only `ORDER_ORIGINS` (default asyncdrip.com + www; localhost and `*.netlify.app`
+outside production) may call it, JSON only, every field capped and collapsed
+to one line, no links in names / no URLs in the address, items merged by id
+and capped at `MAX_PER_ITEM`, a hidden `website` honeypot, 5 orders per IP per
+hour and `ORDER_DAILY_CAP` per day (atomic etag counters in Blobs, fail open).
+A failed email is logged, not fatal, because the order is already stored.
+
 ## Style rules (design system)
 
 All design tokens live in `frontend/src/index.css` under `:root`. Keep to these
@@ -133,11 +153,29 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   in `assets/tags/` unused.
 - Product-detail copy is `user-select: none` on purpose.
 
-### Empty states
+### Empty states & 404
 
-- Every "nothing here yet" screen (empty cart, empty checkout) uses the shared
-  `.status` block in `index.css` — title, blue icon, `Typewriter`
-  subtitle, filled CTA — so they're pixel-identical in layout and position.
+- Every "nothing here yet" screen (empty cart, empty checkout, order success,
+  unknown route, mug not found) uses the shared `.status` block in `index.css`
+  — title, blue icon, `Typewriter` subtitle, filled CTA — so they're
+  pixel-identical in layout and position. `pages/NotFound.jsx` is the catch-all
+  route (`*`) and is reused by product detail for a bad id.
+
+### Forms
+
+- Invalid fields get `aria-invalid="true"` (red `--error` border) plus a
+  `.checkout__err` line with `role="alert"` under the input. The error span
+  rule is written as `.checkout__field .checkout__err` on purpose: the plain
+  label rule `.checkout__field span` would otherwise win and turn it grey.
+
+### Mobile cart
+
+- Under 560px the summary (`.cart__summary`) is a **sticky bottom bar**:
+  full width, bleeds into the page gutters, `backdrop-filter: blur(12px)` over
+  a 72% `--bg` tint, `1px --border` top line, full-width bold checkout button.
+  "empty cart" collapses to a 46px trash-icon button (`ICONS.trash`,
+  `aria-label` keeps the name). The cart page is `min-height: 100vh − nav` so
+  the bar rests on the footer at the end of the scroll.
 
 ### Motion
 
@@ -170,3 +208,6 @@ blue/green blobs behind the content.
 - `icons.jsx` — single source for all inline SVG icons.
 - Product/spec data lives in `data/products.js`; countries/cities/dial codes in
   `data/countries.js`.
+- The persisted cart (`localStorage` `asyncdrip_cart`) stores only
+  `{id, quantity}`; name, price and image are re-read from `products.js` on
+  load, unknown ids are dropped and quantities clamped to `MAX_PER_ITEM`.
