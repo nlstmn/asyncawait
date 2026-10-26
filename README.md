@@ -1,33 +1,20 @@
-# asyncdrip
+# async/await drip
 
-Developer merch shop. Dark roast, async-safe.
+Developer merch shop — handmade ceramic mugs for people who code.
+Static React + Vite site on Netlify with one serverless function for orders.
+(`backend/` is a legacy FastAPI prototype and is not deployed.)
 
-## Stack
-
-- **Backend**: FastAPI + SQLAlchemy (SQLite)
-- **Frontend**: React + Vite
-
-## Run the backend
-
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
-
-API available at `http://localhost:8000`. Docs at `http://localhost:8000/docs`.
-
-## Run the frontend
+## Run it
 
 ```bash
 cd frontend
 npm install
-npm run dev
+npm run dev        # http://localhost:5173 (checkout uses a mock order)
+npx netlify dev    # real order function + emails, needs frontend/.env
 ```
 
-App available at `http://localhost:5173`.
+Prices and product data live in `frontend/src/shared/catalogue.js`, shared by
+the app and the order function.
 
 ## Orders (Netlify function)
 
@@ -94,7 +81,7 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 - **All prices are in euros.** Never render `$`.
 - European format: **comma decimal, `€` after the number with a space** —
   `29,99 €`, never `€29.99` or `29,99€`.
-- Format money only through `formatPrice()` in `src/utils/format.js` — used by
+- Format money only through `formatPrice()` in `src/shared/catalogue.js` — used by
   the shop card, product detail, cart, checkout, and the order emails so
   currency is identical everywhere.
 
@@ -206,7 +193,9 @@ blue/green blobs behind the content.
 - `AddToCart` — shared add-to-cart control (blue button → green `+/−` stepper
   once in cart). Used by the shop card and product detail (`variant` sizes it).
 - `icons.jsx` — single source for all inline SVG icons.
-- Product/spec data lives in `data/products.js`; countries/cities/dial codes in
+- Prices, names, `MAX_PER_ITEM`, `itemLabel` and the customer-field rules live
+  in `shared/catalogue.js` (also imported by the order function); images and
+  `CHIPS` are added in `data/products.js`; countries/cities/dial codes in
   `data/countries.js`.
 - The persisted cart (`localStorage` `asyncdrip_cart`) stores only
   `{id, quantity}`; name, price and image are re-read from `products.js` on
