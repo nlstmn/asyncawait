@@ -31,6 +31,10 @@
 .modal__scroll {
   max-height: calc(80vh - 4rem);
   overflow-y: auto;
+  /* the scroll box clips on every side; bleed it sp-2 into the dialog
+     padding so a button growing on hover (scale 1.03) isn't cut off */
+  padding: 0 var(--sp-2) var(--sp-2);
+  margin: 0 calc(var(--sp-2) * -1) calc(var(--sp-2) * -1);
   scrollbar-width: none;
   -ms-overflow-style: none;
 }

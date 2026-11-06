@@ -208,6 +208,12 @@
 .status__btn:hover { transform: scale(1.03); opacity: 0.92; }
 
 /* ── Shared keyframes ─────────────────────────────────────────────────────── */
+/* quantity steppers: the number pops when it changes (span is re-keyed) */
+@keyframes qtyPop {
+  from { transform: scale(1.2); opacity: 0.5; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -240,7 +246,12 @@
   padding: 0;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* keep the scrollbar's space reserved while a modal locks body scrolling,
+     otherwise the page widens by the scrollbar and the background jumps */
+  scrollbar-gutter: stable;
+}
 
 body {
   font-family: var(--font-body);
@@ -297,5 +308,5 @@ button { font-family: inherit; }
 .typewriter { font-weight: 700; }
 
 @media (prefers-reduced-motion: reduce) {
-  .page { animation: none; }
+  .page, .atc-step__count, .cart__qty-value { animation: none; }
 }

@@ -58,6 +58,7 @@ export default function ConfirmOrderModal({ form, items, total, busy, onConfirm,
           <div className="confirm__table table">
             {items.map(item => (
               <div key={item.id} className="table__row">
+                <img className="confirm__item-img" src={item.image_url} alt="" loading="lazy" />
                 <span className="confirm__item-name">
                   {itemLabel(item, items)} <span className="confirm__item-qty">×{item.quantity}</span>
                 </span>

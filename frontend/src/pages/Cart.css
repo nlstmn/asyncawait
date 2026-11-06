@@ -108,22 +108,29 @@
   color: var(--text);
   font-size: 15px;
   cursor: pointer;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: var(--r-sm);
   line-height: 1;
   transition: background var(--dur-fast) var(--ease-standard),
-              color var(--dur-fast) var(--ease-standard);
+              color var(--dur-fast) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard);
 }
 
 .cart__qty-btn:hover:not(:disabled) { background: var(--surface-hover); color: var(--brand-blue); }
+.cart__qty-btn:active:not(:disabled) { transform: scale(0.92); }
 .cart__qty-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* same focus treatment as the green AddToCart stepper */
+.cart__qty-btn:focus:not(:focus-visible) { outline: none; }
+.cart__qty-btn:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
 
 .cart__qty-value {
   font-family: var(--font-mono);
   font-size: 15px;
   min-width: 1.4ch;
   text-align: center;
+  animation: qtyPop var(--dur-med) var(--ease-standard) both;
 }
 
 .cart__item-total {

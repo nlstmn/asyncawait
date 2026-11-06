@@ -27,7 +27,19 @@
 /* what — items + total share the .table shell from index.css */
 .confirm__table { margin-top: var(--sp-4); }
 
-.confirm__item-name { font-family: var(--font-body); font-size: 14px; }
+/* rows carry a thumbnail, so they centre instead of sitting on a baseline */
+.confirm__table .table__row { align-items: center; gap: var(--sp-3); }
+
+.confirm__item-img {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: var(--r-sm);
+  background: var(--surface-hover);
+}
+
+.confirm__item-name { flex: 1; min-width: 0; font-family: var(--font-body); font-size: 14px; }
 
 .confirm__item-qty {
   font-family: var(--font-mono);

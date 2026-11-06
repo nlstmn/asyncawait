@@ -128,6 +128,12 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   `min(560px, 100%)`, `--r-lg`, `--shadow-float`, padding `1.75rem 2rem 2rem`,
   heading font 26px blue, and the pinned rotated "✕" badge top-right.
   Only the content inside differs. No subtitle lines under modal titles.
+- Open modals lock body scrolling; `html { scrollbar-gutter: stable }` keeps
+  the scrollbar's space reserved so the page never widens and jumps behind
+  the overlay (visible with a mouse plugged in / classic scrollbars).
+- Full-viewport pages (home) use `100dvh` with a `100vh` fallback: on phones
+  `100vh` is the height with the browser bar hidden, which leaves a pointless
+  scroll.
 
 ### Tables & badges
 
@@ -227,8 +233,31 @@ blue/green blobs behind the content.
 - `icons.jsx` — single source for all inline SVG icons.
 - Prices, names, `MAX_PER_ITEM`, `itemLabel` and the customer-field rules live
   in `shared/catalogue.js` (also imported by the order function); images and
-  `CHIPS` are added in `data/products.js`; countries/cities/dial codes in
-  `data/countries.js`.
+  `CHIPS` are added in `data/products.js`. **Shipping countries** are only
+  the 27 EU members + the four non-EU Schengen states (`data/countries.js`,
+  with their city lists); **phone dial codes are worldwide**
+  (`data/dialCodes.js`) because a buyer's phone can come from anywhere.
+- The checkout order summary and the confirm modal show a 40px `--r-sm`
+  thumbnail per item so the buyer sees what they're paying for.
+- **The checkout form persists** (`localStorage` `asyncdrip_checkout`) so
+  leaving the page or reloading keeps what was typed; it is wiped when the
+  order is placed. The honeypot is never saved or restored, and a saved
+  country that is no longer shippable is reset.
+- **Quantity steppers** (the green `AddToCart` one and the cart row's) behave
+  the same: 26px `--r-sm` buttons that shrink to `scale(0.85)` while pressed,
+  the number pops (`qtyPop`, span re-keyed on change), no focus ring after a
+  mouse click and a 2px blue ring for keyboard focus (`:focus-visible`).
+- `.modal__scroll` bleeds `sp-2` into the dialog padding (padding + negative
+  margin) so a button growing on hover isn't clipped by the scroll box.
+
+### Emails
+
+- Customer email (HTML): items table with a 48px product photo per row,
+  "HOW TO PAY", then "YOUR DETAILS" as two side-by-side blocks, SHIPS TO and
+  CUSTOMER. Photos are `frontend/public/email/mug-<id>.jpg` (320px square
+  centre crops of the front shots) referenced by absolute URL from
+  `process.env.URL` (Netlify) with `https://asyncdrip.com` as fallback.
+  Shop email is plain text with the same two blocks.
 - The persisted cart (`localStorage` `asyncdrip_cart`) stores only
   `{id, quantity}`; name, price and image are re-read from `products.js` on
   load, unknown ids are dropped and quantities clamped to `MAX_PER_ITEM`.

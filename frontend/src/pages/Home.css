@@ -3,7 +3,10 @@
   /* pull up behind the fixed transparent navbar so the glow runs edge to edge
      (no footer on home — the landing owns the full viewport) */
   margin-top: calc(-1 * var(--nav-height));
+  /* dvh: on phones 100vh is the viewport with the browser bar hidden, which
+     is taller than what's visible and leaves a pointless scroll */
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
-import { COUNTRIES, DIAL_CODES } from '../data/countries'
+import { COUNTRIES } from '../data/countries'
+import { DIAL_CODES } from '../data/dialCodes'
 import { formatPrice, itemLabel, EMAIL_RE, POSTAL_RE, isPhone } from '../shared/catalogue'
 import { placeOrder as sendOrder } from '../utils/orders'
 import { ICONS } from '../components/icons'
@@ -9,13 +10,42 @@ import Typewriter from '../components/Typewriter'
 import ConfirmOrderModal from '../components/ConfirmOrderModal'
 import './Checkout.css'
 
+const FORM_KEY = 'asyncdrip_checkout'
+const EMPTY_FORM = {
+  firstName: '', lastName: '', email: '', confirmEmail: '', dial: '+34', phone: '',
+  address: '', country: '', city: '', postal: '',
+  website: '', // honeypot, stays empty for humans
+}
+
+// what the buyer typed survives leaving the page (and reloads) until the
+// order is placed; the honeypot is never restored
+function loadForm() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(FORM_KEY))
+    if (!saved || typeof saved !== 'object') return EMPTY_FORM
+    const form = { ...EMPTY_FORM, ...saved, website: '' }
+    if (!COUNTRIES.some(c => c.name === form.country)) { form.country = ''; form.city = '' }
+    return form
+  } catch {
+    return EMPTY_FORM
+  }
+}
+
+function saveForm(form) {
+  try {
+    const { website, ...rest } = form
+    localStorage.setItem(FORM_KEY, JSON.stringify(rest))
+  } catch { /* storage blocked or full: the form just won't persist */ }
+}
+
+function forgetForm() {
+  try { localStorage.removeItem(FORM_KEY) } catch { /* same */ }
+}
+
 export default function Checkout() {
   const { items, total, clear } = useCart()
-  const [form, setForm] = useState({
-    firstName: '', lastName: '', email: '', confirmEmail: '', dial: '+34', phone: '',
-    address: '', country: '', city: '', postal: '',
-    website: '', // honeypot, stays empty for humans
-  })
+  const [form, setForm] = useState(loadForm)
+  useEffect(() => { saveForm(form) }, [form])
   const [status, setStatus] = useState('idle') // idle | submitting | done | error
   const [error, setError] = useState(null)
   const [order, setOrder] = useState(null)
@@ -61,6 +91,7 @@ export default function Checkout() {
       setConfirming(false)
       setStatus('done')
       clear()
+      forgetForm()
       window.scrollTo(0, 0) // success screen starts at the top (esp. mobile)
     } catch (err) {
       setConfirming(false)
@@ -271,6 +302,7 @@ export default function Checkout() {
           <ul className="checkout__items">
             {items.map(item => (
               <li key={item.id} className="checkout__item">
+                <img className="checkout__item-img" src={item.image_url} alt="" loading="lazy" />
                 <span className="checkout__item-name">
                   {itemLabel(item, items)} <span className="checkout__item-qty">×{item.quantity}</span>
                 </span>

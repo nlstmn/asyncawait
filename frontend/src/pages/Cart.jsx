@@ -47,7 +47,7 @@ export default function Cart() {
                 onClick={() => setQty(item.id, item.quantity - 1)}
                 aria-label={`Decrease quantity of ${item.name}`}
               >−</button>
-              <span className="cart__qty-value">{item.quantity}</span>
+              <span key={item.quantity} className="cart__qty-value">{item.quantity}</span>
               <button
                 className="cart__qty-btn"
                 onClick={() => setQty(item.id, item.quantity + 1)}

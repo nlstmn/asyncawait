@@ -30,7 +30,8 @@ export default function AddToCart({ product, variant = 'card' }) {
           onClick={(e) => { stop(e); setQty(product.id, inCart - 1) }}
           aria-label={`Remove one ${product.name}`}
         >−</button>
-        <span className="atc-step__count">{inCart}</span>
+        {/* re-keyed on every change so the pop animation replays */}
+        <span key={inCart} className="atc-step__count">{inCart}</span>
         <button
           className="atc-step__btn"
           onClick={(e) => { stop(e); setQty(product.id, inCart + 1) }}
