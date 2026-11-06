@@ -7,8 +7,8 @@ import mugsStripesPhoto from '../assets/about/mugs-stripes.jpg'
 import deskPhoto from '../assets/about/desk.jpg'
 import './About.css'
 
-// scrapbook page: a handwritten line over a strip of three overlapping taped
-// prints, the story in typewriter text with two more prints taped beside it
+// scrapbook page: a handwritten line over a strip of three overlapping
+// prints, the story in typewriter text with two more prints beside it
 export default function About() {
   return (
     <div className="about">
@@ -21,15 +21,17 @@ export default function About() {
 
       <section className="about__page">
         <p className="about__script">
-          real merch for people who code
-          <svg className="about__script-line" viewBox="0 0 220 12" aria-hidden="true">
-            <path d="M 2 5 C 60 1, 130 8, 218 3" />
-            <path d="M 70 10 C 110 7, 150 11, 190 8" />
-          </svg>
+          real merch for people{' '}
+          <span className="about__script-mark">
+            who code
+            <svg className="about__script-line" viewBox="0 0 220 12" preserveAspectRatio="none" aria-hidden="true">
+              <path d="M 2 5 C 60 1, 130 8, 218 3" />
+              <path d="M 70 10 C 110 7, 150 11, 190 8" />
+            </svg>
+          </span>
         </p>
 
         <div className="about__strip">
-          <span className="about__tape about__tape--strip" aria-hidden="true" />
           <SmartImage
             wrapClassName="about__print about__print--pouf"
             src={makerPoufPhoto}
@@ -58,13 +60,12 @@ export default function About() {
               are the same, nothing mass-produced.
             </p>
             <p>
-              designed and made in <strong>Barcelona, Spain</strong>, then shipped
-              asynchronously across the EU.
+              designed and made in <strong>Barcelona, Spain</strong>,<br />
+              then shipped asynchronously across the EU.
             </p>
           </div>
 
           <div className="about__pair">
-            <span className="about__tape about__tape--pair" aria-hidden="true" />
             <SmartImage
               wrapClassName="about__print about__print--maker"
               src={makerPhoto}

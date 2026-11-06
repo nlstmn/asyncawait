@@ -194,7 +194,7 @@
   background: var(--brand-blue);
   color: #fff;
   border: none;
-  padding: 0.85rem 2rem;
+  padding: var(--sp-3) var(--sp-6);
   border-radius: var(--r-md);
   font-family: var(--font-mono);
   font-size: 14px;
@@ -205,7 +205,7 @@
               opacity var(--dur-fast) var(--ease-standard);
 }
 
-.status__btn:hover { transform: translateY(-2px); opacity: 0.92; }
+.status__btn:hover { transform: scale(1.03); opacity: 0.92; }
 
 /* ── Shared keyframes ─────────────────────────────────────────────────────── */
 @keyframes fadeUp {

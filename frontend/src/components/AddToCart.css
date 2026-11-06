@@ -14,7 +14,7 @@
 }
 
 .atc:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: scale(1.03);
   background: color-mix(in srgb, var(--brand-blue) 85%, black);
 }
 
@@ -24,8 +24,8 @@
   cursor: not-allowed;
 }
 
-.atc--card   { font-size: 12px; padding: var(--sp-2) var(--sp-4); }
-.atc--detail { font-size: 14px; padding: var(--sp-4) var(--sp-7); }
+.atc--card   { width: 100%; font-size: 13px; padding: var(--sp-3) var(--sp-4); }
+.atc--detail { font-size: 14px; padding: var(--sp-3) var(--sp-6); }
 
 /* ── Green +/- quantity stepper (shown once in cart) ── */
 .atc-step {
@@ -56,6 +56,7 @@
 .atc-step__btn:hover:not(:disabled) { background: color-mix(in srgb, var(--brand-green) 80%, black); }
 .atc-step__btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
+.atc-step--card { width: 100%; justify-content: center; gap: var(--sp-4); padding: var(--sp-2); }
 .atc-step--card   .atc-step__btn { width: 26px; height: 26px; }
 .atc-step--detail .atc-step__btn { width: 34px; height: 34px; }
 

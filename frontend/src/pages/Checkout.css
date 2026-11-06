@@ -140,7 +140,7 @@
   background: var(--brand-green);
   color: var(--text);
   border: none;
-  padding: var(--sp-4) var(--sp-6);
+  padding: var(--sp-3) var(--sp-5);
   border-radius: var(--r-md);
   font-family: var(--font-mono);
   font-size: 14px;
@@ -151,7 +151,7 @@
               opacity var(--dur-fast) var(--ease-standard);
 }
 
-.checkout__submit:hover:not(:disabled) { transform: translateY(-2px); opacity: 0.92; }
+.checkout__submit:hover:not(:disabled) { transform: scale(1.03); opacity: 0.92; }
 .checkout__submit:disabled { opacity: 0.55; cursor: not-allowed; }
 
 /* honeypot field: off-screen, never visible, never tabbable */

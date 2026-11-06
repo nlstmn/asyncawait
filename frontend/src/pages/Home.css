@@ -71,7 +71,7 @@
   letter-spacing: 0.08em;
   color: var(--brand-blue);
   border: 1px solid var(--brand-blue);
-  padding: 0.6rem 1.4rem;
+  padding: var(--sp-2) var(--sp-5);
   border-radius: var(--r-md);
   transition: border-color var(--dur-fast) var(--ease-standard),
               transform var(--dur-fast) var(--ease-standard),
@@ -83,7 +83,7 @@
   border-color: var(--brand-blue);
   background: var(--brand-blue);
   color: #fff;
-  transform: translateY(-2px);
+  transform: scale(1.03);
 }
 
 @media (max-width: 560px) {

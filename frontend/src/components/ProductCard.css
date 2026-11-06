@@ -1,5 +1,5 @@
-/* Rounded product card: image tile with price tag + info strip,
-   name row with inline CTA, spec chips below. System colors only. */
+/* Rounded product card: image tile with price tag, the name across the
+   top, spec chips, and the CTA along the bottom edge. System colors only. */
 
 /* Opacity-only entrance so the transform stays owned by the transition —
    hover tilts and un-hover tilts back smoothly, with no entrance replay. */
@@ -42,7 +42,9 @@
   position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-radius: var(--r-lg);
+  /* one token down from the --r-lg card: the strict outer − padding math
+     (8px) reads too sharp against a photo, --r-md looks concentric */
+  border-radius: var(--r-md);
   background: var(--surface-hover);
 }
 
@@ -87,16 +89,9 @@
   border-radius: var(--r-sm);
 }
 
-/* ── Name + CTA row ── */
-.card__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sp-3);
-  padding: 0 var(--sp-1);
-}
-
+/* ── Name ── */
 .card__name {
+  padding: 0 var(--sp-1);
   font-family: var(--font-display);
   font-size: 20px;
   font-weight: normal;
@@ -113,6 +108,12 @@
   flex-wrap: wrap;
   gap: var(--sp-2);
   padding: 0 var(--sp-1);
+}
+
+/* pushed to the bottom so every card in the row ends with its button */
+.card__cta {
+  margin-top: auto;
+  padding: var(--sp-1) var(--sp-1) 0;
 }
 
 .card__chip {

@@ -37,11 +37,16 @@
   letter-spacing: -0.01em;
 }
 
+/* the hand-drawn underline sits under the last two words only */
+.about__script-mark { position: relative; display: inline-block; }
+
 .about__script-line {
-  display: block;
-  width: 220px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--sp-2) * -1);
+  width: 100%;
   height: 12px;
-  margin: var(--sp-1) 0 0 var(--sp-7);
   fill: none;
   stroke: var(--brand-blue);
   stroke-width: 2.5;
@@ -79,33 +84,7 @@
   transform: rotate(1deg);
 }
 
-/* translucent tape strips, like the real thing */
-.about__tape {
-  position: absolute;
-  z-index: 3;
-  height: var(--sp-6);
-  background: color-mix(in srgb, var(--surface) 55%, transparent);
-  border: 1px solid color-mix(in srgb, var(--surface) 80%, transparent);
-  box-shadow: var(--shadow-card);
-  pointer-events: none;
-}
-
-.about__tape--strip {
-  width: 160px;
-  left: calc(var(--sp-4) * -1);
-  bottom: calc(var(--sp-2) * -1);
-  transform: rotate(-3deg);
-}
-
-/* across the top-right corner of the mug print, where it overlaps the maker */
-.about__tape--pair {
-  width: 110px;
-  right: calc(var(--sp-4) * -1);
-  top: 160px;
-  transform: rotate(8deg);
-}
-
-/* the story on the left, two more prints taped beside it on the right */
+/* the story on the left, two more prints beside it on the right */
 .about__body {
   display: grid;
   grid-template-columns: 1fr 240px;
@@ -152,7 +131,6 @@
 
 @media (max-width: 560px) {
   .about__script { font-size: 34px; margin-left: var(--sp-3); }
-  .about__script-line { width: 160px; }
   .about__strip { gap: var(--sp-2); }
   .about__print { border-width: 4px; }
   .about__body { grid-template-columns: 1fr; }
@@ -160,5 +138,4 @@
   .about__pair { flex-direction: row; justify-content: center; padding-right: 0; }
   .about__print--maker { width: 160px; }
   .about__print--mug { width: 140px; margin: var(--sp-7) 0 0 calc(var(--sp-6) * -1); }
-  .about__tape--pair { top: var(--sp-6); right: var(--sp-6); }
 }

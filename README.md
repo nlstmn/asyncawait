@@ -96,6 +96,10 @@ text-safe — used as a text color for prices/notes). On lime green always use t
     carousel stage, about photo, FAQ modal.
   - Genuinely round elements (carousel arrows, pin/close badges, the nav count
     pill) stay `50%` / pill and are exempt.
+  - **Nested corners step down one token:** a `--r-lg` card gives its image
+    tile `--r-md`. The same token on both looks wrong (the inner corner reads
+    rounder), and the strict "outer − padding" math (20 − 12 = 8) reads too
+    sharp against a photo; one step down is what looks concentric.
 - Both quantity steppers (the shared `AddToCart` green stepper and the cart
   page's qty control) share one shape: `--r-md` container, `--r-sm` buttons,
   `15px` glyph/count text.
@@ -104,7 +108,8 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   `--sp-1 4` · `--sp-2 8` · `--sp-3 12` · `--sp-4 16` · `--sp-5 20` ·
   `--sp-6 24` · `--sp-7 32` · `--sp-8 48` · `--sp-9 80`. Conventions:
   chips `sp-1 sp-3`; table cells `sp-3 sp-4`; bordered panels `sp-4`–`sp-6`;
-  primary CTAs `sp-4 sp-6` (wide ones `sp-4 sp-7`); page padding is
+  filled CTAs `sp-3 sp-5` (full-width / detail ones `sp-3 sp-6`, the card
+  button `sp-3 sp-4`, the outlined home CTA `sp-2 sp-5`); page padding is
   **symmetric** top/bottom — `sp-8 sp-6` (shop-width pages `sp-7 sp-6`);
   section gaps `sp-7`. Negative offsets are
   `calc(var(--sp-n) * -1)`. Element *sizes* (icon 40px, thumb 56px) are not
@@ -155,6 +160,11 @@ text-safe — used as a text color for prices/notes). On lime green always use t
   rule is written as `.checkout__field .checkout__err` on purpose: the plain
   label rule `.checkout__field span` would otherwise win and turn it grey.
 
+### Cart
+
+- Each row's thumbnail and name link to the mug's detail page (`/mug/:id`);
+  the thumbnail link is `aria-hidden` so screen readers get one link per row.
+
 ### Cart footer
 
 - Desktop: "keep shopping" link over the "empty cart" button (trash icon +
@@ -184,7 +194,14 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 - Tokens: `--dur-fast .2s`, `--dur-med .4s`, `--dur-slow .6s`;
   `--ease-standard: ease`, `--ease-spring: cubic-bezier(0.16,1,0.3,1)`.
 - Nav + footer links: center **zoom on hover** (`scale(1.08)`), color → blue.
+- **Every filled button** (home CTA, add to cart, checkout, place order,
+  confirm, status CTA) grows from its centre on hover: `scale(1.03)`, never
+  `translateY` — a button that moves away from the cursor flickers at its
+  edge.
 - Product cards: opacity-only entrance; hover lifts + tilts (desktop only).
+  Layout is image → name (full width) → chips → CTA pinned to the bottom
+  (`.card__cta { margin-top: auto }`), so cards in a row end with their
+  buttons; the card add-to-cart and its stepper are full width.
 - Route changes fade (`.page`) and scroll to top. All motion respects
   `prefers-reduced-motion`.
 

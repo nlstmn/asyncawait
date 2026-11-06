@@ -25,10 +25,7 @@ export default function ProductCard({ product, index = 0 }) {
         {!product.in_stock && <span className="card__badge">sold out</span>}
       </div>
 
-      <div className="card__row">
-        <h3 className="card__name">{product.name}</h3>
-        <AddToCart product={product} variant="card" />
-      </div>
+      <h3 className="card__name">{product.name}</h3>
 
       <div className="card__chips">
         <span className="card__chip">{product.finish}</span>
@@ -36,6 +33,10 @@ export default function ProductCard({ product, index = 0 }) {
         {CHIPS.map(chip => (
           <span key={chip} className="card__chip">{chip}</span>
         ))}
+      </div>
+
+      <div className="card__cta">
+        <AddToCart product={product} variant="card" />
       </div>
     </article>
   )

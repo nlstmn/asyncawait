@@ -30,10 +30,14 @@ export default function Cart() {
       <ul className="cart__list">
         {items.map(item => (
           <li key={item.id} className="cart__item">
-            <img className="cart__item-img" src={item.image_url} alt={item.name} loading="lazy" />
+            <Link to={`/mug/${item.id}`} className="cart__item-thumb" tabIndex={-1} aria-hidden="true">
+              <img className="cart__item-img" src={item.image_url} alt="" loading="lazy" />
+            </Link>
 
             <div className="cart__item-info">
-              <h3 className="cart__item-name">{itemLabel(item, items)}</h3>
+              <h3 className="cart__item-name">
+                <Link to={`/mug/${item.id}`}>{itemLabel(item, items)}</Link>
+              </h3>
               <span className="cart__item-price">{formatPrice(item.price)} each</span>
             </div>
 

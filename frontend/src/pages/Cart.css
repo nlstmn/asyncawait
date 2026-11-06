@@ -53,13 +53,25 @@
   transition: background var(--dur-med) var(--ease-standard);
 }
 
-.cart__item-img {
+/* thumbnail and name both open the mug's detail page */
+.cart__item-thumb {
+  display: block;
   width: 64px;
   height: 64px;
-  object-fit: cover;
   border-radius: var(--r-md);
+  overflow: hidden;
   background: var(--surface-hover);
 }
+
+.cart__item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--dur-slow) var(--ease-standard);
+}
+
+.cart__item-thumb:hover .cart__item-img { transform: scale(1.06); }
 
 .cart__item-name {
   font-family: var(--font-display);
@@ -67,6 +79,13 @@
   font-weight: normal;
   color: var(--text);
 }
+
+.cart__item-name a {
+  color: inherit;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.cart__item-name a:hover { color: var(--brand-blue); }
 
 .cart__item-price {
   font-family: var(--font-mono);
@@ -217,7 +236,7 @@
   background: var(--brand-blue);
   color: #fff;
   border: none;
-  padding: var(--sp-4) var(--sp-7);
+  padding: var(--sp-3) var(--sp-6);
   border-radius: var(--r-md);
   font-family: var(--font-mono);
   font-size: 14px;
@@ -227,7 +246,7 @@
               opacity var(--dur-fast) var(--ease-standard);
 }
 
-.cart__checkout:hover { transform: translateY(-2px); opacity: 0.92; }
+.cart__checkout:hover { transform: scale(1.03); opacity: 0.92; }
 
 .cart__continue:hover { transform: translateX(-3px); }
 
@@ -241,7 +260,7 @@
     align-items: center;
     row-gap: var(--sp-3);
   }
-  .cart__item-img   { grid-area: img; width: 52px; height: 52px; }
+  .cart__item-thumb { grid-area: img; width: 52px; height: 52px; }
   .cart__item-info  { grid-area: info; }
   .cart__qty        { grid-area: qty; justify-self: start; }
   .cart__item-total { grid-area: total; }

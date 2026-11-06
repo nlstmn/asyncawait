@@ -64,6 +64,6 @@ export const OK_BINARY = '0110111101101011'
 
 // spec chips shared by every mug (per-mug finish/color come from the product;
 // material/care live in the detail spec sheet, not here)
-export const CHIPS = ['480 ml', 'handmade', 'unique style for each']
+export const CHIPS = ['480 ml', 'handmade', 'unique']
 
 export { MAX_PER_ITEM }
