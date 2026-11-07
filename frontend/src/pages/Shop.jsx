@@ -41,7 +41,10 @@ export default function Shop() {
       ) : (
         <div className="shop__soon-block">
           <p className="shop__soon-title">compiling…</p>
-          <p className="shop__soon-sub">// coming soon — async-knit, for cold feet</p>
+          <p className="shop__soon-sub">
+            {/* the newline only breaks on phones (pre-line there) */}
+            <Typewriter text={"coming soon · async-knit,\nfor cold feet"} />
+          </p>
         </div>
       )}
     </div>

@@ -264,7 +264,10 @@ body {
 
 /* sticky-footer layout: short pages still push the footer to the bottom */
 #root {
+  /* dvh: on phones 100vh is the height with the browser bar hidden, so the
+     footer (and the home page's bottom) would sit below the visible screen */
   min-height: calc(100vh - var(--nav-height));
+  min-height: calc(100dvh - var(--nav-height));
   display: flex;
   flex-direction: column;
 }

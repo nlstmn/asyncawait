@@ -258,6 +258,12 @@ blue/green blobs behind the content.
   centre crops of the front shots) referenced by absolute URL from
   `process.env.URL` (Netlify) with `https://asyncdrip.com` as fallback.
   Shop email is plain text with the same two blocks.
+- The HTML email sits on the site's `--bg` grey (`#f4f4f4`) with the content
+  in a white 20px-radius, 1px-bordered card, and a centred footer under it
+  like the site footer: "connect" with instagram · whatsapp · email links,
+  asyncdrip.com, the tagline, © line and the logo
+  (`frontend/public/email/logo.png`, 480px, transparent, rendered from the
+  brand SVG).
 - The persisted cart (`localStorage` `asyncdrip_cart`) stores only
   `{id, quantity}`; name, price and image are re-read from `products.js` on
   load, unknown ids are dropped and quantities clamped to `MAX_PER_ITEM`.

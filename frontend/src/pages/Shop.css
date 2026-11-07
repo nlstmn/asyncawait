@@ -51,7 +51,7 @@
 }
 
 .shop__subtitle {
-  margin-top: 0.5rem;
+  margin-top: var(--sp-2);
   font-size: 14px;
   color: var(--text-muted);
   font-family: var(--font-mono);
@@ -61,7 +61,7 @@
 /* socks: coming-soon placeholder */
 .shop__soon-block {
   text-align: center;
-  padding: 4rem 0;
+  padding: var(--sp-8) 0;
   animation: fadeUp var(--dur-med) var(--ease-standard) both;
 }
 
@@ -71,11 +71,16 @@
   color: var(--text);
 }
 
+/* same recipe as the tab subtitle: 14px mono, muted, typed in */
 .shop__soon-sub {
-  margin-top: 0.5rem;
+  margin-top: var(--sp-2);
   font-family: var(--font-mono);
   font-size: 14px;
   color: var(--text-muted);
+}
+
+@media (max-width: 560px) {
+  .shop__soon-sub { white-space: pre-line; }
 }
 
 /* ── Grid (minimal editorial: roomy gaps, 3-up on desktop) ── */

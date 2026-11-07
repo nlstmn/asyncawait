@@ -185,8 +185,12 @@ function customerEmail({ id, customer, lines, total }) {
 
   return {
     subject: 'order confirmation · async/await drip',
+    // page background + white card mirror the site (--bg #f4f4f4, --surface,
+    // --r-lg 20px, 1px --border); the footer echoes the site footer
     html: `
-<div style="font-family:'Courier New',monospace;color:#1a1a1a;max-width:520px;margin:0 auto;line-height:1.6">
+<table width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4" style="background:#f4f4f4;font-family:'Courier New',monospace;color:#1a1a1a;line-height:1.6">
+<tr><td align="center" style="padding:32px 16px">
+<div style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #ddd;border-radius:20px;padding:32px 28px;text-align:left">
   <h1 style="font-size:22px;color:#004ECC;margin:0 0 4px">order #${id} committed!</h1>
   <p style="margin:0 0 20px">thanks ${esc(customer.firstName)} — your mugs are staged.</p>
   <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px">${rows}
@@ -199,9 +203,24 @@ function customerEmail({ id, customer, lines, total }) {
   <p style="margin:0 0 20px">put <strong>#${id}</strong> in the transfer note and reply to this email with the receipt. once it's confirmed we ship within 2–4 business days and send you photos of your mugs before they go.</p>
   <p style="margin:0 0 6px"><strong>YOUR DETAILS</strong></p>
   <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px"><tr>${details}</tr></table>
-  <p style="margin:6px 0 20px;font-size:12px;color:#888">something off? reply to this email and we'll fix it before it ships.</p>
-  <p style="font-size:12px;color:#888;margin:16px 0 0">© ${new Date().getFullYear()} async/await drip · made in Barcelona · @asyncdrip</p>
-</div>`,
+  <p style="margin:6px 0 0;font-size:12px;color:#888">something off? reply to this email and we'll fix it before it ships.</p>
+</div>
+<div style="max-width:520px;margin:0 auto;padding:32px 16px 8px;text-align:center;font-size:12px;color:#888">
+  <p style="margin:0 0 12px;letter-spacing:0.06em">connect</p>
+  <p style="margin:0 0 28px;font-size:13px">
+    <a href="https://instagram.com/asyncdrip" style="color:#1a1a1a;font-weight:bold;text-decoration:none">instagram</a>
+    &nbsp;&nbsp;·&nbsp;&nbsp;
+    <a href="https://wa.me/34652212271" style="color:#1a1a1a;font-weight:bold;text-decoration:none">whatsapp</a>
+    &nbsp;&nbsp;·&nbsp;&nbsp;
+    <a href="mailto:info@asyncdrip.com" style="color:#1a1a1a;font-weight:bold;text-decoration:none">email</a>
+  </p>
+  <p style="margin:0 0 4px"><a href="${SITE_URL}" style="color:#1a1a1a;text-decoration:none">asyncdrip.com</a></p>
+  <p style="margin:0 0 4px">made by coder, for coders · Barcelona</p>
+  <p style="margin:0 0 24px">© ${new Date().getFullYear()} async/await drip</p>
+  <a href="${SITE_URL}"><img src="${SITE_URL}/email/logo.png" width="96" alt="async/await drip" style="display:inline-block;width:96px;height:auto"></a>
+</div>
+</td></tr>
+</table>`,
   }
 }
 
