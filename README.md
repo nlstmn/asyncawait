@@ -36,8 +36,8 @@ client falls back to a mock order, use `npx netlify dev` for the real path.
 2. The site shows **"waiting for payment"** (typed title with a blinking
    cursor, clock icon, amount + note, an "open the payment tab" fallback
    link; customer-facing copy never names Revolut, it's "the opened tab") with
-   **"i've paid ✓"** at the bottom (sticky bar on phones).
-3. "i've paid" POSTs `{id, token}` to `netlify/functions/paid.mjs`: marks the
+   **"I've paid ✓"** at the bottom (sticky bar on phones).
+3. "I've paid" POSTs `{id, token}` to `netlify/functions/paid.mjs`: marks the
    order `customer-says-paid`, emails the shop ("customer says paid") and
    sends the customer their **only** email, "order confirmed". The site then
    shows **"order confirmed!"**. It is the customer's word, not proof — check
@@ -282,7 +282,7 @@ blue/green blobs behind the content.
 
 ### Emails
 
-- Customer email (HTML, sent on "i've paid"): "order #N confirmed!", items
+- Customer email (HTML, sent on "I've paid"): "order #N confirmed!", items
   table with a 48px product photo per row, "PAYMENT" (you sent X via revolut
   with #N in the note, we check by hand, fallback revolut link), then "YOUR
   DETAILS" as two side-by-side blocks, SHIPS TO and CUSTOMER. Photos are `frontend/public/email/mug-<id>.jpg` (320px square
@@ -291,8 +291,8 @@ blue/green blobs behind the content.
   Shop email is plain text with the same two blocks.
 - The HTML email sits on the site's `--bg` grey (`#f4f4f4`) with the content
   in a white 20px-radius, 1px-bordered card, and a centred footer under it
-  like the site footer: "connect" with instagram · whatsapp · email links,
-  asyncdrip.com, the tagline, © line and the logo
+  like the site footer: instagram · whatsapp · email links, the tagline,
+  © line and the logo (linked to the site)
   (`frontend/public/email/logo.png`, 480px, transparent, rendered from the
   brand SVG).
 - The persisted cart (`localStorage` `asyncdrip_cart`) stores only

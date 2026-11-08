@@ -2,8 +2,8 @@
 // like the site (grey page, white card, bordered tables, blue prices).
 //
 //   newOrderEmail   → shop, when the order is placed
-//   paidEmail       → shop, when the customer taps "i've paid"
-//   customerEmail   → customer, when they tap "i've paid" (their only email)
+//   paidEmail       → shop, when the customer taps "I've paid"
+//   customerEmail   → customer, when they tap "I've paid" (their only email)
 import { formatPrice, itemLabel } from '../../src/shared/catalogue.js'
 import { revolutUrl } from './http.mjs'
 
@@ -43,7 +43,7 @@ ${customer.phone}
 export function paidEmail({ id, customer, total }) {
   return {
     subject: `#${id} · customer says paid · ${formatPrice(total)} · ${fullName(customer)}`,
-    text: `${fullName(customer)} tapped "i've paid" on order #${id} (${formatPrice(total)}).
+    text: `${fullName(customer)} tapped "I've paid" on order #${id} (${formatPrice(total)}).
 
 check revolut for ${formatPrice(total)} with #${id} in the note, then send the payment-received email.
 
@@ -97,7 +97,6 @@ export function customerEmail({ id, customer, lines, total }) {
   <p style="margin:6px 0 0;font-size:12px;color:#888">something off? reply to this email and we'll fix it before it ships.</p>
 </div>
 <div style="max-width:520px;margin:0 auto;padding:32px 16px 8px;text-align:center;font-size:12px;color:#888">
-  <p style="margin:0 0 12px;letter-spacing:0.06em">connect</p>
   <p style="margin:0 0 28px;font-size:13px">
     <a href="https://instagram.com/asyncdrip" style="color:#1a1a1a;font-weight:bold;text-decoration:none">instagram</a>
     &nbsp;&nbsp;·&nbsp;&nbsp;
@@ -105,7 +104,6 @@ export function customerEmail({ id, customer, lines, total }) {
     &nbsp;&nbsp;·&nbsp;&nbsp;
     <a href="mailto:info@asyncdrip.com" style="color:#1a1a1a;font-weight:bold;text-decoration:none">email</a>
   </p>
-  <p style="margin:0 0 4px"><a href="${SITE_URL}" style="color:#1a1a1a;text-decoration:none">asyncdrip.com</a></p>
   <p style="margin:0 0 4px">made by coder, for coders · Barcelona</p>
   <p style="margin:0 0 24px">© ${new Date().getFullYear()} async/await drip</p>
   <a href="${SITE_URL}"><img src="${SITE_URL}/email/logo.png" width="96" alt="async/await drip" style="display:inline-block;width:96px;height:auto"></a>

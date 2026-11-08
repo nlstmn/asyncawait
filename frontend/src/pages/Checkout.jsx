@@ -46,12 +46,12 @@ export default function Checkout() {
   const { items, total, clear } = useCart()
   const [form, setForm] = useState(loadForm)
   useEffect(() => { saveForm(form) }, [form])
-  // idle → submitting → waiting (revolut tab open) → done (tapped "i've paid")
+  // idle → submitting → waiting (revolut tab open) → done (tapped "I've paid")
   const [status, setStatus] = useState('idle') // idle | submitting | waiting | done | error
   const [error, setError] = useState(null)
   const [order, setOrder] = useState(null)
   const [confirming, setConfirming] = useState(false) // confirm-order modal open
-  const [paid, setPaid] = useState('idle') // "i've paid" tap: idle | sending | error
+  const [paid, setPaid] = useState('idle') // "I've paid" tap: idle | sending | error
 
   // selecting a country resets the (now-stale) city choice
   const update = (e) => {
@@ -113,7 +113,7 @@ export default function Checkout() {
     }
   }
 
-  // "i've paid": the function marks the order, emails the shop and sends the
+  // "I've paid": the function marks the order, emails the shop and sends the
   // customer their confirmation; then the confirmed screen
   const sayPaid = async () => {
     setPaid('sending')
@@ -150,7 +150,7 @@ export default function Checkout() {
         </div>
         <div className="checkout__bar bar">
           <button type="button" className="status__btn checkout__pay-claim" onClick={sayPaid} disabled={paid === 'sending'}>
-            {paid === 'sending' ? 'sending…' : "i've paid ✓"}
+            {paid === 'sending' ? 'sending…' : "I've paid ✓"}
           </button>
         </div>
       </div>
@@ -168,7 +168,7 @@ export default function Checkout() {
         </p>
         <p className="checkout__success-sub">
           {order.emailed ? `confirmation sent to ${order.email}` : 'we have your order and will email you shortly'}
-          {' · '}we'll check the payment and ship within 2–4 business days
+          {' · '}we'll check the payment<br />and ship within 2–4 business days
         </p>
         <Link to="/shop" className="status__btn">back to the shop &gt;</Link>
       </div>

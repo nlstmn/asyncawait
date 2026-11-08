@@ -1,7 +1,7 @@
 // Netlify Function: receives an order from the static checkout, re-prices it
 // against the real catalogue (never trust client totals), stores it as
 // "pending" and notifies the shop. The customer gets no email yet: they go
-// and pay on revolut.me and tap "i've paid" (paid.mjs), which sends their
+// and pay on revolut.me and tap "I've paid" (paid.mjs), which sends their
 // confirmation.
 //
 // Required env vars (Netlify → Site settings → Environment variables):

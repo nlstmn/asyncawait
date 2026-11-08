@@ -50,7 +50,7 @@ export async function placeOrder({ form, items, total, website = '' }) {
   return data
 }
 
-// "i've paid": tells the shop to go and check the account. Needs the token the
+// "I've paid": tells the shop to go and check the account. Needs the token the
 // order came back with. In plain dev (no functions) it just pretends.
 export async function claimPaid({ id, token }) {
   if (!token) return { ok: true, mocked: true }

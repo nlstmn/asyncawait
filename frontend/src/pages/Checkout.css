@@ -252,7 +252,7 @@
 .checkout__pay-hint { font-size: 12px; color: var(--text-muted); }
 .checkout__pay-hint a { color: var(--brand-blue); font-weight: bold; }
 
-/* "i've paid": the screen's one filled button */
+/* "I've paid": the screen's one filled button */
 .checkout__pay-claim:disabled { opacity: 0.55; cursor: not-allowed; }
 
 @media (max-width: 680px) {
@@ -263,7 +263,7 @@
 @media (max-width: 560px) {
   .checkout__submit { margin-top: 0; }
 
-  /* the "i've paid" bar sits at the bottom of the screen, like the cart's;
+  /* the "I've paid" bar sits at the bottom of the screen, like the cart's;
      the page padding matches what .bar's negative margin swallows */
   .checkout__wait {
     display: flex;
