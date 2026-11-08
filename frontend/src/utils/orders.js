@@ -3,6 +3,7 @@
 // network failure falls back to a local mock order (same as before) — run
 // `npx netlify dev` from the repo root to exercise the real email path.
 const ENDPOINT = import.meta.env.VITE_ORDER_ENDPOINT || '/.netlify/functions/order'
+const PAID_ENDPOINT = ENDPOINT.replace(/order$/, 'paid')
 
 const mockOrder = () => ({ id: Math.floor(1000 + Math.random() * 9000), mocked: true })
 
@@ -46,5 +47,25 @@ export async function placeOrder({ form, items, total, website = '' }) {
 
   const data = await res.json().catch(() => ({}))
   if (!res.ok) throw new Error(data.error || `order failed (${res.status})`)
+  return data
+}
+
+// "i've paid": tells the shop to go and check the account. Needs the token the
+// order came back with. In plain dev (no functions) it just pretends.
+export async function claimPaid({ id, token }) {
+  if (!token) return { ok: true, mocked: true }
+  let res
+  try {
+    res = await fetch(PAID_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, token }),
+    })
+  } catch {
+    throw new Error("couldn't reach the shop — reply to your confirmation email instead")
+  }
+  if (res.status === 404 && import.meta.env.DEV) return { ok: true, mocked: true }
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) throw new Error(data.error || `couldn't save that (${res.status})`)
   return data
 }

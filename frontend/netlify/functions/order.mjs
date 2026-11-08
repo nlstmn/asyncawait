@@ -7,7 +7,8 @@
 //   RESEND_API_KEY   Resend API key
 //   ORDER_FROM       verified sender, e.g. "async/await drip <orders@yourdomain>"
 //   ORDER_TO         where shop notifications go (your inbox)
-//   PAY_IBAN, PAY_BIZUM, PAY_REVOLUT   payment details shown to the customer
+//   PAY_IBAN, PAY_BIZUM   bank / Bizum details shown to the customer
+//   PAY_REVOLUT      Revtag (@tag) → "pay with revolut" button to revolut.me/tag
 //   PAY_NAME         account holder, shown after the IBAN and Bizum number
 // Optional:
 //   ORDER_ORIGINS    comma-separated origins allowed to call this function
@@ -16,21 +17,20 @@
 // Prices, limits, formatting and field rules come from the same file the
 // app uses (src/shared/catalogue.js), so the server is the source of truth
 // and the two can't drift.
-import { getStore } from '@netlify/blobs'
+import { randomUUID } from 'node:crypto'
 import { CATALOGUE, MAX_PER_ITEM, formatPrice, itemLabel, EMAIL_RE, FIELD_MAX } from '../../src/shared/catalogue.js'
+import { originAllowed, json, send, strong, revolutUrl, payInfo } from '../lib/http.mjs'
 
 const BY_ID = Object.fromEntries(CATALOGUE.map(({ id, name, finish, price }) => [id, { id, name, finish, price }]))
 const MAX_LINES = CATALOGUE.length
 
 // Abuse limits. This endpoint is public and sends email from our domain, so
 // every input is capped and checked before anything else happens:
-//   - only our own site (or a dev / preview origin) may call it
+//   - only our own site (or a dev / preview origin) may call it (lib/http.mjs)
 //   - every field has a max length and is collapsed to one line
 //   - free-text fields may not carry links (the customer email renders the
 //     first name as text, and mail clients linkify bare domains)
 //   - per-IP and per-day caps, counted atomically in Netlify Blobs
-const DEFAULT_ORIGINS = ['https://asyncdrip.com', 'https://www.asyncdrip.com']
-const DEV_ORIGIN_RE = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/
 // names / city / country never contain anything domain-shaped; an address may
 // legitimately have a dot ("Av. Diagonal"), so it only gets the stricter check
 const DOMAIN_RE = /[a-z0-9-]+\.[a-z]{2,}(\b|$)/i
@@ -39,17 +39,6 @@ const NAME_FIELDS = new Set(['firstName', 'lastName', 'city', 'country'])
 const RATE_LIMIT = 5
 const RATE_WINDOW_MS = 60 * 60 * 1000
 const DAILY_CAP = Number(process.env.ORDER_DAILY_CAP) || 40
-
-const allowedOrigins = () =>
-  (process.env.ORDER_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean).concat(DEFAULT_ORIGINS)
-
-function originAllowed(origin) {
-  if (!origin) return false
-  if (allowedOrigins().includes(origin)) return true
-  if (DEV_ORIGIN_RE.test(origin)) return true
-  // deploy previews / branch deploys, but never on the production site
-  return process.env.CONTEXT !== 'production' && /^https:\/\/[a-z0-9-]+\.netlify\.app$/.test(origin)
-}
 
 const clientIp = (req, context) =>
   context?.ip
@@ -71,7 +60,6 @@ async function bump(store, key, next) {
   throw new Error(`blob contention on ${key}`)
 }
 
-const strong = (name) => getStore({ name, consistency: 'strong' })
 const today = () => new Date().toISOString().slice(0, 10)
 
 // Sequential order numbers: #0001, #0002, … kept in a Blobs counter.
@@ -100,11 +88,6 @@ async function overLimit(req, context) {
     return false
   }
 }
-
-const json = (status, body) => new Response(JSON.stringify(body), {
-  status,
-  headers: { 'Content-Type': 'application/json' },
-})
 
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -198,9 +181,12 @@ function customerEmail({ id, customer, lines, total }) {
         <td align="right" style="padding:12px 16px;font-size:18px;font-weight:bold;color:#004ECC;white-space:nowrap">${formatPrice(total)}</td></tr>
   </table>
   <p style="margin:20px 0 6px"><strong>HOW TO PAY</strong></p>
-  <p style="margin:0 0 6px">payment is manual for now. send ${formatPrice(total)} to one of:</p>
+  <p style="margin:0 0 12px">send <strong>${formatPrice(total)}</strong> with <strong>#${id}</strong> in the note.</p>
+  ${revolutUrl() ? `<p style="margin:0 0 12px"><a href="${revolutUrl()}" style="display:inline-block;background:#004ECC;color:#ffffff;padding:12px 24px;border-radius:12px;font-weight:bold;text-decoration:none">pay with revolut &gt;</a></p>
+  <p style="margin:0 0 12px;font-size:12px;color:#888">card or revolut balance · type ${formatPrice(total)} and #${id} as the note</p>` : ''}
+  <p style="margin:0 0 6px">${revolutUrl() ? 'or by transfer:' : 'payment is manual for now. send it to one of:'}</p>
   <p style="margin:0 0 20px;background:#f0f4ff;padding:10px 12px;border-radius:8px">${pay || 'we will send you payment details shortly.'}</p>
-  <p style="margin:0 0 20px">put <strong>#${id}</strong> in the transfer note and reply to this email with the receipt. once it's confirmed we ship within 2–4 business days and send you photos of your mugs before they go.</p>
+  <p style="margin:0 0 20px">once it's confirmed we ship within 2–4 business days and send you photos of your mugs before they go.</p>
   <p style="margin:0 0 6px"><strong>YOUR DETAILS</strong></p>
   <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px"><tr>${details}</tr></table>
   <p style="margin:6px 0 0;font-size:12px;color:#888">something off? reply to this email and we'll fix it before it ships.</p>
@@ -249,18 +235,6 @@ ${customer.phone}
   }
 }
 
-async function send(payload) {
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-  if (!res.ok) throw new Error(`resend ${res.status}: ${await res.text()}`)
-}
-
 // every order is kept as its own blob (`order/0001`); `npm run orders` pulls
 // them all into frontend/orders.json for the owner
 async function saveOrder(order) {
@@ -304,7 +278,8 @@ export default async (req, context) => {
     console.error('[order] counter failed, using fallback id', err)
     id = `T${Date.now().toString().slice(-6)}`
   }
-  const order = { id, createdAt: new Date().toISOString(), ...v }
+  // the token lets the customer (and only them) mark the order as paid later
+  const order = { id, token: randomUUID(), status: 'pending', createdAt: new Date().toISOString(), ...v }
   order.stored = await saveOrder(order)
 
   const c = customerEmail(order)
@@ -322,5 +297,5 @@ export default async (req, context) => {
   if (shop.status === 'rejected' && customer.status === 'rejected' && !order.stored) {
     return json(502, { error: "couldn't send the confirmation email — try again or email us" })
   }
-  return json(200, { id, total: order.total, emailed: customer.status === 'fulfilled' })
+  return json(200, { id, total: order.total, emailed: customer.status === 'fulfilled', token: order.token, pay: payInfo() })
 }

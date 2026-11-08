@@ -5,7 +5,15 @@
   animation: fadeUp var(--dur-med) var(--ease-standard) both;
 }
 
-.cart__header { margin-bottom: var(--sp-7); }
+/* title block on the left, "empty cart" on the right, sitting on the
+   subtitle's baseline rather than floating up by the title */
+.cart__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-7);
+}
 
 .cart__title {
   font-family: var(--font-display);
@@ -155,7 +163,7 @@
 
 .cart__remove:hover { color: var(--error); transform: scale(1.2); }
 
-/* footer row: empty-cart on the left, summary on the right, same line */
+/* footer row: keep-shopping link on the left, summary on the right */
 .cart__footer {
   display: flex;
   justify-content: space-between;
@@ -164,15 +172,9 @@
   margin-top: var(--sp-7);
 }
 
-.cart__actions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--sp-4);
-}
-
 /* ── Empty-cart (clear all): icon + text on desktop, icon only on phones ── */
 .cart__clear {
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
@@ -281,9 +283,10 @@
     min-height: calc(100dvh - var(--nav-height));
   }
 
-  /* actions row above, summary bar below, both pushed to the page bottom */
-  .cart__footer { flex-direction: column; align-items: stretch; gap: var(--sp-6); margin-top: auto; padding-top: var(--sp-7); }
-  .cart__actions { flex-direction: row-reverse; align-items: center; justify-content: space-between; }
+  /* keep-shopping right under the list; only the summary bar is pushed to
+     the page bottom (the footer fills the rest of the page) */
+  .cart__footer { flex: 1; flex-direction: column; align-items: flex-start; gap: var(--sp-6); margin-top: var(--sp-6); }
+  .cart__summary { margin-top: auto; align-self: stretch; }
 
   /* trash icon instead of the text, sized for a thumb */
   .cart__clear { padding: var(--sp-3); }

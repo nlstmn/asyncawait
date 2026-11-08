@@ -76,7 +76,7 @@ export default function ConfirmOrderModal({ form, items, total, busy, onConfirm,
               &lt; edit details
             </button>
             <button type="button" className="confirm__ok" onClick={onConfirm} disabled={busy}>
-              {busy ? 'committing…' : 'confirm order >'}
+              {busy ? 'committing…' : 'proceed to payment >'}
             </button>
           </div>
         </div>

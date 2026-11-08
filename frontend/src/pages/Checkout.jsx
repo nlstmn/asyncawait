@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext'
 import { COUNTRIES } from '../data/countries'
 import { DIAL_CODES } from '../data/dialCodes'
 import { formatPrice, itemLabel, EMAIL_RE, POSTAL_RE, isPhone } from '../shared/catalogue'
-import { placeOrder as sendOrder } from '../utils/orders'
+import { placeOrder as sendOrder, claimPaid } from '../utils/orders'
 import { ICONS } from '../components/icons'
 import Typewriter from '../components/Typewriter'
 import ConfirmOrderModal from '../components/ConfirmOrderModal'
@@ -50,6 +50,7 @@ export default function Checkout() {
   const [error, setError] = useState(null)
   const [order, setOrder] = useState(null)
   const [confirming, setConfirming] = useState(false) // confirm-order modal open
+  const [paid, setPaid] = useState('idle') // "i've paid" tap: idle | sending | done | error
 
   // selecting a country resets the (now-stale) city choice
   const update = (e) => {
@@ -80,13 +81,15 @@ export default function Checkout() {
     setStatus('submitting')
     try {
       // POSTs to the Netlify function, which emails the customer + the shop
-      const { id, emailed } = await sendOrder({ form, items, total, website: form.website })
+      const { id, emailed, token, pay } = await sendOrder({ form, items, total, website: form.website })
       setOrder({
         id,
         name: `${form.firstName} ${form.lastName}`.trim(),
         email: form.email,
         total,
         emailed: emailed !== false,
+        token,
+        pay: pay || {},
       })
       setConfirming(false)
       setStatus('done')
@@ -100,8 +103,22 @@ export default function Checkout() {
     }
   }
 
+  const sayPaid = async () => {
+    setPaid('sending')
+    try {
+      await claimPaid({ id: order.id, token: order.token })
+      setPaid('done')
+    } catch (err) {
+      setPaid('error')
+      setError(err.message)
+    }
+  }
+
   if (status === 'done' && order) {
-    // same shared layout as the empty-cart / empty-checkout screens
+    const { pay } = order
+    const amount = formatPrice(order.total)
+    // same shared layout as the empty-cart / empty-checkout screens, plus the
+    // payment panel: revolut button first, bank details under it
     return (
       <div className="status">
         <h1 className="status__title">order committed!</h1>
@@ -110,15 +127,40 @@ export default function Checkout() {
           thanks {order.name.split(' ')[0]} — order <span className="checkout__oid">#{order.id}</span> is in.
         </p>
         <p className="checkout__success-sub">
-          total <strong>{formatPrice(order.total)}</strong>
-          {order.emailed ? ` · confirmation sent to ${order.email}` : ' · we have your order and will email you shortly'}
+          {order.emailed ? `confirmation sent to ${order.email}` : 'we have your order and will email you shortly'}
         </p>
-        <p className="checkout__pay-note">
-          check your email 📨 payment is handled manually for now — we'll send
-          you IBAN / Bizum / Revolut details to settle your order before online
-          payment goes live.
-        </p>
-        <Link to="/shop" className="status__btn">back to the shop &gt;</Link>
+
+        <div className="checkout__pay panel">
+          <p className="checkout__pay-title">
+            pay <strong>{amount}</strong> · note <strong>#{order.id}</strong>
+          </p>
+          {pay.revolut ? (
+            <>
+              <a className="status__btn checkout__pay-btn" href={pay.revolut} target="_blank" rel="noopener noreferrer">
+                pay with revolut &gt;
+              </a>
+              <p className="checkout__pay-hint">card or revolut balance · type {amount} and #{order.id} as the note</p>
+            </>
+          ) : (
+            <p className="checkout__pay-hint">payment details are in your email</p>
+          )}
+          {(pay.iban || pay.bizum) && (
+            <dl className="checkout__pay-list">
+              {pay.iban && <div><dt>iban</dt><dd>{pay.iban}{pay.name ? ` · ${pay.name}` : ''}</dd></div>}
+              {pay.bizum && <div><dt>bizum</dt><dd>{pay.bizum}{pay.name ? ` · ${pay.name}` : ''}</dd></div>}
+            </dl>
+          )}
+          {paid === 'done' ? (
+            <p className="checkout__pay-ok">✓ thanks — we'll confirm by email once it lands</p>
+          ) : (
+            <button type="button" className="checkout__pay-claim" onClick={sayPaid} disabled={paid === 'sending'}>
+              {paid === 'sending' ? 'sending…' : "i've paid ✓"}
+            </button>
+          )}
+          {paid === 'error' && <p className="checkout__error">// {error}</p>}
+        </div>
+
+        <Link to="/shop" className="checkout__back">&lt; back to the shop</Link>
       </div>
     )
   }

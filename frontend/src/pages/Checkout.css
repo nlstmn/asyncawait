@@ -236,18 +236,67 @@
   margin: calc(var(--sp-4) * -1) 0 var(--sp-5);   /* tuck under the status subtitle */
 }
 
-.checkout__pay-note {
+/* payment panel on the success screen (a .panel from index.css) */
+.checkout__pay {
   max-width: 440px;
   margin: 0 auto var(--sp-7);
-  padding: var(--sp-4);
-  background: color-mix(in srgb, var(--brand-blue) 8%, var(--surface));
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
   font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.6;
+}
+
+.checkout__pay-title { font-size: 16px; color: var(--text); }
+.checkout__pay-title strong { color: var(--brand-blue); }
+
+.checkout__pay-btn { margin-top: var(--sp-1); }
+
+.checkout__pay-hint { font-size: 12px; color: var(--text-muted); }
+
+.checkout__pay-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  font-size: 13px;
   color: var(--text);
 }
+
+.checkout__pay-list div { display: flex; gap: var(--sp-2); justify-content: center; flex-wrap: wrap; }
+.checkout__pay-list dt { color: var(--text-muted); }
+.checkout__pay-list dd { overflow-wrap: anywhere; }
+
+/* "i've paid": outlined, like the home CTA */
+.checkout__pay-claim {
+  margin-top: var(--sp-2);
+  background: none;
+  border: 1px solid var(--brand-blue);
+  border-radius: var(--r-md);
+  padding: var(--sp-2) var(--sp-5);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  color: var(--brand-blue);
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-standard),
+              background var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard);
+}
+
+.checkout__pay-claim:hover:not(:disabled) { transform: scale(1.03); background: var(--brand-blue); color: #fff; }
+.checkout__pay-claim:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.checkout__pay-ok { margin-top: var(--sp-2); font-size: 13px; font-weight: bold; color: var(--accent-green); }
+
+.checkout__back {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--brand-blue);
+  transition: transform var(--dur-fast) var(--ease-standard);
+}
+
+.checkout__back:hover { transform: translateX(-3px); }
 
 @media (max-width: 680px) {
   .checkout__grid { grid-template-columns: 1fr; }

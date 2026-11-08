@@ -23,8 +23,15 @@ export default function Cart() {
   return (
     <div className="cart">
       <header className="cart__header">
-        <h1 className="cart__title">your cart</h1>
-        <p className="cart__subtitle"><Typewriter text="review before you push to prod" /></p>
+        <div>
+          <h1 className="cart__title">your cart</h1>
+          <p className="cart__subtitle"><Typewriter text="review before you push to prod" /></p>
+        </div>
+        {/* top right, where people expect "clear" on other shops */}
+        <button className="cart__clear" onClick={clear} aria-label="empty cart">
+          <span className="cart__clear-icon" aria-hidden="true">{ICONS.trash}</span>
+          <span className="cart__clear-text">empty cart</span>
+        </button>
       </header>
 
       <ul className="cart__list">
@@ -69,13 +76,7 @@ export default function Cart() {
       </ul>
 
       <div className="cart__footer">
-        <div className="cart__actions">
-          <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
-          <button className="cart__clear" onClick={clear} aria-label="empty cart">
-            <span className="cart__clear-icon" aria-hidden="true">{ICONS.trash}</span>
-            <span className="cart__clear-text">empty cart</span>
-          </button>
-        </div>
+        <Link to="/shop" className="cart__continue">&lt; keep shopping</Link>
 
         {/* bordered summary panel; on phones it becomes a sticky bar pinned
             to the bottom of the screen */}

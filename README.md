@@ -24,6 +24,19 @@ against its own catalogue, **stores the order in Netlify Blobs** (store
 Env vars are listed in `frontend/.env.example`; in plain `npm run dev` the
 client falls back to a mock order, use `npx netlify dev` for the real path.
 
+**Payment (manual, Revolut first):** the order response carries `pay`
+(`revolut` link built from `PAY_REVOLUT`, the Revtag; `iban`, `bizum`,
+`name`) and a per-order `token`. The success screen shows "pay with
+revolut >" (opens `revolut.me/<tag>` in a new tab — a personal Revolut page
+can't carry an amount or redirect back, so the amount and order number are
+shown next to it to type in), the bank details, and an **"i've paid ✓"**
+button that POSTs `{id, token}` to `netlify/functions/paid.mjs`. That marks
+the order `customer-says-paid` and emails the shop once; it is the customer's
+word, not proof — check the account, then send the payment-received email.
+Shared helpers (origin check, `json`, Resend `send`, store, pay info) live in
+`netlify/lib/http.mjs`, outside the functions folder so it isn't deployed as
+one.
+
 **Reading orders:** `cd frontend && npm run orders` pulls every stored order
 into `frontend/orders.json` (gitignored, owner only). Needs `NETLIFY_SITE_ID`
 and `NETLIFY_AUTH_TOKEN` in `frontend/.env`.
@@ -173,16 +186,21 @@ text-safe — used as a text color for prices/notes). On lime green always use t
 
 ### Cart footer
 
-- Desktop: "keep shopping" link over the "empty cart" button (trash icon +
-  text) on the left; on the right the summary is a **`.panel`** (the shared
-  bordered box in `index.css`: `--surface`, `1px --border`, `--r-md`, `sp-6`
-  padding — also the checkout summary), 320px wide: "total" with a 12px
-  `--accent-green` "✓ free EU shipping" caption under it, the amount
-  right-aligned, a full-width checkout button.
-- Under 560px the summary becomes the shared **`.bar`** (below); "empty
-  cart" collapses to a 46px trash-icon button (`ICONS.trash`, `aria-label`
-  keeps the name). The cart page is `min-height: 100dvh − nav` so the bar
-  rests on the footer at the end of the scroll.
+- "Empty cart" sits **top right in the page header**, aligned to the bottom
+  of the title block (`align-items: flex-end`), where people expect "clear"
+  on other shops (trash icon + text on desktop,
+  a 46px icon-only button under 560px, `aria-label` keeps the name).
+- Desktop footer row: "keep shopping" link on the left; on the right the
+  summary is a **`.panel`** (the shared bordered box in `index.css`:
+  `--surface`, `1px --border`, `--r-md`, `sp-6` padding — also the checkout
+  summary), 320px wide: "total" with a 12px `--accent-green` "✓ free EU
+  shipping" caption under it, the amount right-aligned, a full-width
+  checkout button.
+- Under 560px "keep shopping" sits right under the list (`sp-6`) and the
+  summary becomes the shared **`.bar`** (below), pushed to the page bottom
+  (`.cart__footer { flex: 1 }` + `.cart__summary { margin-top: auto }`). The
+  cart page is `min-height: 100dvh − nav` so the bar rests on the footer at
+  the end of the scroll.
 
 ### Sticky action bar (`.bar`, phones only)
 
