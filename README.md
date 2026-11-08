@@ -24,18 +24,29 @@ against its own catalogue, **stores the order in Netlify Blobs** (store
 Env vars are listed in `frontend/.env.example`; in plain `npm run dev` the
 client falls back to a mock order, use `npx netlify dev` for the real path.
 
-**Payment (manual, Revolut first):** the order response carries `pay`
-(`revolut` link built from `PAY_REVOLUT`, the Revtag; `iban`, `bizum`,
-`name`) and a per-order `token`. The success screen shows "pay with
-revolut >" (opens `revolut.me/<tag>` in a new tab — a personal Revolut page
-can't carry an amount or redirect back, so the amount and order number are
-shown next to it to type in), the bank details, and an **"i've paid ✓"**
-button that POSTs `{id, token}` to `netlify/functions/paid.mjs`. That marks
-the order `customer-says-paid` and emails the shop once; it is the customer's
-word, not proof — check the account, then send the payment-received email.
-Shared helpers (origin check, `json`, Resend `send`, store, pay info) live in
-`netlify/lib/http.mjs`, outside the functions folder so it isn't deployed as
-one.
+**Payment flow (Revolut, manual check):**
+
+1. "proceed to payment" in the confirm modal opens a new tab (synchronously,
+   so popup blockers allow it) and POSTs the order. The function stores it as
+   `pending` with a random `token`, emails **the shop only** ("new order"),
+   and returns `{id, total, token, pay: {revolut}}`. The tab is then pointed
+   at `revolut.me/<PAY_REVOLUT tag>` — a personal Revolut page can't carry an
+   amount or redirect back, so the site shows the amount and order number to
+   type in.
+2. The site shows **"waiting for payment"** (typed title with a blinking
+   cursor, clock icon, amount + note, an "open revolut" fallback link) with
+   **"i've paid ✓"** at the bottom (sticky bar on phones).
+3. "i've paid" POSTs `{id, token}` to `netlify/functions/paid.mjs`: marks the
+   order `customer-says-paid`, emails the shop ("customer says paid") and
+   sends the customer their **only** email, "order confirmed". The site then
+   shows **"order confirmed!"**. It is the customer's word, not proof — check
+   Revolut, then send the payment-received email.
+
+**No bank details anywhere.** The only payment detail ever shown or emailed
+is the revolut.me link; `PAY_IBAN` / `PAY_BIZUM` / `PAY_NAME` are gone.
+Emails live in `netlify/lib/emails.mjs`, shared helpers (origin check,
+`json`, Resend `send`, store, revolut link) in `netlify/lib/http.mjs` — both
+outside the functions folder so they aren't deployed as functions.
 
 **Reading orders:** `cd frontend && npm run orders` pulls every stored order
 into `frontend/orders.json` (gitignored, owner only). Needs `NETLIFY_SITE_ID`
@@ -270,9 +281,10 @@ blue/green blobs behind the content.
 
 ### Emails
 
-- Customer email (HTML): items table with a 48px product photo per row,
-  "HOW TO PAY", then "YOUR DETAILS" as two side-by-side blocks, SHIPS TO and
-  CUSTOMER. Photos are `frontend/public/email/mug-<id>.jpg` (320px square
+- Customer email (HTML, sent on "i've paid"): "order #N confirmed!", items
+  table with a 48px product photo per row, "PAYMENT" (you sent X via revolut
+  with #N in the note, we check by hand, fallback revolut link), then "YOUR
+  DETAILS" as two side-by-side blocks, SHIPS TO and CUSTOMER. Photos are `frontend/public/email/mug-<id>.jpg` (320px square
   centre crops of the front shots) referenced by absolute URL from
   `process.env.URL` (Netlify) with `https://asyncdrip.com` as fallback.
   Shop email is plain text with the same two blocks.

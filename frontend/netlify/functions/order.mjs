@@ -1,15 +1,14 @@
 // Netlify Function: receives an order from the static checkout, re-prices it
-// against the real catalogue (never trust client totals), stores it, and
-// sends two emails through Resend — a confirmation with payment instructions
-// to the customer, and a notification to the shop.
+// against the real catalogue (never trust client totals), stores it as
+// "pending" and notifies the shop. The customer gets no email yet: they go
+// and pay on revolut.me and tap "i've paid" (paid.mjs), which sends their
+// confirmation.
 //
 // Required env vars (Netlify → Site settings → Environment variables):
 //   RESEND_API_KEY   Resend API key
 //   ORDER_FROM       verified sender, e.g. "async/await drip <orders@yourdomain>"
 //   ORDER_TO         where shop notifications go (your inbox)
-//   PAY_IBAN, PAY_BIZUM   bank / Bizum details shown to the customer
-//   PAY_REVOLUT      Revtag (@tag) → "pay with revolut" button to revolut.me/tag
-//   PAY_NAME         account holder, shown after the IBAN and Bizum number
+//   PAY_REVOLUT      Revtag (@tag) → the customer pays at revolut.me/tag
 // Optional:
 //   ORDER_ORIGINS    comma-separated origins allowed to call this function
 //   ORDER_DAILY_CAP  max orders accepted per day (default 40)
@@ -18,8 +17,9 @@
 // app uses (src/shared/catalogue.js), so the server is the source of truth
 // and the two can't drift.
 import { randomUUID } from 'node:crypto'
-import { CATALOGUE, MAX_PER_ITEM, formatPrice, itemLabel, EMAIL_RE, FIELD_MAX } from '../../src/shared/catalogue.js'
-import { originAllowed, json, send, strong, revolutUrl, payInfo } from '../lib/http.mjs'
+import { CATALOGUE, MAX_PER_ITEM, EMAIL_RE, FIELD_MAX } from '../../src/shared/catalogue.js'
+import { originAllowed, json, send, strong, payInfo } from '../lib/http.mjs'
+import { newOrderEmail } from '../lib/emails.mjs'
 
 const BY_ID = Object.fromEntries(CATALOGUE.map(({ id, name, finish, price }) => [id, { id, name, finish, price }]))
 const MAX_LINES = CATALOGUE.length
@@ -89,10 +89,6 @@ async function overLimit(req, context) {
   }
 }
 
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => (
-  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
-))
-
 // one line, no control characters, trimmed
 const clean = (v) => String(v).replace(/[\u0000-\u001f\u007f]+/g, ' ').replace(/\s+/g, ' ').trim()
 
@@ -132,107 +128,6 @@ function validate(body) {
   }
   const total = lines.reduce((s, l) => s + l.subtotal, 0)
   return { customer, lines, total }
-}
-
-// product photos for the emails live in frontend/public/email/ (served from
-// the site root), so they can be referenced by absolute URL
-const SITE_URL = (process.env.URL || 'https://asyncdrip.com').replace(/\/$/, '')
-const photo = (id) => `${SITE_URL}/email/mug-${id}.jpg`
-
-function customerEmail({ id, customer, lines, total }) {
-  // same bordered table as the site's .table: 1px #ddd frame, 12px radius,
-  // 12/16px cells, blue prices, muted total label with the bold blue amount
-  const cell = 'padding:12px 16px;border-bottom:1px solid #ddd'
-  const rows = lines.map(l =>
-    `<tr><td width="48" style="padding:12px 0 12px 16px;border-bottom:1px solid #ddd">` +
-    `<img src="${photo(l.id)}" width="48" height="48" alt="" style="display:block;width:48px;height:48px;border-radius:8px"></td>` +
-    `<td style="${cell}">${esc(itemLabel(l, lines))} <span style="color:#004ECC;font-size:12px;font-weight:bold">×${l.quantity}</span></td>` +
-    `<td align="right" style="${cell};color:#004ECC;white-space:nowrap">${formatPrice(l.subtotal)}</td></tr>`
-  ).join('')
-  // the customer's own details, so they can spot a typo before we ship:
-  // where it goes on the left, who ordered on the right
-  const name = `${customer.firstName} ${customer.lastName}`
-  const block = (title, rowsIn, extra = '') =>
-    `<td width="50%" valign="top" style="padding:12px 16px;line-height:1.7;${extra}">` +
-    `<div style="color:#888;font-size:12px;letter-spacing:0.04em;margin-bottom:2px">${title}</div>` +
-    rowsIn.map(esc).join('<br>') + `</td>`
-  const details =
-    block('SHIPS TO', [name, customer.address, `${customer.postal} ${customer.city}`, customer.country, customer.phone]) +
-    block('CUSTOMER', [name, customer.email, customer.phone], 'border-left:1px solid #ddd')
-  const holder = process.env.PAY_NAME ? ` · ${esc(process.env.PAY_NAME)}` : ''
-  const pay = [
-    process.env.PAY_IBAN && `IBAN: ${esc(process.env.PAY_IBAN)}${holder}`,
-    process.env.PAY_BIZUM && `Bizum: ${esc(process.env.PAY_BIZUM)}${holder}`,
-    process.env.PAY_REVOLUT && `Revolut: ${esc(process.env.PAY_REVOLUT)}`,
-  ].filter(Boolean).join('<br>')
-
-  return {
-    subject: 'order confirmation · async/await drip',
-    // page background + white card mirror the site (--bg #f4f4f4, --surface,
-    // --r-lg 20px, 1px --border); the footer echoes the site footer
-    html: `
-<table width="100%" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4" style="background:#f4f4f4;font-family:'Courier New',monospace;color:#1a1a1a;line-height:1.6">
-<tr><td align="center" style="padding:32px 16px">
-<div style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #ddd;border-radius:20px;padding:32px 28px;text-align:left">
-  <h1 style="font-size:22px;color:#004ECC;margin:0 0 4px">order #${id} committed!</h1>
-  <p style="margin:0 0 20px">thanks ${esc(customer.firstName)} — your mugs are staged.</p>
-  <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px">${rows}
-    <tr><td colspan="2" style="padding:12px 16px;color:#888">total · free shipping</td>
-        <td align="right" style="padding:12px 16px;font-size:18px;font-weight:bold;color:#004ECC;white-space:nowrap">${formatPrice(total)}</td></tr>
-  </table>
-  <p style="margin:20px 0 6px"><strong>HOW TO PAY</strong></p>
-  <p style="margin:0 0 12px">send <strong>${formatPrice(total)}</strong> with <strong>#${id}</strong> in the note.</p>
-  ${revolutUrl() ? `<p style="margin:0 0 12px"><a href="${revolutUrl()}" style="display:inline-block;background:#004ECC;color:#ffffff;padding:12px 24px;border-radius:12px;font-weight:bold;text-decoration:none">pay with revolut &gt;</a></p>
-  <p style="margin:0 0 12px;font-size:12px;color:#888">card or revolut balance · type ${formatPrice(total)} and #${id} as the note</p>` : ''}
-  <p style="margin:0 0 6px">${revolutUrl() ? 'or by transfer:' : 'payment is manual for now. send it to one of:'}</p>
-  <p style="margin:0 0 20px;background:#f0f4ff;padding:10px 12px;border-radius:8px">${pay || 'we will send you payment details shortly.'}</p>
-  <p style="margin:0 0 20px">once it's confirmed we ship within 2–4 business days and send you photos of your mugs before they go.</p>
-  <p style="margin:0 0 6px"><strong>YOUR DETAILS</strong></p>
-  <table width="100%" cellspacing="0" cellpadding="0" style="border:1px solid #ddd;border-radius:12px;border-collapse:separate;font-size:13px"><tr>${details}</tr></table>
-  <p style="margin:6px 0 0;font-size:12px;color:#888">something off? reply to this email and we'll fix it before it ships.</p>
-</div>
-<div style="max-width:520px;margin:0 auto;padding:32px 16px 8px;text-align:center;font-size:12px;color:#888">
-  <p style="margin:0 0 12px;letter-spacing:0.06em">connect</p>
-  <p style="margin:0 0 28px;font-size:13px">
-    <a href="https://instagram.com/asyncdrip" style="color:#1a1a1a;font-weight:bold;text-decoration:none">instagram</a>
-    &nbsp;&nbsp;·&nbsp;&nbsp;
-    <a href="https://wa.me/34652212271" style="color:#1a1a1a;font-weight:bold;text-decoration:none">whatsapp</a>
-    &nbsp;&nbsp;·&nbsp;&nbsp;
-    <a href="mailto:info@asyncdrip.com" style="color:#1a1a1a;font-weight:bold;text-decoration:none">email</a>
-  </p>
-  <p style="margin:0 0 4px"><a href="${SITE_URL}" style="color:#1a1a1a;text-decoration:none">asyncdrip.com</a></p>
-  <p style="margin:0 0 4px">made by coder, for coders · Barcelona</p>
-  <p style="margin:0 0 24px">© ${new Date().getFullYear()} async/await drip</p>
-  <a href="${SITE_URL}"><img src="${SITE_URL}/email/logo.png" width="96" alt="async/await drip" style="display:inline-block;width:96px;height:auto"></a>
-</div>
-</td></tr>
-</table>`,
-  }
-}
-
-function shopEmail({ id, customer, lines, total }) {
-  const rows = lines.map(l => `• ${itemLabel(l, lines)} ×${l.quantity} — ${formatPrice(l.subtotal)}`).join('\n')
-  const name = `${customer.firstName} ${customer.lastName}`
-  return {
-    subject: `new order #${id} · ${formatPrice(total)} · ${name}`,
-    text: `order #${id}
-
-${rows}
-total: ${formatPrice(total)}
-
-ships to
-${name}
-${customer.address}
-${customer.postal} ${customer.city}
-${customer.country}
-${customer.phone}
-
-customer
-${name}
-${customer.email}
-${customer.phone}
-`,
-  }
 }
 
 // every order is kept as its own blob (`order/0001`); `npm run orders` pulls
@@ -282,20 +177,18 @@ export default async (req, context) => {
   const order = { id, token: randomUUID(), status: 'pending', createdAt: new Date().toISOString(), ...v }
   order.stored = await saveOrder(order)
 
-  const c = customerEmail(order)
-  const s = shopEmail(order)
-  const [shop, customer] = await Promise.allSettled([
-    send({ from: process.env.ORDER_FROM, to: [process.env.ORDER_TO], reply_to: order.customer.email, subject: s.subject, text: s.text }),
-    send({ from: process.env.ORDER_FROM, to: [order.customer.email], reply_to: process.env.ORDER_TO, subject: c.subject, html: c.html }),
-  ])
-  for (const [who, r] of [['shop', shop], ['customer', customer]]) {
-    if (r.status === 'rejected') console.error(`[order] ${who} email failed for #${id}`, r.reason)
+  // heads-up to the shop only; the customer is emailed once they say they paid
+  const m = newOrderEmail(order)
+  let notified = true
+  try {
+    await send({ from: process.env.ORDER_FROM, to: [process.env.ORDER_TO], reply_to: order.customer.email, subject: m.subject, text: m.text })
+  } catch (err) {
+    notified = false
+    console.error(`[order] shop email failed for #${id}`, err)
   }
-
-  // the order is already stored, so a failed email is logged, not fatal —
-  // unless nothing at all got through and we couldn't store it either
-  if (shop.status === 'rejected' && customer.status === 'rejected' && !order.stored) {
-    return json(502, { error: "couldn't send the confirmation email — try again or email us" })
+  // a failed email is logged, not fatal, as long as the order itself is stored
+  if (!notified && !order.stored) {
+    return json(502, { error: "couldn't register the order — try again or email us" })
   }
-  return json(200, { id, total: order.total, emailed: customer.status === 'fulfilled', token: order.token, pay: payInfo() })
+  return json(200, { id, total: order.total, token: order.token, pay: payInfo() })
 }

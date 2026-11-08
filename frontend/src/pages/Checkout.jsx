@@ -46,11 +46,12 @@ export default function Checkout() {
   const { items, total, clear } = useCart()
   const [form, setForm] = useState(loadForm)
   useEffect(() => { saveForm(form) }, [form])
-  const [status, setStatus] = useState('idle') // idle | submitting | done | error
+  // idle → submitting → waiting (revolut tab open) → done (tapped "i've paid")
+  const [status, setStatus] = useState('idle') // idle | submitting | waiting | done | error
   const [error, setError] = useState(null)
   const [order, setOrder] = useState(null)
   const [confirming, setConfirming] = useState(false) // confirm-order modal open
-  const [paid, setPaid] = useState('idle') // "i've paid" tap: idle | sending | done | error
+  const [paid, setPaid] = useState('idle') // "i've paid" tap: idle | sending | error
 
   // selecting a country resets the (now-stale) city choice
   const update = (e) => {
@@ -79,88 +80,97 @@ export default function Checkout() {
 
   const placeOrder = async () => {
     setStatus('submitting')
+    // the revolut tab is opened right here, inside the click, so popup
+    // blockers allow it; it gets its address once the order is registered
+    const tab = window.open('', '_blank')
+    try { tab?.document.write('<p style="font-family:monospace;padding:24px">opening the payment page…</p>') } catch { /* cross-origin, ignore */ }
     try {
-      // POSTs to the Netlify function, which emails the customer + the shop
-      const { id, emailed, token, pay } = await sendOrder({ form, items, total, website: form.website })
+      // POSTs to the Netlify function: stores the order, notifies the shop
+      const { id, token, pay } = await sendOrder({ form, items, total, website: form.website })
+      const payUrl = pay?.revolut || ''
+      if (tab) {
+        if (payUrl) tab.location = payUrl
+        else tab.close()
+      }
       setOrder({
         id,
         name: `${form.firstName} ${form.lastName}`.trim(),
         email: form.email,
         total,
-        emailed: emailed !== false,
         token,
-        pay: pay || {},
+        payUrl,
       })
       setConfirming(false)
-      setStatus('done')
+      setStatus('waiting')
       clear()
       forgetForm()
-      window.scrollTo(0, 0) // success screen starts at the top (esp. mobile)
+      window.scrollTo(0, 0)
     } catch (err) {
+      tab?.close()
       setConfirming(false)
       setStatus('error')
       setError(err.message || "couldn't place the order — try again or email us")
     }
   }
 
+  // "i've paid": the function marks the order, emails the shop and sends the
+  // customer their confirmation; then the confirmed screen
   const sayPaid = async () => {
     setPaid('sending')
     try {
-      await claimPaid({ id: order.id, token: order.token })
-      setPaid('done')
+      const { emailed } = await claimPaid({ id: order.id, token: order.token })
+      setOrder(o => ({ ...o, emailed: emailed !== false }))
+      setStatus('done')
+      window.scrollTo(0, 0)
     } catch (err) {
       setPaid('error')
       setError(err.message)
     }
   }
 
-  if (status === 'done' && order) {
-    const { pay } = order
+  if (status === 'waiting' && order) {
     const amount = formatPrice(order.total)
-    // same shared layout as the empty-cart / empty-checkout screens, plus the
-    // payment panel: revolut button first, bank details under it
+    // the customer is paying in the opened tab; this page waits for them
+    return (
+      <div className="status checkout__wait">
+        <h1 className="status__title"><Typewriter text="waiting for payment" keepCursor /></h1>
+        <span className="status__icon" aria-hidden="true">{ICONS.clock}</span>
+        <p className="status__sub">
+          pay <strong>{amount}</strong> in the opened tab · note <strong>#{order.id}</strong>
+        </p>
+        <div className="checkout__pay panel">
+          <p className="checkout__pay-hint">type {amount} and #{order.id} as the note</p>
+          {order.payUrl && (
+            <p className="checkout__pay-hint">
+              tab didn't open?{' '}
+              <a href={order.payUrl} target="_blank" rel="noopener noreferrer">open the payment tab &gt;</a>
+            </p>
+          )}
+          {paid === 'error' && <p className="checkout__error">// {error}</p>}
+        </div>
+        <div className="checkout__bar bar">
+          <button type="button" className="status__btn checkout__pay-claim" onClick={sayPaid} disabled={paid === 'sending'}>
+            {paid === 'sending' ? 'sending…' : "i've paid ✓"}
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  if (status === 'done' && order) {
+    // same shared layout as the empty-cart / empty-checkout screens
     return (
       <div className="status">
-        <h1 className="status__title">order committed!</h1>
+        <h1 className="status__title">order confirmed!</h1>
         <span className="status__icon status__icon--ok" aria-hidden="true">✓</span>
         <p className="status__sub">
           thanks {order.name.split(' ')[0]} — order <span className="checkout__oid">#{order.id}</span> is in.
         </p>
         <p className="checkout__success-sub">
           {order.emailed ? `confirmation sent to ${order.email}` : 'we have your order and will email you shortly'}
+          {' · '}we'll check the payment and ship within 2–4 business days
         </p>
-
-        <div className="checkout__pay panel">
-          <p className="checkout__pay-title">
-            pay <strong>{amount}</strong> · note <strong>#{order.id}</strong>
-          </p>
-          {pay.revolut ? (
-            <>
-              <a className="status__btn checkout__pay-btn" href={pay.revolut} target="_blank" rel="noopener noreferrer">
-                pay with revolut &gt;
-              </a>
-              <p className="checkout__pay-hint">card or revolut balance · type {amount} and #{order.id} as the note</p>
-            </>
-          ) : (
-            <p className="checkout__pay-hint">payment details are in your email</p>
-          )}
-          {(pay.iban || pay.bizum) && (
-            <dl className="checkout__pay-list">
-              {pay.iban && <div><dt>iban</dt><dd>{pay.iban}{pay.name ? ` · ${pay.name}` : ''}</dd></div>}
-              {pay.bizum && <div><dt>bizum</dt><dd>{pay.bizum}{pay.name ? ` · ${pay.name}` : ''}</dd></div>}
-            </dl>
-          )}
-          {paid === 'done' ? (
-            <p className="checkout__pay-ok">✓ thanks — we'll confirm by email once it lands</p>
-          ) : (
-            <button type="button" className="checkout__pay-claim" onClick={sayPaid} disabled={paid === 'sending'}>
-              {paid === 'sending' ? 'sending…' : "i've paid ✓"}
-            </button>
-          )}
-          {paid === 'error' && <p className="checkout__error">// {error}</p>}
-        </div>
-
-        <Link to="/shop" className="checkout__back">&lt; back to the shop</Link>
+        <Link to="/shop" className="status__btn">back to the shop &gt;</Link>
       </div>
     )
   }

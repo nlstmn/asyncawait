@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 
-/** Types `text` character by character with a blinking terminal cursor. */
-export default function Typewriter({ text, speed = 45, startDelay = 350 }) {
+/** Types `text` character by character with a blinking terminal cursor.
+ *  `keepCursor` leaves the cursor blinking after the text is done (for
+ *  "waiting…" states). */
+export default function Typewriter({ text, speed = 45, startDelay = 350, keepCursor = false }) {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function Typewriter({ text, speed = 45, startDelay = 350 }) {
   return (
     <span className="typewriter" aria-label={text}>
       {text.slice(0, count)}
-      {!done && <span className="blink" aria-hidden="true">_</span>}
+      {(!done || keepCursor) && <span className="blink" aria-hidden="true">_</span>}
     </span>
   )
 }

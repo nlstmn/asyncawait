@@ -48,6 +48,12 @@ export const ICONS = {
       <line x1="12" y1="17" x2="12.01" y2="17" />
     </svg>
   ),
+  clock: (
+    <svg {...svgProps}>
+      <circle cx="12" cy="12" r="9" />
+      <polyline points="12 7 12 12 15.5 14" />
+    </svg>
+  ),
   trash: (
     <svg {...svgProps}>
       <polyline points="3 6 5 6 21 6" />

@@ -1,11 +1,12 @@
 // Netlify Function: the customer says they've paid (after coming back from
-// Revolut or their bank app). It is only their word — the order is marked
-// "customer says paid" and the shop gets an email to go and check the
-// account. Needs the order's token (handed out when the order was placed),
-// so nobody can poke at other people's orders.
+// the revolut tab). It is only their word — the order is marked "customer
+// says paid", the shop gets an email to go and check the account, and the
+// customer gets their order confirmation (their first and only email).
+// Needs the order's token (handed out when the order was placed), so nobody
+// can poke at other people's orders.
 import { timingSafeEqual } from 'node:crypto'
-import { formatPrice } from '../../src/shared/catalogue.js'
 import { originAllowed, json, send, strong } from '../lib/http.mjs'
+import { paidEmail, customerEmail } from '../lib/emails.mjs'
 
 const ID_RE = /^(\d{4,6}|T\d{6})$/
 const TOKEN_RE = /^[0-9a-f-]{36}$/
@@ -39,27 +40,24 @@ export default async (req) => {
   const order = cur?.data
   if (!order?.token || !sameToken(order.token, token)) return json(404, { error: 'unknown order' })
 
-  // first claim only: no second email if they tap twice
-  if (!order.paidClaimedAt) {
-    order.paidClaimedAt = new Date().toISOString()
-    order.status = 'customer-says-paid'
-    try {
-      await store.setJSON(`order/${id}`, order, { onlyIfMatch: cur.etag })
-    } catch (err) {
-      console.error('[paid] could not update order', id, err)
-    }
-    const name = `${order.customer.firstName} ${order.customer.lastName}`
-    try {
-      await send({
-        from: process.env.ORDER_FROM,
-        to: [process.env.ORDER_TO],
-        reply_to: order.customer.email,
-        subject: `#${id} · customer says paid · ${formatPrice(order.total)} · ${name}`,
-        text: `${name} tapped "i've paid" on order #${id} (${formatPrice(order.total)}).\n\ncheck Revolut / the bank account, then send the payment-received email.\n\n${order.customer.email}\n${order.customer.phone}\n`,
-      })
-    } catch (err) {
-      console.error('[paid] shop email failed for', id, err)
-    }
+  // first claim only: no second round of emails if they tap twice
+  if (order.paidClaimedAt) return json(200, { ok: true, emailed: true })
+
+  order.paidClaimedAt = new Date().toISOString()
+  order.status = 'customer-says-paid'
+  try {
+    await store.setJSON(`order/${id}`, order, { onlyIfMatch: cur.etag })
+  } catch (err) {
+    console.error('[paid] could not update order', id, err)
   }
-  return json(200, { ok: true })
+  const shop = paidEmail(order)
+  const cust = customerEmail(order)
+  const [s, c] = await Promise.allSettled([
+    send({ from: process.env.ORDER_FROM, to: [process.env.ORDER_TO], reply_to: order.customer.email, subject: shop.subject, text: shop.text }),
+    send({ from: process.env.ORDER_FROM, to: [order.customer.email], reply_to: process.env.ORDER_TO, subject: cust.subject, html: cust.html }),
+  ])
+  for (const [who, r] of [['shop', s], ['customer', c]]) {
+    if (r.status === 'rejected') console.error(`[paid] ${who} email failed for #${id}`, r.reason)
+  }
+  return json(200, { ok: true, emailed: c.status === 'fulfilled' })
 }

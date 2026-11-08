@@ -43,10 +43,6 @@ export async function send(payload) {
 export const revolutTag = () => (process.env.PAY_REVOLUT || '').replace(/^@/, '').trim()
 export const revolutUrl = () => (revolutTag() ? `https://revolut.me/${encodeURIComponent(revolutTag())}` : '')
 
-// what the customer needs to pay, shown on the success screen and emailed
-export const payInfo = () => ({
-  revolut: revolutUrl(),
-  iban: process.env.PAY_IBAN || '',
-  bizum: process.env.PAY_BIZUM || '',
-  name: process.env.PAY_NAME || '',
-})
+// what the customer needs to pay: only the revolut page. Bank details are
+// never shown or emailed.
+export const payInfo = () => ({ revolut: revolutUrl() })
