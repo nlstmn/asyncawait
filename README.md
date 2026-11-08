@@ -34,7 +34,8 @@ client falls back to a mock order, use `npx netlify dev` for the real path.
    amount or redirect back, so the site shows the amount and order number to
    type in.
 2. The site shows **"waiting for payment"** (typed title with a blinking
-   cursor, clock icon, amount + note, an "open revolut" fallback link) with
+   cursor, clock icon, amount + note, an "open the payment tab" fallback
+   link; customer-facing copy never names Revolut, it's "the opened tab") with
    **"i've paid ✓"** at the bottom (sticky bar on phones).
 3. "i've paid" POSTs `{id, token}` to `netlify/functions/paid.mjs`: marks the
    order `customer-says-paid`, emails the shop ("customer says paid") and
